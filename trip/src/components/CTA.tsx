@@ -1,3 +1,4 @@
+// src/components/CTA.tsx
 'use client'
 
 import Link from 'next/link'
@@ -21,11 +22,10 @@ export default function CTA() {
       <div className="relative z-10 text-center w-full max-w-4xl px-6">
         {/* bem-vindo com degradê transparente */}
         <div
-            className="inline-block text-base font-normal px-8 py-2 rounded-full mb-4 mt-6 backdrop-blur-md mx-auto"
+          className="inline-block text-base font-normal px-8 py-2 rounded-full mb-4 backdrop-blur-md mx-auto"
           style={{
             background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))',
             fontFamily: 'Poppins, sans-serif',
-            transform: 'translateX(-10px)'
           }}
         >
           bem-vindo
@@ -46,7 +46,7 @@ export default function CTA() {
           {/* TRIP */}
           <Link
             href="/chatbot"
-            className="bg-white text-[#DA3368] font-bold text-lg px-6 py-3 rounded-md shadow-sm transition-transform transform hover:scale-105 duration-200"
+            className="w-[150px] text-center bg-white text-[#DA3368] font-bold text-base px-6 py-2 rounded-md shadow-sm transition-transform transform hover:scale-105 duration-200"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             TRIP
@@ -55,7 +55,7 @@ export default function CTA() {
           {/* Saiba mais */}
           <a
             href="#funcionalidades"
-            className="text-white border border-white font-bold text-lg px-6 py-3 rounded-md transition-transform transform hover:scale-105 duration-200"
+            className="w-[150px] text-center text-white border border-white font-bold text-base px-6 py-2 rounded-md transition-transform transform hover:scale-105 duration-200"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             Saiba mais
