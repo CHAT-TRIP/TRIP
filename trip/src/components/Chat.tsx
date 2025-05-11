@@ -10,7 +10,7 @@ export default function Chat() {
         <div className="w-full flex justify-center lg:justify-end">
           <div className="w-[380px] md:w-[500px] lg:w-[640px]">
             <Image
-              src="/celular.svg"
+              src="/celular.png"
               alt="Imagem do Celular"
               width={700}
               height={800}
