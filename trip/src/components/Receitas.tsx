@@ -8,9 +8,9 @@ export default function Receitas() {
       {/* Logos das Empresas Parceiras */}
       <div className="flex justify-center">
         <Image
-          src="/Parcerias.png"
+          src="/Parcerias.svg"
           alt="Empresas Parceiras"
-          width={400}
+          width={700}
           height={100}
           className="object-contain"
         />
