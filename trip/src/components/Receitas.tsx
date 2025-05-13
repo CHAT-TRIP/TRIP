@@ -19,7 +19,7 @@ export default function Receitas() {
       {/* Banner com borda rosa e cantos arredondados */}
       <div className="rounded-3xl border-2 border-[#DA3368] overflow-hidden w-[1140px] h-[630px] max-w-full">
         <Image
-          src="/banner-receitas.png"
+          src="/teste.png"
           alt="Banner de receitas"
           width={1140}
           height={630}
