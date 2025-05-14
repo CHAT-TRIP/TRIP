@@ -15,14 +15,14 @@ export default function Chatbot() {
   const recognitionRef = useRef(null)
   const fimDasMensagensRef = useRef(null)
 
-  const formatarTexto = (texto: string) => {
-    const textoComLinks = texto.replace(
-      /(https?:\/\/[^\s"')<>]+)(?=[\s"')<>]|$)/g,
-      (url) =>
-        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">Clique aqui</a>`
-    )
-    return textoComLinks.replace(/\n/g, '<br>')
-  }
+const formatarTexto = (texto: string) => {
+  const textoComLinks = texto.replace(
+    /(?<!href=")(https?:\/\/[^\s"')<>]+)([.,)]?)/g,
+    (_, url, pontuacaoFinal) =>
+      `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">Clique aqui</a>${pontuacaoFinal}`
+  )
+  return textoComLinks.replace(/\n/g, '<br>')
+}
 
   const enviarMensagem = async () => {
     if (!input.trim()) return
