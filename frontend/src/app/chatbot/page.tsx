@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useRef } from 'react'
 import Head from 'next/head'
 
@@ -12,17 +13,18 @@ export default function Chatbot() {
   const [input, setInput] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [gravando, setGravando] = useState(false)
-  const recognitionRef = useRef(null)
-  const fimDasMensagensRef = useRef(null)
 
-const formatarTexto = (texto: string) => {
-  const textoComLinks = texto.replace(
-    /(?<!href=")(https?:\/\/[^\s"')<>]+)([.,)]?)/g,
-    (_, url, pontuacaoFinal) =>
-      `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">Clique aqui</a>${pontuacaoFinal}`
-  )
-  return textoComLinks.replace(/\n/g, '<br>')
-}
+  const recognitionRef = useRef<any>(null)
+  const fimDasMensagensRef = useRef<HTMLDivElement>(null)
+
+  const formatarTexto = (texto: string) => {
+    const textoComLinks = texto.replace(
+      /(?<!href=")(https?:\/\/[^\s"')<>]+)([.,)]?)/g,
+      (_, url, pontuacaoFinal) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">Clique aqui</a>${pontuacaoFinal}`
+    )
+    return textoComLinks.replace(/\n/g, '<br>')
+  }
 
   const enviarMensagem = async () => {
     if (!input.trim()) return
@@ -78,7 +80,7 @@ const formatarTexto = (texto: string) => {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
 
     if (!SpeechRecognition) {
       alert('Seu navegador não suporta reconhecimento de voz.')
@@ -102,12 +104,12 @@ const formatarTexto = (texto: string) => {
       recognition.start()
       setGravando(true)
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: any) => {
         const voz = event.results[0][0].transcript
         setInput(voz)
       }
 
-      recognition.onerror = (event) => {
+      recognition.onerror = (event: any) => {
         console.warn('Erro no reconhecimento de voz:', event.error)
         setGravando(false)
         recognition.stop()
