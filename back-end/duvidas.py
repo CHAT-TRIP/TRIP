@@ -4,6 +4,7 @@ import dotenv
 from prompts import prompt_de_sistema
 
 dotenv.load_dotenv()
+print("Chave carregada:", os.environ.get("ANTHROPIC_API_KEY"))
 client = anthropic.Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY")
 )
