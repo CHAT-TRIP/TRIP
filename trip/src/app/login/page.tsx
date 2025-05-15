@@ -13,15 +13,15 @@ export default function LoginPage() {
   return (
     <section
       className="w-full min-h-screen flex flex-col justify-center items-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/background-login.png')" }}
+      style={{ backgroundImage: "url('background-login.png')" }}
     >
       <div className="max-w-[1400px] w-full flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 py-16 gap-12">
         {/* Texto e formulário */}
         <div className="max-w-xl text-white">
           <h2 className="text-3xl md:text-5xl font-bold leading-snug font-poppins">
-            Bem-vindo(a) de volta! <br />
-            Faça login e continue sua <br />
-            viagem com a TRIP ao seu lado.
+            Bem-vindo(a) de volta!
+            Faça login e continue sua viagem
+            com a TRIP ao seu lado.
           </h2>
 
           <form className="mt-10 flex flex-col gap-4 w-full max-w-md">
@@ -67,7 +67,7 @@ export default function LoginPage() {
       {/* Parcerias */}
       <div className="w-full flex justify-center items-center gap-6 mt-6 mb-2">
         <Image
-          src="/parcerias-login.svg"
+          src="parcerias.svg"
           alt="Parcerias"
           width={160}
           height={40}

@@ -153,8 +153,7 @@ export default function Chatbot() {
 
       <header className="bg-[#DA3368]/90 p-4 px-10 flex justify-between items-center border-b border-[#FEA3C0]">
         <div className="flex items-center">
-          <img src="/imgs/trip-cabeca.png" alt="Trip Logo" className="h-[70px] mr-4" />
-          <span className="font-black text-2xl bg-gradient-to-r from-[#DA3368] to-[#741B37] bg-clip-text text-transparent">TRIP</span>
+          <img src="Logo.png" alt="Trip Logo" className="h-[40px] mr-4" />
         </div>
         <div className="flex gap-3">
           <a href="/" className="text-white px-4 py-2 rounded-full bg-pink-300/50 hover:bg-pink-300/70 font-semibold">Voltar</a>
