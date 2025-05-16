@@ -39,7 +39,7 @@ export default function Navbar() {
           {menuOpen && (
             <div className="absolute right-0 mt-2 bg-white text-black shadow-lg rounded z-10 w-32">
               <Link href="/login" className="block px-4 py-2 hover:bg-gray-100">Login</Link>
-              <Link href="/register" className="block px-4 py-2 hover:bg-gray-100">Criar conta</Link>
+              <Link href="/cadastro" className="block px-4 py-2 hover:bg-gray-100">Criar conta</Link>
             </div>
           )}
         </div>
