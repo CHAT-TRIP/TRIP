@@ -1,13 +1,33 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import Head from 'next/head'
 
 export default function Chatbot() {
+  const router = useRouter()
+  const jaVerificou = useRef(false) // evita múltiplas execuções no Strict Mode
+
+  function getCookie(nome: string) {
+    const match = document.cookie.match(new RegExp('(^| )' + nome + '=([^;]+)'))
+    return match ? match[2] : null
+  }
+
+  useEffect(() => {
+    if (jaVerificou.current) return
+    jaVerificou.current = true
+
+    const token = getCookie('token')
+    if (!token) {
+      alert('Você precisa estar logado para acessar o chatbot.')
+      router.push('/login')
+    }
+  }, [router])
+
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
-      texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação a linha 8 e 9, como posso te ajudar?',
+      texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação à linha 8 e 9, como posso te ajudar?',
     },
   ])
   const [input, setInput] = useState('')
@@ -16,75 +36,52 @@ export default function Chatbot() {
   const recognitionRef = useRef<any>(null)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
-    const formatarTexto = (texto: string) => {
-  // Adiciona classe azul e sublinhado a todos os <a> que não têm "class"
-  const textoCorrigido = texto
-    // Adiciona a classe somente se ainda não houver
-    .replace(/<a (?![^>]*class=)/g, '<a class="text-blue-600 underline" ')
-
-    // Adiciona links clicáveis para URLs soltas, ignorando se já estiver dentro de <a>
-    .replace(/(?<!href=")(https?:\/\/[^\s"')<>]+)(?=[\s"')<>]|$)/g, (url) => {
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">${url}</a>`
-    })
-
-    // Substitui \n por <br>
-    .replace(/\n/g, '<br>')
-
-  return textoCorrigido
-}
-
-
+  const formatarTexto = (texto: string) => {
+    return texto
+      .replace(/<a (?![^>]*class=)/g, '<a class="text-blue-600 underline" ')
+      .replace(/(?<!href=")(https?:\/\/[^\s"')<>]+)(?=[\s"')<>]|$)/g, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">${url}</a>`
+      })
+      .replace(/\n/g, '<br>')
+  }
 
   const enviarMensagem = async () => {
-  if (!input.trim()) return
+    if (!input.trim()) return
 
-  const novaMensagem = {
-    remetente: 'user',
-    texto: input,
+    const novaMensagem = { remetente: 'user', texto: input }
+    setMensagens([...mensagens, novaMensagem, { remetente: 'bot', texto: 'Analisando...' }])
+    setInput('')
+    setEnviando(true)
+    setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+
+    try {
+      const resposta = await fetch('http://localhost:5000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ msg: novaMensagem.texto }),
+      })
+      const texto = await resposta.text()
+      setMensagens((msgs) => {
+        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }]
+        setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+        return novasMsgs
+      })
+    } catch {
+      setMensagens((msgs) => {
+        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro ao processar sua mensagem.' }]
+        setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+        return novasMsgs
+      })
+    }
+
+    setEnviando(false)
   }
-
-  setMensagens([...mensagens, novaMensagem, { remetente: 'bot', texto: 'Analisando...' }])
-  setInput('')
-  setEnviando(true)
-
-  // Scroll logo após o usuário enviar
-  setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
-
-  try {
-    const resposta = await fetch('http://localhost:5000/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msg: novaMensagem.texto }),
-    })
-    const texto = await resposta.text()
-    setMensagens((msgs) => {
-      const novasMsgs = [
-        ...msgs.slice(0, -1),
-        { remetente: 'bot', texto: formatarTexto(texto) },
-      ]
-      setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
-      return novasMsgs
-    })
-  } catch (err) {
-    setMensagens((msgs) => {
-      const novasMsgs = [
-        ...msgs.slice(0, -1),
-        { remetente: 'bot', texto: 'Desculpe, ocorreu um erro ao processar sua mensagem.' },
-      ]
-      setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
-      return novasMsgs
-    })
-  }
-
-  setEnviando(false)
-}
-
 
   const limparConversa = async () => {
     setMensagens([
       {
         remetente: 'bot',
-        texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação a linha 8 e 9, como posso te ajudar?',
+        texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação à linha 8 e 9, como posso te ajudar?',
       },
     ])
     setInput('')
@@ -92,13 +89,8 @@ export default function Chatbot() {
   }
 
   const handleMicrofoneClick = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-
-    if (!SpeechRecognition) {
-      alert('Seu navegador não suporta reconhecimento de voz.')
-      return
-    }
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
     if (gravando && recognitionRef.current) {
       recognitionRef.current.stop()
@@ -113,14 +105,10 @@ export default function Chatbot() {
       recognition.continuous = false
 
       recognitionRef.current = recognition
-
       recognition.start()
       setGravando(true)
 
-      recognition.onresult = (event: any) => {
-        const voz = event.results[0][0].transcript
-        setInput(voz)
-      }
+      recognition.onresult = (event: any) => setInput(event.results[0][0].transcript)
 
       recognition.onerror = (event: any) => {
         console.warn('Erro no reconhecimento de voz:', event.error)
@@ -145,19 +133,25 @@ export default function Chatbot() {
         <title>Trip Assistente Virtual</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800;900&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800;900&display=swap" rel="stylesheet" />
       </Head>
 
       <header className="bg-[#DA3368]/90 p-4 px-10 flex justify-between items-center border-b border-[#FEA3C0]">
         <div className="flex items-center">
-          <img src="Logo.png" alt="Trip Logo" className="h-[40px] mr-4" />
+          <img src="/Logo.png" alt="Trip Logo" className="h-[40px] mr-4" />
         </div>
         <div className="flex gap-3">
           <a href="/" className="text-white px-4 py-2 rounded-full bg-pink-300/50 hover:bg-pink-300/70 font-semibold">Voltar</a>
           <button onClick={limparConversa} className="text-white px-4 py-2 rounded-full bg-pink-300/50 hover:bg-pink-300/70 font-semibold">Limpar Conversa</button>
+          <button
+            onClick={() => {
+              document.cookie = 'token=; Max-Age=0; path=/'
+              router.push('/')
+            }}
+            className="text-white px-4 py-2 rounded-full bg-pink-300/50 hover:bg-pink-300/70 font-semibold"
+          >
+            Sair
+          </button>
         </div>
       </header>
 
@@ -181,7 +175,7 @@ export default function Chatbot() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && enviarMensagem()}
+            onKeyDown={(e) => e.key === 'Enter' && enviarMensagem()}
             placeholder="Enviar uma mensagem"
             className="flex-1 p-3 rounded-full text-black outline-none bg-white/90"
           />

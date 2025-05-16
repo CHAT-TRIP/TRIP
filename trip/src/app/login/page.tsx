@@ -2,9 +2,48 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import BotaoAnimado from '../../components/BotaoAnimado'
 
 export default function LoginPage() {
+  const router = useRouter()
+  const [form, setForm] = useState({ email: '', senha: '' })
+  const [erro, setErro] = useState<string | null>(null)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErro(null)
+
+    try {
+      const res = await fetch('http://localhost:8080/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+
+      if (!res.ok) {
+        const texto = await res.text()
+        throw new Error(texto || 'Falha ao logar')
+      }
+
+      const data = await res.json()
+
+      // Salva cookies com os dados do usuário
+      document.cookie = `token=${data.token}; path=/`
+      document.cookie = `nome=${data.nome}; path=/`
+      document.cookie = `id=${data.id}; path=/`
+
+      alert('Login realizado com sucesso!')
+      router.push('/chatbot')
+    } catch (err: any) {
+      setErro(err.message || 'Erro desconhecido')
+    }
+  }
+
   return (
     <section
       className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
@@ -16,67 +55,67 @@ export default function LoginPage() {
           <Image src="/Logo.png" alt="Logo TRIP" width={140} height={80} priority />
         </div>
         <div className="flex gap-4">
-          <BotaoAnimado href="/" variant="outlined">
-            INÍCIO
-          </BotaoAnimado>
-          <BotaoAnimado href="/cadastro" variant="filled">
-            CRIAR CONTA
-          </BotaoAnimado>
+          <BotaoAnimado href="/" variant="outlined">INÍCIO</BotaoAnimado>
+          <BotaoAnimado href="/register" variant="filled">CRIAR CONTA</BotaoAnimado>
         </div>
       </header>
 
       {/* Área principal */}
       <div className="flex flex-1 w-full flex-col lg:flex-row items-center justify-between px-6 md:px-30">
-        {/* Texto e formulário */}
         <div className="flex flex-col justify-center items-center lg:items-start gap-8 max-w-[500px] w-full h-full pt-4 lg:pt-20 lg:ml-36 xl:ml-48 text-center lg:text-left">
-          <h1
-            className="text-[28px] sm:text-[32px] md:text-[36px] text-white leading-snug"
-            style={{ fontFamily: 'Poppins', fontWeight: 700 }}
-          >
+          <h1 className="text-[28px] sm:text-[32px] md:text-[36px] text-white leading-snug"
+            style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
             Bem-vindo(a) de volta!
             <br />
             Faça login e continue sua <br />
             viagem com a TRIP ao seu lado.
           </h1>
 
-          <form className="flex flex-col gap-4 w-full px-1">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full px-1" autoComplete="off">
             <input
               type="email"
+              name="email"
               placeholder="Digite seu e-mail"
+              value={form.email}
+              onChange={handleChange}
+              autoComplete="off"
               className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
+              required
             />
             <input
               type="password"
+              name="senha"
               placeholder="Digite sua senha"
+              value={form.senha}
+              onChange={handleChange}
+              autoComplete="new-password"
               className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
+              required
             />
             <button
-            type="submit"
-            className="border border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
-
+              type="submit"
+              className="border border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
               style={{ fontFamily: 'Poppins', fontWeight: 900 }}
             >
               ENTRAR
             </button>
           </form>
 
-         <p className="text-sm text-white -mt-4" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
-        Não possui uma conta?{' '}
-        <Link href="/cadastro" className="underline hover:text-gray-300" style={{ fontWeight: 700 }}>
-          Criar
-        </Link>
-      </p>
+          {erro && <p className="text-red-300">{erro}</p>}
 
+          <p className="text-sm text-white -mt-4" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
+            Não possui uma conta?{' '}
+            <Link href="/register" className="underline hover:text-gray-300" style={{ fontWeight: 700 }}>
+              Criar
+            </Link>
+          </p>
 
+          <div className="flex justify-center lg:justify-start -mt-7">
+            <Image src="/parcerias-login.svg" alt="Parcerias" width={160} height={40} className="w-auto h-8 md:h-10" />
+          </div>
 
-          {/* Parcerias */}
-                  <div className="flex justify-center lg:justify-start -mt-7">
-                    <Image src="/parcerias-login.svg" alt="Parcerias" width={160} height={40} className="w-auto h-8 md:h-10" />
-                  </div>
-
-          {/* Mascote Mobile */}
           <div className="flex lg:hidden justify-center -mt-10 -mb-4">
             <Image
               src="/trip-cadastro.svg"
@@ -87,10 +126,8 @@ export default function LoginPage() {
               priority
             />
           </div>
-
         </div>
 
-        {/* Mascote Desktop (fora do bloco do texto) */}
         <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
           <Image
             src="/trip-cadastro.svg"
