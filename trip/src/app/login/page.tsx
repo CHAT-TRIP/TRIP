@@ -26,11 +26,11 @@ export default function LoginPage() {
       </header>
 
       {/* Área principal */}
-      <div className="flex flex-1 w-full items-center justify-between px-6 md:px-30">
-        {/* Texto e formulário  */}
-        <div className="flex flex-col justify-center gap-8 max-w-[500px] w-full h-full pt- lg:ml-140">
+      <div className="flex flex-1 w-full flex-col lg:flex-row items-center justify-between px-6 md:px-30">
+        {/* Texto e formulário */}
+        <div className="flex flex-col justify-center items-center lg:items-start gap-8 max-w-[500px] w-full h-full pt-4 lg:pt-20 lg:ml-36 xl:ml-48 text-center lg:text-left">
           <h1
-            className="text-[32px] md:text-[36px] text-white leading-snug"
+            className="text-[28px] sm:text-[32px] md:text-[36px] text-white leading-snug"
             style={{ fontFamily: 'Poppins', fontWeight: 700 }}
           >
             Bem-vindo(a) de volta!
@@ -39,7 +39,7 @@ export default function LoginPage() {
             viagem com a TRIP ao seu lado.
           </h1>
 
-          <form className="flex flex-col gap-4 w-full">
+          <form className="flex flex-col gap-4 w-full px-1">
             <input
               type="email"
               placeholder="Digite seu e-mail"
@@ -53,33 +53,49 @@ export default function LoginPage() {
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
             />
             <button
-              type="submit"
-              className="border border-white px-6 py-3 rounded-md text-white text-base hover:bg-white hover:text-[#DA3368] transition"
+            type="submit"
+            className="border border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
+
               style={{ fontFamily: 'Poppins', fontWeight: 900 }}
             >
               ENTRAR
             </button>
           </form>
 
-          <p className="text-sm text-white text-center" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
-            Não possui uma conta?{' '}
-            <Link href="/cadastro" className="underline hover:text-gray-300" style={{ fontWeight: 700 }}>
-              Criar
-            </Link>
-          </p>
+         <p className="text-sm text-white -mt-4" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
+        Não possui uma conta?{' '}
+        <Link href="/cadastro" className="underline hover:text-gray-300" style={{ fontWeight: 700 }}>
+          Criar
+        </Link>
+      </p>
+
+
 
           {/* Parcerias */}
-          <div className="flex justify-start mt-3">
-            <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={35} className="w-auto h-8 md:h-10" />
+                  <div className="flex justify-center lg:justify-start -mt-7">
+                    <Image src="/parcerias-login.svg" alt="Parcerias" width={160} height={40} className="w-auto h-8 md:h-10" />
+                  </div>
+
+          {/* Mascote Mobile */}
+          <div className="flex lg:hidden justify-center -mt-10 -mb-4">
+            <Image
+              src="/trip-cadastro.svg"
+              alt="Mascote Trip"
+              width={300}
+              height={300}
+              className="w-[230px] h-auto"
+              priority
+            />
           </div>
+
         </div>
 
-        {/* Mascote  */}
-        <div className="hidden lg:flex items-end justify-end h-full pr-10">
+        {/* Mascote Desktop (fora do bloco do texto) */}
+        <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
           <Image
             src="/trip-cadastro.svg"
             alt="Mascote Trip"
-            width={700} 
+            width={700}
             height={680}
             priority
             className="w-auto h-auto max-h-[900px]"
