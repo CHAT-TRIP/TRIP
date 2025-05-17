@@ -15,17 +15,6 @@ export default function Navbar() {
       </div>
 
       {/* MENU DESKTOP */}
-      <div className="hidden md:flex flex-1 justify-center">
-        <nav className="backdrop-blur-md bg-white/10 px-10 py-3 rounded-full flex gap-6 text-white text-sm font-normal tracking-wide transition-transform transform hover:scale-105 duration-200">
-          <a href="#funcionalidades" className="hover:text-secondary transition">FUNCIONALIDADES</a>
-          <a href="#parceria" className="hover:text-secondary transition">PARCERIA</a>
-          <a href="#integrantes" className="hover:text-secondary transition">INTEGRANTES</a>
-          <Link href="/chatbot" className="hover:text-secondary transition">CHAT</Link>
-          <a href="#ajuda" className="hover:text-secondary transition">AJUDA</a>
-          <a href="https://ccr.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition">CCR</a>
-          <a href="#novidades" className="hover:text-secondary transition">NOVIDADES</a>
-        </nav>
-      </div>
 
       {/* BOTÕES CONTA / TRIP - DESKTOP */}
       <div className="hidden md:flex items-center gap-4">
@@ -63,14 +52,6 @@ export default function Navbar() {
 
         {menuOpen && (
           <div className="absolute top-16 right-4 bg-white/20 backdrop-blur-md text-white text-sm rounded-md shadow-lg py-4 px-6 w-[180px] flex flex-col items-start z-50">
-            <a href="#funcionalidades" className="py-1 hover:underline">FUNCIONALIDADES</a>
-            <a href="#parceria" className="py-1 hover:underline">PARCERIA</a>
-            <a href="#integrantes" className="py-1 hover:underline">INTEGRANTES</a>
-            <Link href="/chatbot" className="py-1 hover:underline">CHAT</Link>
-            <a href="#ajuda" className="py-1 hover:underline">AJUDA</a>
-            <a href="https://ccr.com.br" target="_blank" rel="noopener noreferrer" className="py-1 hover:underline">CCR</a>
-            <a href="#novidades" className="py-1 hover:underline">NOVIDADES</a>
-            <hr className="my-2 w-full border-white/30" />
             <Link
               href="/login"
               className="w-full text-left px-4 py-2 bg-white text-[#DA3368] font-bold rounded-md mb-2"
