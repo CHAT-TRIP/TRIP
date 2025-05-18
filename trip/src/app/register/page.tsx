@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BotaoAnimado from '../../components/BotaoAnimado'
+import { cadastrarUsuario, loginUsuario } from '../../api'
 
 export default function CadastroPage() {
   const router = useRouter()
@@ -12,7 +13,7 @@ export default function CadastroPage() {
   const [erro, setErro] = useState<string | null>(null)
 
   useEffect(() => {
-    setForm({ nome: '', email: '', senha: '' }) // garante reset
+    setForm({ nome: '', email: '', senha: '' })
   }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,36 +25,9 @@ export default function CadastroPage() {
     setErro(null)
 
     try {
-      const res = await fetch('http://localhost:8080/api/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
+      await cadastrarUsuario(form)
 
-      const textoErro = await res.text()
-
-      if (!res.ok) {
-        if (
-          res.status === 409 ||
-          textoErro.toLowerCase().includes('e-mail já cadastrado') ||
-          textoErro.toLowerCase().includes('email já cadastrado')
-        ) {
-          throw new Error('Este e-mail já está cadastrado. Tente outro ou faça login.')
-        }
-        throw new Error(textoErro || 'Erro ao registrar')
-      }
-
-      const loginRes = await fetch('http://localhost:8080/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email, senha: form.senha }),
-      })
-
-      if (!loginRes.ok) {
-        throw new Error('Erro ao logar automaticamente')
-      }
-
-      const data = await loginRes.json()
+      const data = await loginUsuario(form.email, form.senha)
       document.cookie = `token=${data.token}; path=/; max-age=3600`
 
       alert('Conta criada com sucesso!')
@@ -67,7 +41,7 @@ export default function CadastroPage() {
   return (
     <section
       className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
-      style={{ backgroundImage: "url('/background-cadastro.png')", backgroundSize: 'cover' }}
+      style={{ backgroundImage: "url('/background-cadastro.png')" }}
     >
       <header className="w-full px-6 md:px-10 pt-4 flex items-center justify-between">
         <Image src="/Logo.png" alt="Logo TRIP" width={140} height={80} priority />
@@ -90,7 +64,6 @@ export default function CadastroPage() {
             <input
               name="email"
               type="email"
-              autoComplete="new-email"
               value={form.email}
               onChange={handleChange}
               placeholder="Digite seu e-mail"
@@ -101,7 +74,6 @@ export default function CadastroPage() {
             <input
               name="senha"
               type="password"
-              autoComplete="new-password"
               value={form.senha}
               onChange={handleChange}
               placeholder="Digite sua senha"
@@ -112,7 +84,6 @@ export default function CadastroPage() {
             <input
               name="nome"
               type="text"
-              autoComplete="new-name"
               value={form.nome}
               onChange={handleChange}
               placeholder="Digite seu nome"

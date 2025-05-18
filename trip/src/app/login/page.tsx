@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BotaoAnimado from '../../components/BotaoAnimado'
+import { loginUsuario } from '../../api' // ⬅️ importa a função centralizada
 
 export default function LoginPage() {
   const router = useRouter()
@@ -19,18 +20,7 @@ export default function LoginPage() {
     setErro(null)
 
     try {
-      const res = await fetch('http://localhost:8080/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      })
-
-      if (!res.ok) {
-        const texto = await res.text()
-        throw new Error(texto || 'Falha ao logar')
-      }
-
-      const data = await res.json()
+      const data = await loginUsuario(form.email, form.senha)
 
       // Salva cookies com os dados do usuário
       document.cookie = `token=${data.token}; path=/`
