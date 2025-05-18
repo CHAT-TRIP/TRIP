@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BotaoAnimado from '../../components/BotaoAnimado'
-import { loginUsuario } from '../../api' // ⬅️ importa a função centralizada
+import { loginUsuario } from '../../api'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -22,15 +22,18 @@ export default function LoginPage() {
     try {
       const data = await loginUsuario(form.email, form.senha)
 
-      // Salva cookies com os dados do usuário
       document.cookie = `token=${data.token}; path=/`
       document.cookie = `nome=${data.nome}; path=/`
       document.cookie = `id=${data.id}; path=/`
 
       alert('Login realizado com sucesso!')
       router.push('/chatbot')
-    } catch (err: any) {
-      setErro(err.message || 'Erro desconhecido')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErro(err.message)
+      } else {
+        setErro('Erro desconhecido')
+      }
     }
   }
 

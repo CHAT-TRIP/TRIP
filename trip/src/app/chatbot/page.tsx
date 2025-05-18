@@ -3,6 +3,39 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
+
+// ✅ Tipagens manuais para suporte a reconhecimento de voz
+type SpeechRecognitionAlternative = {
+  transcript: string
+  confidence: number
+}
+
+type SpeechRecognitionResult = {
+  0: SpeechRecognitionAlternative
+  isFinal: boolean
+  length: number
+}
+
+type SpeechRecognitionResultList = {
+  0: SpeechRecognitionResult
+  length: number
+}
+
+type SpeechRecognitionEvent = Event & {
+  results: SpeechRecognitionResultList
+}
+
+type SpeechRecognitionInstance = {
+  lang: string
+  interimResults: boolean
+  maxAlternatives: number
+  start: () => void
+  stop: () => void
+  onresult: ((event: SpeechRecognitionEvent) => void) | null
+  onerror: (() => void) | null
+  onend: (() => void) | null
+}
 
 export default function Chatbot() {
   const router = useRouter()
@@ -22,7 +55,7 @@ export default function Chatbot() {
       alert('Você precisa estar logado para acessar o chatbot.')
       router.push('/login')
     }
-  }, [router]) 
+  }, [router])
 
   const [mensagens, setMensagens] = useState([
     {
@@ -33,7 +66,8 @@ export default function Chatbot() {
   const [input, setInput] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [gravando, setGravando] = useState(false)
-  const recognitionRef = useRef<any>(null)
+
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
   const formatarTexto = (texto: string) => {
@@ -50,7 +84,7 @@ export default function Chatbot() {
     setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
 
     try {
-      const resposta = await fetch('http://localhost:5000/chat', {
+      const resposta = await fetch('https://chatbot-trip.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ msg: novaMensagem.texto }),
@@ -78,14 +112,22 @@ export default function Chatbot() {
       },
     ])
     try {
-      await fetch('http://localhost:5000/limpar_historico', { method: 'POST' })
+      await fetch('https://chatbot-trip.onrender.com/limpar_historico', { method: 'POST' })
     } catch (e) {
       console.error('Erro ao limpar histórico', e)
     }
   }
 
   const handleMicrofoneClick = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    const SpeechRecognition =
+      (window as unknown as {
+        SpeechRecognition: new () => SpeechRecognitionInstance
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).SpeechRecognition ||
+      (window as unknown as {
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).webkitSpeechRecognition
+
     if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
     if (gravando && recognitionRef.current) {
@@ -93,7 +135,7 @@ export default function Chatbot() {
       return
     }
 
-    const recognition = new SpeechRecognition()
+    const recognition: SpeechRecognitionInstance = new SpeechRecognition()
     recognition.lang = 'pt-BR'
     recognition.interimResults = false
     recognition.maxAlternatives = 1
@@ -102,7 +144,9 @@ export default function Chatbot() {
     recognition.start()
     setGravando(true)
 
-    recognition.onresult = (event: any) => setInput(event.results[0][0].transcript)
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      setInput(event.results[0][0].transcript)
+    }
 
     recognition.onerror = () => {
       setGravando(false)
@@ -126,7 +170,12 @@ export default function Chatbot() {
           <Image src="/Logo.png" alt="Logo TRIP" width={120} height={60} priority />
         </div>
         <div className="flex gap-2">
-          <a href="/" className="text-white text-xs sm:text-sm px-4 py-2 rounded-md border border-white font-bold hover:bg-white hover:text-[#DA3368] shadow-md transition">INÍCIO</a>
+          <Link
+            href="/"
+            className="text-white text-xs sm:text-sm px-4 py-2 rounded-md border border-white font-bold hover:bg-white hover:text-[#DA3368] shadow-md transition"
+          >
+            INÍCIO
+          </Link>
           <button
             onClick={limparConversa}
             className="bg-white text-[#DA3368] text-xs sm:text-sm font-bold px-4 py-2 rounded-md hover:opacity-90 shadow-md transition"
@@ -142,7 +191,9 @@ export default function Chatbot() {
             <div
               key={i}
               className={`max-w-[80%] px-6 py-3 rounded-full text-sm md:text-base font-medium ${
-                msg.remetente === 'user' ? 'bg-white text-black self-start' : 'bg-white/30 text-white self-end'
+                msg.remetente === 'user'
+                  ? 'bg-white text-black self-start'
+                  : 'bg-white/30 text-white self-end'
               }`}
               dangerouslySetInnerHTML={{ __html: msg.texto }}
             ></div>
