@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// ✅ Tipagens manuais para suporte a reconhecimento de voz
 type SpeechRecognitionAlternative = {
   transcript: string
   confidence: number
@@ -41,16 +40,12 @@ export default function Chatbot() {
   const router = useRouter()
   const jaVerificou = useRef(false)
 
-  function getCookie(nome: string) {
-    const match = document.cookie.match(new RegExp('(^| )' + nome + '=([^;]+)'))
-    return match ? match[2] : null
-  }
-
+  // ✅ Proteção via localStorage
   useEffect(() => {
     if (jaVerificou.current) return
     jaVerificou.current = true
 
-    const token = getCookie('token')
+    const token = localStorage.getItem('token')
     if (!token) {
       alert('Você precisa estar logado para acessar o chatbot.')
       router.push('/login')
