@@ -9,6 +9,7 @@ export async function cadastrarUsuario(dados: {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados),
+    credentials: 'include' // ✅ necessário para CORS com cookies
   })
 
   if (!res.ok) {
@@ -23,7 +24,7 @@ export async function cadastrarUsuario(dados: {
     throw new Error(textoErro || 'Erro ao registrar')
   }
 
-  return await res.json() // ✅ agora só executa .json() após verificar res.ok
+  return await res.json()
 }
 
 export async function loginUsuario(email: string, senha: string) {
@@ -31,6 +32,7 @@ export async function loginUsuario(email: string, senha: string) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, senha }),
+    credentials: 'include' // ✅ também necessário no login
   })
 
   if (!res.ok) {
