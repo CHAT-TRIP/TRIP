@@ -28,7 +28,7 @@ export default function CadastroPage() {
       await cadastrarUsuario(form)
 
       const data = await loginUsuario(form.email, form.senha)
-      document.cookie = `token=${data.token}; path=/; max-age=3600`
+      localStorage.setItem('token', data.token) // ✅ Armazena o JWT
 
       alert('Conta criada com sucesso!')
       setForm({ nome: '', email: '', senha: '' })

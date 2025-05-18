@@ -1,5 +1,6 @@
-const BASE_URL = 'https://apicadastro-production-7b8d.up.railway.app/api' // Altere aqui quando mudar de ambiente
+const BASE_URL = 'https://apicadastro-production-7b8d.up.railway.app/api'
 
+// Registro sem usar cookies
 export async function cadastrarUsuario(dados: {
   nome: string
   email: string
@@ -8,8 +9,8 @@ export async function cadastrarUsuario(dados: {
   const res = await fetch(`${BASE_URL}/users/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dados),
-    credentials: 'include' // ✅ necessário para CORS com cookies
+    body: JSON.stringify(dados)
+    // ❌ REMOVIDO: credentials: 'include'
   })
 
   if (!res.ok) {
@@ -27,12 +28,13 @@ export async function cadastrarUsuario(dados: {
   return await res.json()
 }
 
+// Login que salva o token manualmente
 export async function loginUsuario(email: string, senha: string) {
   const res = await fetch(`${BASE_URL}/users/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, senha }),
-    credentials: 'include' // ✅ também necessário no login
+    body: JSON.stringify({ email, senha })
+    // ❌ REMOVIDO: credentials: 'include'
   })
 
   if (!res.ok) {
@@ -40,5 +42,10 @@ export async function loginUsuario(email: string, senha: string) {
     throw new Error(texto || 'Erro ao logar')
   }
 
-  return await res.json()
+  const data = await res.json()
+
+  // ✅ Salva o token no localStorage
+  localStorage.setItem('token', data.token)
+
+  return data
 }

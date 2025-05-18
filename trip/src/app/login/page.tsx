@@ -22,9 +22,10 @@ export default function LoginPage() {
     try {
       const data = await loginUsuario(form.email, form.senha)
 
-      document.cookie = `token=${data.token}; path=/`
-      document.cookie = `nome=${data.nome}; path=/`
-      document.cookie = `id=${data.id}; path=/`
+      // ✅ Armazenar token e dados no localStorage
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('nome', data.nome)
+      localStorage.setItem('id', data.id)
 
       alert('Login realizado com sucesso!')
       router.push('/chatbot')
