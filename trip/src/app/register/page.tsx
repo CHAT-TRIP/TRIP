@@ -33,8 +33,12 @@ export default function CadastroPage() {
       alert('Conta criada com sucesso!')
       setForm({ nome: '', email: '', senha: '' })
       router.push('/chatbot')
-    } catch (err: any) {
-      setErro(err.message || 'Erro inesperado')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErro(err.message)
+      } else {
+        setErro('Erro inesperado')
+      }
     }
   }
 
