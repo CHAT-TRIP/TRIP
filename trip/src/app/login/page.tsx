@@ -7,6 +7,14 @@ import { useRouter } from 'next/navigation'
 import BotaoAnimado from '../../components/BotaoAnimado'
 import { loginUsuario } from '../../api'
 
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+  weight: ['300', '400', '700', '900'],
+  subsets: ['latin'],
+  display: 'swap'
+})
+
 export default function LoginPage() {
   const router = useRouter()
   const [form, setForm] = useState({ email: '', senha: '' })
@@ -22,7 +30,7 @@ export default function LoginPage() {
     try {
       const data = await loginUsuario(form.email, form.senha)
 
-      // ✅ Armazenar token e dados no localStorage
+      // Armazenar token e dados no localStorage
       localStorage.setItem('token', data.token)
       localStorage.setItem('nome', data.nome)
       localStorage.setItem('id', data.id)
@@ -41,7 +49,7 @@ export default function LoginPage() {
   return (
     <section
       className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
-      style={{ backgroundImage: "url('/background-login.png')" }}
+      style={{ backgroundImage: "url('/background-conta.png')" }}
     >
       {/* Header */}
       <header className="w-full px-6 md:px-10 pt-4 flex items-center justify-between">
@@ -60,8 +68,7 @@ export default function LoginPage() {
           <h1 className="text-[28px] sm:text-[32px] md:text-[36px] text-white leading-snug"
             style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
             Bem-vindo(a) de volta!
-            <br />
-            Faça login e continue sua <br />
+            Faça login e continue sua 
             viagem com a TRIP ao seu lado.
           </h1>
 
@@ -106,13 +113,13 @@ export default function LoginPage() {
             </Link>
           </p>
 
-          <div className="flex justify-center lg:justify-start -mt-7">
-            <Image src="/parcerias-login.svg" alt="Parcerias" width={160} height={40} className="w-auto h-8 md:h-10" />
+          <div className="flex justify-center lg:justify-start -mt-4">
+            <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={40} className="w-auto h-8 md:h-10" />
           </div>
 
           <div className="flex lg:hidden justify-center -mt-10 -mb-4">
             <Image
-              src="/trip-cadastro.svg"
+              src="/trip-conta.svg"
               alt="Mascote Trip"
               width={300}
               height={300}
@@ -124,7 +131,7 @@ export default function LoginPage() {
 
         <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
           <Image
-            src="/trip-cadastro.svg"
+            src="/trip-conta.svg"
             alt="Mascote Trip"
             width={700}
             height={680}

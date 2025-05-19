@@ -1,24 +1,27 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { cadastrarUsuario } from '../../api'
 import BotaoAnimado from '../../components/BotaoAnimado'
-import { cadastrarUsuario, loginUsuario } from '../../api'
 
-export default function CadastroPage() {
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+  weight: ['300', '400', '700', '900'],
+  subsets: ['latin'],
+  display: 'swap'
+})
+
+export default function RegisterPage() {
   const router = useRouter()
   const [form, setForm] = useState({ nome: '', email: '', senha: '' })
   const [erro, setErro] = useState<string | null>(null)
 
-  useEffect(() => {
-    setForm({ nome: '', email: '', senha: '' })
-  }, [])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value })
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,18 +29,13 @@ export default function CadastroPage() {
 
     try {
       await cadastrarUsuario(form)
-
-      const data = await loginUsuario(form.email, form.senha)
-      localStorage.setItem('token', data.token) // ✅ Armazena o JWT
-
-      alert('Conta criada com sucesso!')
-      setForm({ nome: '', email: '', senha: '' })
-      router.push('/chatbot')
+      alert('Cadastro realizado com sucesso!')
+      router.push('/login')
     } catch (err: unknown) {
       if (err instanceof Error) {
         setErro(err.message)
       } else {
-        setErro('Erro inesperado')
+        setErro('Erro desconhecido')
       }
     }
   }
@@ -45,62 +43,70 @@ export default function CadastroPage() {
   return (
     <section
       className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
-      style={{ backgroundImage: "url('/background-cadastro.png')" }}
+      style={{ backgroundImage: "url('/background-conta.png')" }}
     >
+      {/* Header */}
       <header className="w-full px-6 md:px-10 pt-4 flex items-center justify-between">
-        <Image src="/Logo.png" alt="Logo TRIP" width={140} height={80} priority />
+        <div className="flex items-center gap-2">
+          <Image src="/Logo.png" alt="Logo TRIP" width={140} height={80} priority />
+        </div>
         <div className="flex gap-4">
           <BotaoAnimado href="/" variant="outlined">INÍCIO</BotaoAnimado>
-          <BotaoAnimado href="/login" variant="filled">LOGIN</BotaoAnimado>
+          <BotaoAnimado href="/login" variant="filled">ENTRAR</BotaoAnimado>
         </div>
       </header>
 
-      <div className="flex-1 w-full flex flex-col lg:flex-row items-center justify-between px-6 md:px-16 pt-8 lg:pt-10 gap-6 lg:gap-0">
-        <div className="flex flex-col items-center lg:items-start justify-center gap-6 w-full max-w-[500px] pt-4 lg:pt-20 xl:pt-15 lg:ml-36 xl:ml-100 text-center lg:text-left">
-          <h1 className="text-[24px] sm:text-[28px] md:text-[32px] text-white leading-snug" style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
-            Crie sua conta e embarque <br className="hidden sm:block" />
-            com a TRIP: <span style={{ fontWeight: 300 }}>
-              o assistente que te guia em cada estação da sua jornada!
-            </span>
+      {/* Área principal */}
+      <div className="flex flex-1 w-full flex-col lg:flex-row items-center justify-between px-6 md:px-30">
+        <div className="flex flex-col justify-center items-center lg:items-start gap-8 max-w-[500px] w-full h-full pt-4 lg:pt-20 lg:ml-36 xl:ml-48 text-center lg:text-left">
+          <h1 className="text-[28px] sm:text-[32px] md:text-[35px] text-white leading-snug"
+            style={{ fontFamily: 'Poppins', fontWeight: 680 }}>
+            Crie sua conta e embarque
+            com a TRIP: o assistente
+            que te guia em cada
+            estação da sua jornada!
           </h1>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full px-1" autoComplete="off">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full px-1" autoComplete="off">
             <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Digite seu e-mail"
-              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
-              style={{ fontFamily: 'Poppins', fontWeight: 300 }}
-              required
-            />
-            <input
-              name="senha"
-              type="password"
-              value={form.senha}
-              onChange={handleChange}
-              placeholder="Digite sua senha"
-              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
-              style={{ fontFamily: 'Poppins', fontWeight: 300 }}
-              required
-            />
-            <input
-              name="nome"
               type="text"
+              name="nome"
+              placeholder="Digite seu nome"
               value={form.nome}
               onChange={handleChange}
-              placeholder="Digite seu nome"
+              autoComplete="off"
+              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
+              style={{ fontFamily: 'Poppins', fontWeight: 300 }}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Digite seu e-mail"
+              value={form.email}
+              onChange={handleChange}
+              autoComplete="off"
+              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
+              style={{ fontFamily: 'Poppins', fontWeight: 300 }}
+              required
+            />
+            <input
+              type="password"
+              name="senha"
+              placeholder="Digite sua senha"
+              value={form.senha}
+              onChange={handleChange}
+              autoComplete="new-password"
               className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
               required
             />
             <button
               type="submit"
-              className="border border-white px-6 py-2 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
+              className="border border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
               style={{ fontFamily: 'Poppins', fontWeight: 900 }}
             >
-              CADASTRAR
+              CRIAR CONTA
             </button>
           </form>
 
@@ -113,17 +119,31 @@ export default function CadastroPage() {
             </Link>
           </p>
 
-          <div className="flex justify-center lg:justify-start -mt-6">
-            <Image src="/parcerias-login.svg" alt="Parcerias" width={160} height={40} className="w-auto h-8 md:h-10" />
+          <div className="flex justify-center lg:justify-start -mt-4">
+            <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={40} className="w-auto h-8 md:h-10" />
+          </div>
+
+          <div className="flex lg:hidden justify-center -mt-10 -mb-4">
+            <Image
+              src="/trip-conta.svg"
+              alt="Mascote Trip"
+              width={300}
+              height={300}
+              className="w-[230px] h-auto"
+              priority
+            />
           </div>
         </div>
 
-        <div className="flex lg:hidden justify-center -mt-10 -mb-3">
-          <Image src="/trip-cadastro.svg" alt="Mascote Trip" width={300} height={300} className="w-[230px] h-auto" priority />
-        </div>
-
         <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
-          <Image src="/trip-cadastro.svg" alt="Mascote Trip" width={700} height={680} priority className="max-w-[320px] xl:max-w-[450px] 2xl:max-w-[550px] w-full" />
+          <Image
+            src="/trip-conta.svg"
+            alt="Mascote Trip"
+            width={700}
+            height={680}
+            priority
+            className="w-auto h-auto max-h-[900px]"
+          />
         </div>
       </div>
     </section>
