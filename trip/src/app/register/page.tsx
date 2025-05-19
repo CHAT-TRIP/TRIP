@@ -42,7 +42,7 @@ export default function RegisterPage() {
 
   return (
     <section
-      className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
+      className={`${poppins.className} relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden`}
       style={{ backgroundImage: "url('/background-conta.png')" }}
     >
       {/* Header */}
@@ -119,7 +119,7 @@ export default function RegisterPage() {
             </Link>
           </p>
 
-          <div className="flex justify-center lg:justify-start -mt-4">
+          <div className="flex justify-center lg:justify-start -mt-">
             <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={40} className="w-auto h-8 md:h-10" />
           </div>
 

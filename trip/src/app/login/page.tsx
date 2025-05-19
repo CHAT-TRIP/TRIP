@@ -48,7 +48,7 @@ export default function LoginPage() {
 
   return (
     <section
-      className="relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden"
+      className={`${poppins.className} relative w-full h-screen flex flex-col bg-cover bg-center overflow-x-hidden`}
       style={{ backgroundImage: "url('/background-conta.png')" }}
     >
       {/* Header */}
