@@ -1,4 +1,4 @@
-const BASE_URL = 'https://apicadastro-production-7b8d.up.railway.app/api'
+const BASE_URL = 'https://javacadastro-production.up.railway.app/api'
 
 // Registro sem usar cookies
 export async function cadastrarUsuario(dados: {
@@ -8,9 +8,10 @@ export async function cadastrarUsuario(dados: {
 }) {
   const res = await fetch(`${BASE_URL}/users/register`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(dados)
-    // ❌ REMOVIDO: credentials: 'include'
   })
 
   if (!res.ok) {
@@ -32,9 +33,10 @@ export async function cadastrarUsuario(dados: {
 export async function loginUsuario(email: string, senha: string) {
   const res = await fetch(`${BASE_URL}/users/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ email, senha })
-    // ❌ REMOVIDO: credentials: 'include'
   })
 
   if (!res.ok) {
