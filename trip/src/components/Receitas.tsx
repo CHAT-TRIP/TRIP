@@ -4,7 +4,10 @@ import Image from 'next/image'
 
 export default function Receitas() {
   return (
-    <section className="py-12 px-4 md:px-20 flex flex-col items-center gap-12 bg-white">
+    <section
+      id="receitas"
+      className="py-12 px-4 md:px-20 flex flex-col items-center gap-12 bg-white"
+    >
       {/* Logos das Empresas Parceiras */}
       <div className="flex justify-center">
         <Image

@@ -1,4 +1,3 @@
-// src/components/CTA.tsx
 'use client'
 
 import Link from 'next/link'
@@ -52,14 +51,19 @@ export default function CTA() {
             TRIP
           </Link>
 
-          {/* Saiba mais */}
-          <a
-            href="#funcionalidades"
+          {/* Saiba mais com scroll suave */}
+          <button
+            onClick={() => {
+              setTimeout(() => {
+                const section = document.getElementById('receitas')
+                section?.scrollIntoView({ behavior: 'smooth' })
+              }, 200) // Delay de 200ms
+            }}
             className="w-[150px] text-center text-white border border-white font-bold text-base px-6 py-2 rounded-md transition-transform transform hover:scale-105 duration-200"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             Saiba mais
-          </a>
+          </button>
         </div>
       </div>
     </section>
