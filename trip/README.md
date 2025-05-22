@@ -1,4 +1,4 @@
-# 🧳 Projeto TRIP – Assistente Virtual para Viagens
+# Projeto TRIP – Assistente Virtual para Viagens
 
 O **TRIP** é um sistema completo com front-end moderno e APIs integradas, desenvolvido para simular um assistente virtual de atendimento voltado ao setor de transporte/metrô. Ele permite ao usuário interagir com um chatbot sobre assuntos relacionados às linhas 8-Diamante e 9-Esmeralda.
 
@@ -46,16 +46,14 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 
 ---
 
-### 👥 **Tabela dos integrantes**
-
-```md
 ## 👥 Equipe
 
 | Nome                                | GitHub                                           | LinkedIn                                                     |
 |-------------------------------------|--------------------------------------------------|--------------------------------------------------------------|
-| Madjer Henrique Almeida Finamor     | [github.com/MadjerFin](https://github.com/MadjerFin)           | [linkedin.com/in/madjer-finamor-51196117b](https://www.linkedin.com/in/madjer-finamor-51196117b/) |
-| Guilherme Santos Falcão             | [github.com/gsfalcao](https://github.com/gsfalcao)             | [linkedin.com/in/guilherme-santos-falcão-a87012328](https://www.linkedin.com/in/guilherme-santos-falcão-a87012328/) |
-| Maria Eduarda Fernandes Rocha       | [github.com/dudafernanndes](https://github.com/dudafernanndes) | [linkedin.com/in/dudafernanndes](https://www.linkedin.com/in/dudafernanndes/) |
+| Madjer Henrique Almeida Finamor     | [MadjerFin](https://github.com/MadjerFin)        | [LinkedIn](https://www.linkedin.com/in/madjer-finamor-51196117b/) |
+| Guilherme Santos Falcão             | [gsfalcao](https://github.com/gsfalcao)          | [LinkedIn](https://www.linkedin.com/in/guilherme-santos-falcão-a87012328/) |
+| Maria Eduarda Fernandes Rocha       | [dudafernanndes](https://github.com/dudafernanndes) | [LinkedIn](https://www.linkedin.com/in/dudafernanndes/) |
+
 
 
 
