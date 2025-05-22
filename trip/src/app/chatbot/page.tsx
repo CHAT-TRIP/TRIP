@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Tipagens para reconhecimento de voz
 type SpeechRecognitionAlternative = {
   transcript: string
   confidence: number
@@ -37,8 +37,6 @@ type SpeechRecognitionInstance = {
 }
 
 export default function Chatbot() {
-  const router = useRouter()
-
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
@@ -72,15 +70,9 @@ export default function Chatbot() {
         body: JSON.stringify({ msg: novaMensagem.texto }),
       })
       const texto = await resposta.text()
-      setMensagens((msgs) => {
-        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }]
-        return novasMsgs
-      })
+      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }])
     } catch {
-      setMensagens((msgs) => {
-        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }]
-        return novasMsgs
-      })
+      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }])
     }
 
     setEnviando(false)
@@ -102,15 +94,13 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      (window as unknown as {
-        SpeechRecognition: new () => SpeechRecognitionInstance
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).SpeechRecognition ||
-      (window as unknown as {
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).webkitSpeechRecognition
+      (window as unknown as { SpeechRecognition: new () => SpeechRecognitionInstance }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition: new () => SpeechRecognitionInstance }).webkitSpeechRecognition
 
-    if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
+    if (!SpeechRecognition) {
+      alert('Seu navegador não suporta reconhecimento de voz.')
+      return
+    }
 
     if (gravando && recognitionRef.current) {
       recognitionRef.current.stop()
