@@ -115,8 +115,8 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      (window as unknown as { SpeechRecognition: any }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition: any }).webkitSpeechRecognition
+      (window as unknown as { SpeechRecognition: new () => SpeechRecognitionInstance }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition: new () => SpeechRecognitionInstance }).webkitSpeechRecognition
 
     if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
