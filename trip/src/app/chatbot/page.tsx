@@ -40,7 +40,7 @@ export default function Chatbot() {
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
-      texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação à linha 8 e 9, como posso te ajudar?',
+      texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação as linhas de trêns e metrôs, como posso te ajudar?',
     },
   ])
   const [input, setInput] = useState('')
@@ -85,7 +85,7 @@ export default function Chatbot() {
     setMensagens([
       {
         remetente: 'bot',
-        texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação à linha 8 e 9, como posso te ajudar?',
+        texto: 'Olá! Eu sou o assistente virtual Trip ~\n\nEm relação as linhas de trêns e metrôs, como posso te ajudar?',
       },
     ])
     try {
