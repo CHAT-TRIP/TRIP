@@ -1,4 +1,4 @@
-const BASE_URL = 'https://javacadastro-production-cdf4.up.railway.app/api'
+const BASE_URL = 'https://trip-java-production.up.railway.app/api'
 
 // Registro sem usar cookies
 export async function cadastrarUsuario(dados: {
