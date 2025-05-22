@@ -78,12 +78,13 @@ export default function Chatbot() {
     setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
 
     try {
-      const resposta = await fetch('https://chatbot-trip.onrender.com', {
+      const resposta = await fetch('https://chatbot-trip.onrender.com/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ msg: novaMensagem.texto }),
       })
-      const texto = await resposta.text()
+      const data = await resposta.json()
+      const texto = data.resposta
       setMensagens((msgs) => {
         const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }]
         return novasMsgs
@@ -114,13 +115,7 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      (window as unknown as {
-        SpeechRecognition: new () => SpeechRecognitionInstance
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).SpeechRecognition ||
-      (window as unknown as {
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).webkitSpeechRecognition
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
 
     if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
