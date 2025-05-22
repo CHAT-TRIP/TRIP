@@ -37,8 +37,6 @@ type SpeechRecognitionInstance = {
 }
 
 export default function Chatbot() {
-  const router = useRouter()
-
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
