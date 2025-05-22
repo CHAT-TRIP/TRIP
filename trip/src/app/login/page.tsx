@@ -49,14 +49,14 @@ export default function LoginPage() {
       if (err instanceof Error) {
         const msg = err.message.toLowerCase()
 
-        if (msg.includes('senha incorreta')) {
+        console.error('Erro no login:', msg) // útil para debug
+
+        if (msg.includes('senha')) {
           novosErros.senha = 'Senha incorreta'
-        } else if (msg.includes('e-mail não cadastrado') || msg.includes('email não cadastrado')) {
+        } else if (msg.includes('e-mail') || msg.includes('email')) {
           novosErros.email = 'E-mail não cadastrado'
         } else {
-          // qualquer erro 401 ou mensagem desconhecida
-          novosErros.email = 'E-mail ou senha inválidos'
-          novosErros.senha = ' '
+          setErroGeral('E-mail ou senha inválidos')
         }
       } else {
         setErroGeral('Erro inesperado. Tente novamente.')
