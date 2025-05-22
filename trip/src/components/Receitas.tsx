@@ -8,7 +8,8 @@ const desktopBanners = [
   { src: '/anuncio-desktop-ccr.png', alt: 'Banner 2', width: 1140, height: 630 },
   /** { src: '/anuncio-desktop-ccr.png', alt: 'Banner 2', width: 1140, height: 630 },**/
   /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
-
+  /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
+  /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
 ]
 
 const mobileBanners = [
@@ -16,7 +17,7 @@ const mobileBanners = [
   { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },
   /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
   /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
-
+  /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
 ]
 
 export default function Receitas() {
