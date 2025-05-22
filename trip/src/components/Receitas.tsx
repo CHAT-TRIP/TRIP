@@ -16,8 +16,6 @@ const mobileBanners = [
   { src: '/anuncio-mobile-thetown.png', alt: 'Banner 1 Mobile', width: 364, height: 626 },
   { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },
   /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
-  /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
-  /** { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },**/
 ]
 
 export default function Receitas() {
