@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { cadastrarUsuario } from '../../api'
 import BotaoAnimado from '../../components/BotaoAnimado'
-
 import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
@@ -119,22 +118,12 @@ export default function RegisterPage() {
             </Link>
           </p>
 
-          <div className="flex justify-center lg:justify-start -mt-">
+          <div className="flex justify-center lg:justify-start">
             <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={40} className="w-auto h-8 md:h-10" />
-          </div>
-
-          <div className="flex lg:hidden justify-center -mt-10 -mb-4">
-            <Image
-              src="/trip-conta.svg"
-              alt="Mascote Trip"
-              width={300}
-              height={300}
-              className="w-[230px] h-auto"
-              priority
-            />
           </div>
         </div>
 
+        {/* Mascote: só aparece no desktop */}
         <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
           <Image
             src="/trip-conta.svg"

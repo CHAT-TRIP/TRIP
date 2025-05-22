@@ -1,51 +1,92 @@
-const BASE_URL = 'https://apicadastro-production-7b8d.up.railway.app/api'
+const BASE_URL = 'https://trip-java-production.up.railway.app/api'
 
-// Registro sem usar cookies
+// Registro de usuário com tratamento de erro
 export async function cadastrarUsuario(dados: {
   nome: string
   email: string
   senha: string
 }) {
-  const res = await fetch(`${BASE_URL}/users/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dados)
-    // ❌ REMOVIDO: credentials: 'include'
-  })
+  try {
+    const res = await fetch(`${BASE_URL}/users/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dados)
+    })
 
-  if (!res.ok) {
     const textoErro = await res.text()
-    if (
-      res.status === 409 ||
-      textoErro.toLowerCase().includes('e-mail já cadastrado') ||
-      textoErro.toLowerCase().includes('email já cadastrado')
-    ) {
-      throw new Error('Este e-mail já está cadastrado. Tente outro ou faça login.')
-    }
-    throw new Error(textoErro || 'Erro ao registrar')
-  }
 
-  return await res.json()
+    if (!res.ok) {
+      if (
+        res.status === 409 ||
+        textoErro.toLowerCase().includes('e-mail já cadastrado') ||
+        textoErro.toLowerCase().includes('email já cadastrado')
+      ) {
+        throw new Error('Este e-mail já está cadastrado. Tente outro ou faça login.')
+      }
+
+      throw new Error(textoErro || 'Erro ao registrar. Tente novamente.')
+    }
+
+    return await res.json()
+
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro no cadastro:', err.message)
+      throw err
+    } else {
+      console.error('Erro desconhecido no cadastro')
+      throw new Error('Erro inesperado ao cadastrar. Tente novamente.')
+    }
+  }
 }
 
-// Login que salva o token manualmente
+// Login de usuário com tratamento refinado
 export async function loginUsuario(email: string, senha: string) {
-  const res = await fetch(`${BASE_URL}/users/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, senha })
-    // ❌ REMOVIDO: credentials: 'include'
-  })
+  try {
+    const res = await fetch(`${BASE_URL}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, senha })
+    })
 
-  if (!res.ok) {
     const texto = await res.text()
-    throw new Error(texto || 'Erro ao logar')
+
+    if (!res.ok) {
+      // Tratamento de mensagens personalizadas
+      if (res.status === 401) {
+        const msg = texto.toLowerCase()
+        if (msg.includes('senha')) {
+          throw new Error('Senha incorreta')
+        } else if (msg.includes('email')) {
+          throw new Error('E-mail não cadastrado')
+        } else {
+          throw new Error('E-mail ou senha inválidos')
+        }
+      }
+
+      throw new Error(texto || 'Erro ao logar. Tente novamente.')
+    }
+
+    const data = JSON.parse(texto)
+
+    // Salva token local
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('token', data.token)
+    }
+
+    return data
+
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro no login:', err.message)
+      throw err
+    } else {
+      console.error('Erro desconhecido no login')
+      throw new Error('Erro inesperado ao logar. Tente novamente.')
+    }
   }
-
-  const data = await res.json()
-
-  // ✅ Salva o token no localStorage
-  localStorage.setItem('token', data.token)
-
-  return data
 }
