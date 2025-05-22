@@ -38,19 +38,6 @@ type SpeechRecognitionInstance = {
 
 export default function Chatbot() {
   const router = useRouter()
-  const jaVerificou = useRef(false)
-
-  // ✅ Proteção via localStorage
-  useEffect(() => {
-    if (jaVerificou.current) return
-    jaVerificou.current = true
-
-    const token = localStorage.getItem('token')
-    if (!token) {
-      alert('Você precisa estar logado para acessar o chatbot.')
-      router.push('/login')
-    }
-  }, [router])
 
   const [mensagens, setMensagens] = useState([
     {
