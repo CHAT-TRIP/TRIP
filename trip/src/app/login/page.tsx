@@ -43,15 +43,20 @@ export default function LoginPage() {
       setMensagemSucesso('Login realizado com sucesso!')
       setTimeout(() => router.push('/chatbot'), 1500)
 
-    } catch (err: any) {
-      const msg = err?.message?.toLowerCase() || ''
+    } catch (err: unknown) {
       const novosErros: { email?: string; senha?: string } = {}
 
-      if (msg.includes('inválido') || msg.includes('invalid')) {
-        novosErros.email = 'E-mail ou senha inválidos'
-        novosErros.senha = ' '
+      if (err instanceof Error) {
+        const msg = err.message.toLowerCase()
+
+        if (msg.includes('inválido') || msg.includes('invalid')) {
+          novosErros.email = 'E-mail ou senha inválidos'
+          novosErros.senha = ' '
+        } else {
+          setErroGeral('Erro ao tentar logar. Tente novamente.')
+        }
       } else {
-        setErroGeral('Erro ao tentar logar. Tente novamente.')
+        setErroGeral('Erro inesperado. Tente novamente.')
       }
 
       setErrosCampo(novosErros)

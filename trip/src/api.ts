@@ -31,9 +31,14 @@ export async function cadastrarUsuario(dados: {
 
     return await res.json()
 
-  } catch (err: any) {
-    console.error('Erro no cadastro:', err)
-    throw err
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro no cadastro:', err.message)
+      throw err
+    } else {
+      console.error('Erro desconhecido no cadastro')
+      throw new Error('Erro inesperado ao cadastrar. Tente novamente.')
+    }
   }
 }
 
@@ -53,9 +58,10 @@ export async function loginUsuario(email: string, senha: string) {
     if (!res.ok) {
       // Tratamento de mensagens personalizadas
       if (res.status === 401) {
-        if (texto.toLowerCase().includes('senha')) {
+        const msg = texto.toLowerCase()
+        if (msg.includes('senha')) {
           throw new Error('Senha incorreta')
-        } else if (texto.toLowerCase().includes('email')) {
+        } else if (msg.includes('email')) {
           throw new Error('E-mail não cadastrado')
         } else {
           throw new Error('E-mail ou senha inválidos')
@@ -74,8 +80,13 @@ export async function loginUsuario(email: string, senha: string) {
 
     return data
 
-  } catch (err: any) {
-    console.error('Erro no login:', err)
-    throw err
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro no login:', err.message)
+      throw err
+    } else {
+      console.error('Erro desconhecido no login')
+      throw new Error('Erro inesperado ao logar. Tente novamente.')
+    }
   }
 }
