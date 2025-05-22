@@ -54,6 +54,9 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 | Guilherme Santos Falcão             | [gsfalcao](https://github.com/gsfalcao)          | [LinkedIn](https://www.linkedin.com/in/guilherme-santos-falcão-a87012328/) |
 | Maria Eduarda Fernandes Rocha       | [dudafernanndes](https://github.com/dudafernanndes) | [LinkedIn](https://www.linkedin.com/in/dudafernanndes/) |
 
+---
+## Link
+🔗 https://trip-red.vercel.app/
 
 
 
