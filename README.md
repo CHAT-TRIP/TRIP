@@ -2,6 +2,9 @@
 
 O **TRIP** é um sistema completo com front-end moderno e APIs integradas, desenvolvido para simular um assistente virtual de atendimento voltado ao setor de transporte/metrô. Ele permite ao usuário interagir com um chatbot sobre assuntos relacionados às linhas 8-Diamante e 9-Esmeralda.
 
+Link de apresentação do site:  
+🔗 [Youtube](https://youtu.be/XbvhuECgFdQ?si=yPYDVBUU_JVx-Qz3)
+
 ## 🌐 Sistema 100% Online
 
 ✅ Front-end com Next.js hospedado na **Vercel**  
