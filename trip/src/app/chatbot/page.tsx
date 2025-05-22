@@ -1,8 +1,15 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+
+declare global {
+  interface Window {
+    SpeechRecognition: any
+    webkitSpeechRecognition: any
+  }
+}
 
 type SpeechRecognitionAlternative = {
   transcript: string
@@ -92,8 +99,7 @@ export default function Chatbot() {
   }
 
   const handleMicrofoneClick = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
     if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
