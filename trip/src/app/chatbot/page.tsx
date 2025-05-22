@@ -1,15 +1,9 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-
-declare global {
-  interface Window {
-    SpeechRecognition: any
-    webkitSpeechRecognition: any
-  }
-}
 
 type SpeechRecognitionAlternative = {
   transcript: string
@@ -43,6 +37,20 @@ type SpeechRecognitionInstance = {
 }
 
 export default function Chatbot() {
+  const router = useRouter()
+  const jaVerificou = useRef(false)
+
+  useEffect(() => {
+    if (jaVerificou.current) return
+    jaVerificou.current = true
+
+    const token = localStorage.getItem('token')
+    if (!token) {
+      alert('Você precisa estar logado para acessar o chatbot.')
+      router.push('/login')
+    }
+  }, [router])
+
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
@@ -76,9 +84,15 @@ export default function Chatbot() {
         body: JSON.stringify({ msg: novaMensagem.texto }),
       })
       const texto = await resposta.text()
-      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }])
+      setMensagens((msgs) => {
+        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }]
+        return novasMsgs
+      })
     } catch {
-      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }])
+      setMensagens((msgs) => {
+        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }]
+        return novasMsgs
+      })
     }
 
     setEnviando(false)
@@ -99,7 +113,14 @@ export default function Chatbot() {
   }
 
   const handleMicrofoneClick = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const SpeechRecognition =
+      (window as unknown as {
+        SpeechRecognition: new () => SpeechRecognitionInstance
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).SpeechRecognition ||
+      (window as unknown as {
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).webkitSpeechRecognition
 
     if (!SpeechRecognition) return alert('Seu navegador não suporta reconhecimento de voz.')
 
