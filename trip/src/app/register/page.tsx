@@ -137,4 +137,4 @@ export default function RegisterPage() {
       </div>
     </section>
   )
-}
+} /**Página de cadastro ajustada */
