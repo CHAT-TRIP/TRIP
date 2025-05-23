@@ -63,7 +63,7 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 
 ---
 ## Print
-![alt text](image.png)
+![alt text](./public/image.png)
 
 
 
