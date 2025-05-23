@@ -161,4 +161,4 @@ export default function LoginPage() {
       </div>
     </section>
   )
-}
+} /**Página de login ajustada */
