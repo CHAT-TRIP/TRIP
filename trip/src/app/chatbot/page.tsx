@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Tipagens para reconhecimento de voz
 type SpeechRecognitionAlternative = {
   transcript: string
   confidence: number
@@ -115,13 +116,13 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-<<<<<<< HEAD
-      (window as unknown as { SpeechRecognition: new () => SpeechRecognitionInstance }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition: new () => SpeechRecognitionInstance }).webkitSpeechRecognition
-=======
-      (window as unknown as { SpeechRecognition: any }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition: any }).webkitSpeechRecognition
->>>>>>> 3957222 (resolvendo erro para build)
+      (window as unknown as {
+        SpeechRecognition: new () => SpeechRecognitionInstance
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).SpeechRecognition ||
+      (window as unknown as {
+        webkitSpeechRecognition: new () => SpeechRecognitionInstance
+      }).webkitSpeechRecognition
 
     if (!SpeechRecognition) {
       alert('Seu navegador não suporta reconhecimento de voz.')
