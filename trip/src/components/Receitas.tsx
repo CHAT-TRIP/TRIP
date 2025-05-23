@@ -67,4 +67,9 @@ export default function Receitas() {
       </div>
     </section>
   )
-} /**Página de receitas ajustada */
+} 
+
+/**Página de receitas ajustada */
+/**Ajustando banner para mobile */
+//**Ajustando banner patra desktop */
+

@@ -69,4 +69,4 @@ export default function Navbar() {
       </div>
     </header>
   )
-}
+} /**Página nav ajustada */
