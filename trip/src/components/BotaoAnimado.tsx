@@ -30,5 +30,5 @@ export default function BotaoAnimado({ href, children, variant = 'outlined' }: B
       {children}
     </Link>
   )
-}
+}  /**Botões ajustados */
 
