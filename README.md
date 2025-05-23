@@ -61,6 +61,10 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 ## Link
 🔗 https://trip-red.vercel.app/
 
+---
+## Print
+![alt text](image.png)
+
 
 
 
