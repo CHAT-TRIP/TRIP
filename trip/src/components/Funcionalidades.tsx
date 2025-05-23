@@ -97,4 +97,4 @@ function FlipCard({ front, back }: { front: string; back: string }) {
       </div>
     </div>
   )
-}
+} /**Página de funcionalidades ajustada */

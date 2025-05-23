@@ -95,4 +95,4 @@ function FlipCard({ front, back, github, linkedin }: { front: string; back: stri
       </div>
     </div>
   )
-}
+} /**Página de integrantes ajustada */

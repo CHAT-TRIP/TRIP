@@ -50,4 +50,4 @@ export default function Parceria() {
       </div>
     </section>
   )
-}
+} /**Página de parcerias ajustada */
