@@ -58,4 +58,4 @@ export default function Chat() {
       </div>
     </section>
   )
-}
+} /**Página chatbot ajustada */

@@ -67,4 +67,4 @@ export default function Receitas() {
       </div>
     </section>
   )
-}
+} /**Página de receitas ajustada */
