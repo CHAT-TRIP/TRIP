@@ -49,7 +49,7 @@ export async function cadastrarUsuario(dados: {
   }
 }
 
-// Login de usuário com tratamento direto da resposta do back-end
+// Login de usuário com exibição direta da mensagem do back-end
 export async function loginUsuario(email: string, senha: string) {
   try {
     const res = await fetch(`${BASE_URL}/api/users/login`, {
@@ -63,7 +63,7 @@ export async function loginUsuario(email: string, senha: string) {
     const texto = await res.text()
 
     if (!res.ok) {
-      // Mostra a mensagem retornada pelo back-end diretamente na tela
+      // Exibe a mensagem exata retornada do back-end
       throw new Error(texto || 'Erro ao logar. Tente novamente.')
     }
 
