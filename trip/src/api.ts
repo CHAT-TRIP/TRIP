@@ -49,7 +49,7 @@ export async function cadastrarUsuario(dados: {
   }
 }
 
-// Login de usuário com tratamento refinado
+// Login de usuário com tratamento direto da resposta do back-end
 export async function loginUsuario(email: string, senha: string) {
   try {
     const res = await fetch(`${BASE_URL}/api/users/login`, {
@@ -63,17 +63,7 @@ export async function loginUsuario(email: string, senha: string) {
     const texto = await res.text()
 
     if (!res.ok) {
-      const msg = texto.toLowerCase()
-      if (res.status === 401) {
-        if (msg.includes('senha')) {
-          throw new Error('Senha incorreta')
-        } else if (msg.includes('email')) {
-          throw new Error('E-mail não cadastrado')
-        } else {
-          throw new Error('E-mail ou senha inválidos')
-        }
-      }
-
+      // Mostra a mensagem retornada pelo back-end diretamente na tela
       throw new Error(texto || 'Erro ao logar. Tente novamente.')
     }
 
