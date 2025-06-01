@@ -7,7 +7,7 @@ export async function cadastrarUsuario(dados: {
   senha: string
 }) {
   try {
-    const res = await fetch(`${BASE_URL}/users/register`, {
+    const res = await fetch(`${BASE_URL}/api/users/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -15,7 +15,7 @@ export async function cadastrarUsuario(dados: {
       body: JSON.stringify(dados)
     })
 
-    const conteudo = await res.text() // lê apenas uma vez
+    const conteudo = await res.text()
 
     if (!res.ok) {
       const msg = conteudo.toLowerCase()
@@ -23,8 +23,8 @@ export async function cadastrarUsuario(dados: {
         res.status === 409 ||
         msg.includes('e-mail já cadastrado') ||
         msg.includes('email já cadastrado') ||
-        msg.includes('ora-00001') || // Oracle unique constraint
-        msg.includes('unique constraint') // mensagem genérica de duplicidade
+        msg.includes('ora-00001') ||
+        msg.includes('unique constraint')
       ) {
         throw new Error('Este e-mail já está cadastrado. Tente outro ou faça login.')
       }
@@ -32,11 +32,10 @@ export async function cadastrarUsuario(dados: {
       throw new Error(conteudo || 'Erro ao registrar. Tente novamente.')
     }
 
-    // Tenta converter o conteúdo para JSON (se aplicável)
     try {
       return JSON.parse(conteudo)
     } catch {
-      return {} // ou null, se não houver corpo JSON válido
+      return {}
     }
 
   } catch (err: unknown) {
@@ -53,7 +52,7 @@ export async function cadastrarUsuario(dados: {
 // Login de usuário com tratamento refinado
 export async function loginUsuario(email: string, senha: string) {
   try {
-    const res = await fetch(`${BASE_URL}/users/login`, {
+    const res = await fetch(`${BASE_URL}/api/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -80,7 +79,6 @@ export async function loginUsuario(email: string, senha: string) {
 
     const data = JSON.parse(texto)
 
-    // Salva token local
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', data.token)
     }
