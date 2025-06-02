@@ -5,6 +5,44 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
+declare global {
+  interface Window {
+    webkitSpeechRecognition: new () => ISpeechRecognition
+    SpeechRecognition: new () => ISpeechRecognition
+  }
+
+  interface ISpeechRecognition extends EventTarget {
+    lang: string
+    interimResults: boolean
+    maxAlternatives: number
+    start: () => void
+    stop: () => void
+    onresult: ((event: ISpeechRecognitionEvent) => void) | null
+    onerror: ((event: Event) => void) | null
+    onend: (() => void) | null
+  }
+
+  interface ISpeechRecognitionAlternative {
+    transcript: string
+    confidence: number
+  }
+
+  interface ISpeechRecognitionResult {
+    0: ISpeechRecognitionAlternative
+    isFinal: boolean
+    length: number
+  }
+
+  interface ISpeechRecognitionResultList {
+    0: ISpeechRecognitionResult
+    length: number
+  }
+
+  interface ISpeechRecognitionEvent extends Event {
+    results: ISpeechRecognitionResultList
+  }
+}
+
 export default function Chatbot() {
   const router = useRouter()
   const [mensagens, setMensagens] = useState([
@@ -20,7 +58,7 @@ export default function Chatbot() {
   const [logado, setLogado] = useState(false)
   const [nomeUsuario, setNomeUsuario] = useState<string | null>(null)
 
-  const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const recognitionRef = useRef<ISpeechRecognition | null>(null)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -80,7 +118,8 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      typeof window !== 'undefined' &&
+      (window.SpeechRecognition || window.webkitSpeechRecognition)
 
     if (!SpeechRecognition) {
       alert('Seu navegador não suporta reconhecimento de voz.')
@@ -97,8 +136,9 @@ export default function Chatbot() {
       recognition.start()
       setGravando(true)
 
-      recognition.onresult = (event: any) => {
-        setInput(event.results[0][0].transcript)
+      recognition.onresult = (event: ISpeechRecognitionEvent) => {
+        const transcript = event.results[0][0].transcript
+        setInput(transcript)
       }
 
       recognition.onerror = () => {
