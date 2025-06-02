@@ -20,18 +20,15 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: '', senha: '' })
   const [mensagemSucesso, setMensagemSucesso] = useState<string | null>(null)
   const [erroGeral, setErroGeral] = useState<string | null>(null)
-  const [errosCampo, setErrosCampo] = useState<{ email?: string; senha?: string }>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-    setErrosCampo(prev => ({ ...prev, [e.target.name]: undefined }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErroGeral(null)
     setMensagemSucesso(null)
-    setErrosCampo({})
 
     try {
       const data = await loginUsuario(form.email, form.senha)
@@ -44,25 +41,11 @@ export default function LoginPage() {
       setTimeout(() => router.push('/chatbot'), 1500)
 
     } catch (err: unknown) {
-      const novosErros: { email?: string; senha?: string } = {}
-
       if (err instanceof Error) {
-        const msg = err.message.toLowerCase()
-
-        if (msg.includes('senha incorreta')) {
-          novosErros.senha = 'Senha incorreta'
-        } else if (msg.includes('e-mail não cadastrado') || msg.includes('email não cadastrado')) {
-          novosErros.email = 'E-mail não cadastrado'
-        } else {
-          // qualquer erro 401 ou mensagem desconhecida
-          novosErros.email = 'E-mail ou senha inválidos'
-          novosErros.senha = ' '
-        }
+        setErroGeral(err.message)
       } else {
         setErroGeral('Erro inesperado. Tente novamente.')
       }
-
-      setErrosCampo(novosErros)
     }
   }
 
@@ -103,28 +86,20 @@ export default function LoginPage() {
             <input
               type="email"
               name="email"
-              placeholder={errosCampo.email ? errosCampo.email : 'Digite seu e-mail'}
+              placeholder="Digite seu e-mail"
               value={form.email}
               onChange={handleChange}
-              className={`px-6 py-3 rounded-md placeholder:italic placeholder:text-sm ${
-                errosCampo.email
-                  ? 'bg-red-200 text-red-800 placeholder:text-red-800 border border-red-400'
-                  : 'bg-white/20 text-white placeholder-white'
-              } outline-none text-base transition-all duration-200`}
+              className="px-6 py-3 rounded-md bg-white/20 text-white placeholder-white outline-none text-base transition-all duration-200"
               required
             />
 
             <input
               type="password"
               name="senha"
-              placeholder={errosCampo.senha ? errosCampo.senha : 'Digite sua senha'}
+              placeholder="Digite sua senha"
               value={form.senha}
               onChange={handleChange}
-              className={`px-6 py-3 rounded-md placeholder:italic placeholder:text-sm ${
-                errosCampo.senha
-                  ? 'bg-red-200 text-red-800 placeholder:text-red-800 border border-red-400'
-                  : 'bg-white/20 text-white placeholder-white'
-              } outline-none text-base transition-all duration-200`}
+              className="px-6 py-3 rounded-md bg-white/20 text-white placeholder-white outline-none text-base transition-all duration-200"
               required
             />
 
@@ -161,4 +136,4 @@ export default function LoginPage() {
       </div>
     </section>
   )
-} /**Página de login ajustada */
+}
