@@ -5,37 +5,6 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type SpeechRecognitionAlternative = {
-  transcript: string
-  confidence: number
-}
-
-type SpeechRecognitionResult = {
-  0: SpeechRecognitionAlternative
-  isFinal: boolean
-  length: number
-}
-
-type SpeechRecognitionResultList = {
-  0: SpeechRecognitionResult
-  length: number
-}
-
-type SpeechRecognitionEvent = Event & {
-  results: SpeechRecognitionResultList
-}
-
-type SpeechRecognitionInstance = {
-  lang: string
-  interimResults: boolean
-  maxAlternatives: number
-  start: () => void
-  stop: () => void
-  onresult: ((event: SpeechRecognitionEvent) => void) | null
-  onerror: (() => void) | null
-  onend: (() => void) | null
-}
-
 export default function Chatbot() {
   const router = useRouter()
   const [mensagens, setMensagens] = useState([
@@ -51,7 +20,7 @@ export default function Chatbot() {
   const [logado, setLogado] = useState(false)
   const [nomeUsuario, setNomeUsuario] = useState<string | null>(null)
 
-  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+  const recognitionRef = useRef<SpeechRecognition | null>(null)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -66,14 +35,11 @@ export default function Chatbot() {
     }
   }, [router])
 
-  const formatarTexto = (texto: string) => {
-    return texto.replace(/\n/g, '<br>')
-  }
+  const formatarTexto = (texto: string) => texto.replace(/\n/g, '<br>')
 
   const enviarMensagem = async () => {
     if (!input.trim()) return
     const novaMensagem = { remetente: 'user', texto: input }
-
     setMensagens((prev) => [...prev, novaMensagem, { remetente: 'bot', texto: 'Analisando...' }])
     setInput('')
     setEnviando(true)
@@ -89,10 +55,7 @@ export default function Chatbot() {
       const data = await resposta.json()
       const texto = data.resposta || 'Erro: resposta vazia'
 
-      setMensagens((msgs) => {
-        const novasMsgs = [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }]
-        return novasMsgs
-      })
+      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: formatarTexto(texto) }])
     } catch {
       setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }])
     }
@@ -117,46 +80,40 @@ export default function Chatbot() {
 
   const handleMicrofoneClick = () => {
     const SpeechRecognition =
-      (window as unknown as {
-        SpeechRecognition: new () => SpeechRecognitionInstance
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).SpeechRecognition ||
-      (window as unknown as {
-        webkitSpeechRecognition: new () => SpeechRecognitionInstance
-      }).webkitSpeechRecognition
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
 
     if (!SpeechRecognition) {
       alert('Seu navegador não suporta reconhecimento de voz.')
       return
     }
 
-    if (gravando && recognitionRef.current) {
-      recognitionRef.current.stop()
-      return
-    }
+    if (!gravando) {
+      const recognition = new SpeechRecognition()
+      recognition.lang = 'pt-BR'
+      recognition.interimResults = false
+      recognition.maxAlternatives = 1
 
-    const recognition: SpeechRecognitionInstance = new SpeechRecognition()
-    recognition.lang = 'pt-BR'
-    recognition.interimResults = false
-    recognition.maxAlternatives = 1
+      recognitionRef.current = recognition
+      recognition.start()
+      setGravando(true)
 
-    recognitionRef.current = recognition
-    recognition.start()
-    setGravando(true)
+      recognition.onresult = (event: any) => {
+        setInput(event.results[0][0].transcript)
+      }
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      setInput(event.results[0][0].transcript)
-    }
+      recognition.onerror = () => {
+        setGravando(false)
+        recognition.stop()
+        recognitionRef.current = null
+      }
 
-    recognition.onerror = () => {
+      recognition.onend = () => {
+        setGravando(false)
+        recognitionRef.current = null
+      }
+    } else {
+      recognitionRef.current?.stop()
       setGravando(false)
-      recognition.stop()
-      recognitionRef.current = null
-    }
-
-    recognition.onend = () => {
-      setGravando(false)
-      recognitionRef.current = null
     }
   }
 
@@ -208,7 +165,7 @@ export default function Chatbot() {
           {mensagens.map((msg, i) => (
             <div
               key={i}
-              className={`max-w-[80%] px-6 py-3 rounded-full text-sm md:text-base font-medium ${
+              className={`w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium break-words whitespace-pre-line ${
                 msg.remetente === 'user'
                   ? 'bg-white text-black self-start'
                   : 'bg-white/30 text-white self-end'
@@ -216,6 +173,11 @@ export default function Chatbot() {
               dangerouslySetInnerHTML={{ __html: msg.texto }}
             ></div>
           ))}
+          {gravando && (
+            <div className="w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium bg-yellow-200 text-black self-end animate-pulse">
+              Gravando...
+            </div>
+          )}
           <div ref={fimDasMensagensRef} />
         </div>
 
@@ -231,7 +193,9 @@ export default function Chatbot() {
             />
             <button
               onClick={handleMicrofoneClick}
-              className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition duration-300"
+              className={`w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:shadow-lg transition duration-300 ${
+                gravando ? 'bg-red-500 animate-pulse' : 'bg-white'
+              }`}
             >
               <Image src="/microfone.svg" alt="Microfone" width={20} height={20} />
             </button>

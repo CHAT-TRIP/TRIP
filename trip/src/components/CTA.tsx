@@ -27,7 +27,7 @@ export default function CTA() {
             fontFamily: 'Poppins, sans-serif',
           }}
         >
-          bem-vindo
+          Bem-vindo
         </div>
 
         {/* Título */}
