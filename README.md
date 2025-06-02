@@ -8,7 +8,7 @@ Link de apresentação do site:
 ## 🌐 Sistema 100% Online
 
 ✅ Front-end com Next.js hospedado na **Vercel**  
-✅ API REST em Java hospedada na **Railway**  
+✅ API REST em Java hospedada na **Render**  
 ✅ Chatbot Python hospedado no **Render**
 
 Acesse o projeto online:  
@@ -21,7 +21,7 @@ Acesse o projeto online:
 - **Front-end**: [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Tailwind CSS](https://tailwindcss.com/)
 - **Back-end Java**: Quarkus + JPA + JWT (Railway)
 - **Chatbot**: Python + Flask (Render)
-- **Hospedagem**: Vercel, Railway e Render
+- **Hospedagem**: Vercel e Render
 - **Reconhecimento de Voz**: SpeechRecognition API (Google Chrome)
 
 ---
@@ -62,8 +62,6 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 🔗 https://trip-red.vercel.app/
 
 ---
-## Print
-![alt text](TRIP/public/image.png)
 
 
 
