@@ -117,45 +117,43 @@ export default function Chatbot() {
   }
 
   const handleMicrofoneClick = () => {
-    const SpeechRecognition =
-      typeof window !== 'undefined' &&
-      (window.SpeechRecognition || window.webkitSpeechRecognition)
+  const SpeechRecognition =
+    typeof window !== 'undefined' &&
+    (window.SpeechRecognition || window.webkitSpeechRecognition)
 
-    if (!SpeechRecognition) {
-      alert('Seu navegador não suporta reconhecimento de voz.')
-      return
-    }
-
-    if (!gravando) {
-      const recognition = new SpeechRecognition()
-      recognition.lang = 'pt-BR'
-      recognition.interimResults = false
-      recognition.maxAlternatives = 1
-
-      recognitionRef.current = recognition
-      recognition.start()
-      setGravando(true)
-
-      recognition.onresult = (event: ISpeechRecognitionEvent) => {
-        const transcript = event.results[0][0].transcript
-        setInput(transcript)
-      }
-
-      recognition.onerror = () => {
-        setGravando(false)
-        recognition.stop()
-        recognitionRef.current = null
-      }
-
-      recognition.onend = () => {
-        setGravando(false)
-        recognitionRef.current = null
-      }
-    } else {
-      recognitionRef.current?.stop()
-      setGravando(false)
-    }
+  if (!SpeechRecognition) {
+    alert('Seu navegador não suporta reconhecimento de voz.')
+    return
   }
+
+  if (!gravando) {
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'pt-BR'
+    recognition.interimResults = false
+    recognition.maxAlternatives = 1
+
+    recognitionRef.current = recognition
+    recognition.start()
+    setGravando(true)
+
+    recognition.onresult = (event: ISpeechRecognitionEvent) => {
+      const transcript = event.results[0][0].transcript
+      setInput((prev) => prev + ' ' + transcript)
+    }
+
+    recognition.onerror = (error: Event) => {
+      console.error('Erro no reconhecimento de voz:', error)
+    }
+
+    // Não usamos onend para evitar parada automática
+    // O reconhecimento só para ao clicar novamente no botão
+  } else {
+    recognitionRef.current?.stop()
+    recognitionRef.current = null
+    setGravando(false)
+  }
+}
+
 
   return (
     <section
