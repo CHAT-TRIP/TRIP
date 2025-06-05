@@ -73,7 +73,14 @@ export default function Chatbot() {
     }
   }, [router])
 
-  const formatarTexto = (texto: string) => texto.replace(/\n/g, '<br>')
+  const formatarTexto = (texto: string) => {
+  const negrito = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  const comLinks = negrito.replace(
+    /<a href="(.*?)"(.*?)>(.*?)<\/a>/g,
+    `<a href="$1" $2 class="text-blue-500 underline" target="_blank" rel="noopener noreferrer">$3</a>`
+  )
+  return comLinks.replace(/\n/g, '<br>')
+}
 
   const enviarMensagem = async () => {
     if (!input.trim()) return
