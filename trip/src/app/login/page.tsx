@@ -56,16 +56,16 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <div className="flex flex-1 w-full flex-col lg:flex-row items-center justify-between px-6 md:px-30">
-        <div className="flex flex-col justify-center items-center lg:items-start gap-8 max-w-[500px] w-full h-full pt-4 lg:pt-20 lg:ml-36 xl:ml-48 text-center lg:text-left">
-          <h1 className="text-[28px] sm:text-[32px] md:text-[35px] text-white leading-snug"
-            style={{ fontFamily: 'Poppins', fontWeight: 680 }}>
+      <div className="flex flex-1 w-full items-center justify-center px-6 md:px-30">
+        <div className="flex flex-col justify-center items-center gap-10 max-w-[700px] w-full h-full pt-20 text-center">
+          <h1 className="text-[32px] sm:text-[38px] md:text-[42px] text-white leading-snug"
+            style={{ fontFamily: 'Poppins', fontWeight: 700 }}>
             Bem-vindo(a) de volta!
             Faça login e continue sua 
             viagem com a TRIP ao seu lado.
           </h1>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full px-1" autoComplete="off">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full px-1" autoComplete="off">
             <input
               type="email"
               name="email"
@@ -73,7 +73,7 @@ export default function LoginPage() {
               value={form.email}
               onChange={handleChange}
               autoComplete="off"
-              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
+              className="px-6 py-4 rounded-md bg-white/20 placeholder-white text-white outline-none text-lg"
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
               required
             />
@@ -84,13 +84,13 @@ export default function LoginPage() {
               value={form.senha}
               onChange={handleChange}
               autoComplete="current-password"
-              className="px-6 py-3 rounded-md bg-white/20 placeholder-white text-white outline-none text-base"
+              className="px-6 py-4 rounded-md bg-white/20 placeholder-white text-white outline-none text-lg"
               style={{ fontFamily: 'Poppins', fontWeight: 300 }}
               required
             />
             <button
               type="submit"
-              className="border border-white px-4 py-2 sm:px-6 sm:py-3 rounded-md text-white text-sm sm:text-base hover:bg-white hover:text-[#DA3368] transition"
+              className="border border-white px-4 py-3 sm:px-6 sm:py-4 rounded-md text-white text-base sm:text-lg hover:bg-white hover:text-[#DA3368] transition"
               style={{ fontFamily: 'Poppins', fontWeight: 900 }}
             >
               ENTRAR
@@ -99,27 +99,16 @@ export default function LoginPage() {
 
           {erro && <p className="text-red-300">{erro}</p>}
 
-          <p className="text-sm text-white -mt-4" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
+          <p className="text-base text-white -mt-4" style={{ fontFamily: 'Poppins', fontWeight: 300 }}>
             Não possui uma conta?{' '}
             <Link href="/register" className="underline hover:text-gray-300" style={{ fontWeight: 700 }}>
               Criar
             </Link>
           </p>
 
-          <div className="flex justify-center lg:justify-start">
-            <Image src="/parcerias-login.svg" alt="Parcerias" width={140} height={40} className="w-auto h-8 md:h-10" />
+          <div className="flex justify-center">
+            <Image src="/parcerias-login.svg" alt="Parcerias" width={180} height={50} className="w-auto h-10 md:h-12" />
           </div>
-        </div>
-
-        <div className="hidden lg:flex items-end justify-end h-full pr-20 lg:pr-32 xl:pr-40">
-          <Image
-            src="/trip-conta.svg"
-            alt="Mascote Trip"
-            width={700}
-            height={680}
-            priority
-            className="w-auto h-auto max-h-[900px]"
-          />
         </div>
       </div>
     </section>

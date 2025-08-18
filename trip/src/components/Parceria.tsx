@@ -34,11 +34,11 @@ export default function Parceria() {
             className="text-[#DA3368] text-sm sm:text-base md:text-lg font-light mb-8"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
-            Com a tecnologia do Trip e a expertise da CCR, os passageiros ganham um atendimento mais ágil, seguro e eficiente, tornando cada viagem mais tranquila, informada e inovadora.
+            Com a tecnologia do Trip e a expertise da Motiva, os passageiros ganham um atendimento mais ágil, seguro e eficiente, tornando cada viagem mais tranquila, informada e inovadora.
           </p>
 
           <Link
-            href="https://mobilidade.grupoccr.com.br/?_gl=1*c60b7u*_ga*MTE4MTMyMTg3MC4xNzQ2MTE0NDkz*_ga_S60HWZS024*czE3NDcxNjA4NjAkbzIkZzEkdDE3NDcxNjA5MDkkajExJGwwJGgw"
+            href="https://www.motiva.com.br/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-[#DA3368] text-white font-bold px-6 py-3 rounded-md shadow-md transition-transform transform hover:scale-105 hover:brightness-110 active:scale-95"
