@@ -5,65 +5,49 @@ import Image from 'next/image'
 
 export default function CTA() {
   return (
-    <section className="relative pt-24 pb-36 flex items-center justify-center text-white">
+    <section
+      className="
+        relative w-full overflow-hidden text-white
+        pt-36
+        h-[720px] md:h-[768px] lg:h-[820px] xl:h-[880px]
+      "
+    >
       {/* Fundo */}
-      <div className="absolute inset-0 z-0 h-full w-full">
-        <Image
-          src="/background.png"
-          alt="Fundo"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      <Image
+        src="/background-cta.svg"
+        alt="Fundo TRIP"
+        fill
+        priority
+        className="object-cover object-bottom"
+      />
 
-      {/* Conteúdo */}
-      <div className="relative z-10 text-center w-full max-w-4xl px-6">
-        {/* bem-vindo com degradê transparente */}
-        <div
-          className="inline-block text-base font-normal px-8 py-2 rounded-full mb-4 backdrop-blur-md mx-auto"
-          style={{
-            background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))',
-            fontFamily: 'Poppins, sans-serif',
-          }}
-        >
-          Bem-vindo
-        </div>
+      {/* Texto */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8 flex items-start">
+        <div className="max-w-[550px] text-left mt-16 md:mt-28">
+          {/* Título */}
+          <h1 className="font-unbounded font-light text-[40px] md:text-6xl leading-snug md:leading-tight mb-6">
+            Seu transporte <br />
+            com mais{' '}
+            <span className="bg-gradient-to-r from-[#DCC2FF] to-white bg-clip-text text-transparent">
+              agilidade
+            </span>,<br />
+            <span className="bg-gradient-to-r from-[#DCC2FF] to-white bg-clip-text text-transparent">
+              segurança
+            </span>{' '}
+            e na<br />
+            palma da mão.
+          </h1>
 
-        {/* Título */}
-        <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6" style={{ fontFamily: 'Poppins, sans-serif' }}>
-          ao seu assistente <br /> virtual TRIP!
-        </h1>
-
-        {/* Parágrafo */}
-        <p className="text-lg md:text-xl font-light text-white/90 mb-12 leading-relaxed mx-auto max-w-3xl px-6 text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>
-          Tire dúvidas, planeje rotas e receba atendimento rápido direto no celular. Tudo para tornar sua jornada mais confortável, ágil e conectada com o que há de mais inovador.
-        </p>
-
-        {/* Botões */}
-        <div className="flex flex-wrap justify-center gap-6">
-          {/* TRIP */}
-          <Link
-            href="/chatbot"
-            className="w-[150px] text-center bg-white text-[#DA3368] font-bold text-base px-6 py-2 rounded-md shadow-sm transition-transform transform hover:scale-105 duration-200"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
-          >
-            TRIP
-          </Link>
-
-          {/* Saiba mais com scroll suave */}
-          <button
-            onClick={() => {
-              setTimeout(() => {
-                const section = document.getElementById('receitas')
-                section?.scrollIntoView({ behavior: 'smooth' })
-              }, 200) // Delay de 200ms
-            }}
-            className="w-[150px] text-center text-white border border-white font-bold text-base px-6 py-2 rounded-md transition-transform transform hover:scale-105 duration-200"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
-          >
-            Saiba mais
-          </button>
+          {/* Subtítulo */}
+          <p className="font-montserrat text-base md:text-xl font-light text-white/90 leading-relaxed">
+            Viajar bem começa com um bom <br/> atendimento.{' '}
+            <Link
+              href="/chatbot"
+              className="font-bold hover:underline hover:text-[#DCC2FF] transition-colors"
+            >
+              CONHEÇA O TRIP.
+            </Link>
+          </p>
         </div>
       </div>
     </section>
