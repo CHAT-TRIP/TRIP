@@ -1,31 +1,42 @@
-import '../styles/globals.css'
-import { Poppins } from 'next/font/google'
-import type { Metadata } from 'next'
+import "../styles/globals.css";
+import type { Metadata } from "next";
+import { Unbounded, Montserrat } from "next/font/google";
 
-// Fonte Poppins com variações específicas
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-poppins',
-  display: 'swap'
-})
+// Títulos
+const unbounded = Unbounded({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-unbounded",
+  display: "swap",
+});
+
+// Texto geral
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: 'TRIP | CCR',
-  description: 'Assistente virtual da CCR para transporte ferroviário',
-}
+  title: "TRIP | CCR",
+  description: "Assistente virtual da CCR para transporte ferroviário",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="pt-BR">
       <head />
-      <body className={`${poppins.variable} font-sans bg-background text-foreground`}>
+      {/* Montserrat como base do site; Unbounded para usar via classe */}
+      <body
+        className={`${unbounded.variable} ${montserrat.variable} font-montserrat bg-background text-foreground antialiased`}
+      >
         {children}
       </body>
     </html>
-  )
+  );
 }
