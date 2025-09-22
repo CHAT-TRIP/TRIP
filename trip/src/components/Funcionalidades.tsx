@@ -1,3 +1,4 @@
+/*teste*/ 
 'use client'
 
 export default function Funcionalidades() {
