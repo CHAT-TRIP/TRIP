@@ -23,3 +23,39 @@ body {
   color: var(--color-black-text);
   font-family: var(--font-regular);
 }
+
+/* Paleta TRIP (claro) */
+:root {
+  --background: #E9E9E9;     /* fundo da página */
+  --foreground: #181818;     /* cor base do texto */
+  --primary:    #5E22F3;     /* roxo principal */
+  --primary-2:  #300E86;     /* roxo escuro */
+  --accent:     #DCC2FF;     /* roxo suave */
+  --muted:      #D9D9D9;     /* cinza claro */
+  --surface:    #FFFFFF;     /* cartões/barras */
+}
+
+/* Se quiser manter um tema escuro depois */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #181818;
+    --foreground: #FFFFFF;
+  }
+}
+
+/* Mapear tokens para Tailwind via classes utilitárias */
+.bg-background { background-color: var(--background) !important; }
+.text-foreground { color: var(--foreground) !important; }
+
+/* Utilitários de fonte para usar nos componentes */
+.font-unbounded { font-family: var(--font-unbounded), ui-sans-serif, system-ui; }
+.font-montserrat { font-family: var(--font-montserrat), ui-sans-serif, system-ui; }
+
+/* (opcional) botões/links padrão no projeto */
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 0.75rem;
+  font-weight: 700;
+}
+.btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); transition: .2s; }
