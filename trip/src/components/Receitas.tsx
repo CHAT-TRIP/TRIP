@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react'
 
 const desktopBanners = [
   { src: '/anuncio-desktop-thetown.png', alt: 'Banner 1', width: 1440, height: 710 },
-  { src: '/anuncio-desktop-ccr.png', alt: 'Banner 2', width: 1440, height: 710 },
+  { src: '/anuncio-desktop-ccr.png',    alt: 'Banner 2', width: 1440, height: 710 },
 ]
 
 const mobileBanners = [
   { src: '/anuncio-mobile-thetown.png', alt: 'Banner 1 Mobile', width: 364, height: 626 },
-  { src: '/anuncio-mobile-ccr.png', alt: 'Banner 2 Mobile', width: 364, height: 626 },
+  { src: '/anuncio-mobile-ccr.png',     alt: 'Banner 2 Mobile', width: 364, height: 626 },
 ]
 
 export default function Parcerias() {
@@ -19,16 +19,13 @@ export default function Parcerias() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % desktopBanners.length)
+      setIndex(prev => (prev + 1) % desktopBanners.length)
     }, 5000)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <section
-      id="parcerias"
-      className="relative w-full py-14 md:py-20 bg-white"
-    >
+    <section id="parcerias" className="relative w-full py-14 md:py-20 bg-[#E9E9E9]">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
 
         {/* Logos das empresas parceiras */}
@@ -45,9 +42,27 @@ export default function Parcerias() {
 
         {/* Título + subtítulo */}
         <div className="mt-10 md:mt-12 text-center">
-          <h2 className="relative inline-block font-unbounded font-semibold text-[34px] sm:text-[42px] md:text-[54px] leading-tight text-[#5E22F3]">
-            Seja um parceiro Motiva
-            <span className="absolute left-0 right-0 -bottom-2 h-2 bg-[#DCC2FF]/70 rounded-md" />
+          <h2
+            className="relative inline-block text-[#5E22F3] font-unbounded font-semibold
+                       text-[34px] sm:text-[42px] md:text-[54px] leading-tight"
+          >
+            <span className="relative inline-block">
+              {/* Texto por cima */}
+              <span className="relative z-10">Seja um parceiro Motiva</span>
+
+              {/* Marca-texto como IMAGEM atrás do texto */}
+              <span className="absolute left-0 right-0 bottom-[8%] h-[0.55em] -z-10 pointer-events-none select-none">
+                <Image
+                  src="/texto.svg"
+                  alt=""
+                  aria-hidden
+                  fill
+                  sizes="(min-width: 768px) 640px, 90vw"
+                  className="object-fill w-full h-full"
+                  priority
+                />
+              </span>
+            </span>
           </h2>
 
           <p className="mt-6 font-montserrat text-sm sm:text-base md:text-lg text-[#181818]">
@@ -63,7 +78,7 @@ export default function Parcerias() {
 
         {/* Banner Desktop */}
         <div className="hidden md:block mt-10 md:mt-12">
-          <div className="mx-auto rounded-3xl border-[#5E22F3] overflow-hidden w-[1440px] h-[710px] max-w-full shadow-lg">
+          <div className="mx-auto rounded-3xl overflow-hidden w-[1440px] h-[710px] max-w-full shadow-lg">
             <Image
               key={desktopBanners[index].src}
               src={desktopBanners[index].src}
@@ -78,7 +93,7 @@ export default function Parcerias() {
 
         {/* Banner Mobile */}
         <div className="block md:hidden mt-8">
-          <div className="mx-auto rounded-3xl border-[#5E22F3] overflow-hidden w-[364px] h-[626px] max-w-full shadow-md">
+          <div className="mx-auto rounded-3xl overflow-hidden w-[364px] h-[626px] max-w-full shadow-md">
             <Image
               key={mobileBanners[index].src}
               src={mobileBanners[index].src}
