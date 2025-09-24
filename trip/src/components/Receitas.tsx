@@ -18,58 +18,52 @@ export default function Parcerias() {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex(prev => (prev + 1) % desktopBanners.length)
+    const it = setInterval(() => {
+      setIndex((prev) => (prev + 1) % desktopBanners.length)
     }, 5000)
-    return () => clearInterval(interval)
+    return () => clearInterval(it)
   }, [])
 
   return (
-    <section id="parcerias" className="relative w-full py-14 md:py-20 bg-[#E9E9E9]">
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
+    <section id="parcerias" className="w-full bg-[#E9E9E9] py-14 md:py-20">
+      <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6">
 
-        {/* Logos das empresas parceiras */}
+        {/* Logos desbotadas no topo */}
         <div className="flex justify-center opacity-80">
           <Image
             src="/parcerias-marcas.png"
             alt="Empresas Parceiras"
             width={920}
             height={100}
-            className="object-contain w-full max-w-[920px] h-auto"
             priority
+            className="object-contain w-full max-w-[920px] h-auto"
           />
         </div>
 
         {/* Título + subtítulo */}
         <div className="mt-10 md:mt-12 text-center">
           <h2
-            className="relative inline-block text-[#5E22F3] font-unbounded font-semibold
-                       text-[34px] sm:text-[42px] md:text-[54px] leading-tight"
+            className="text-[#5E22F3] font-unbounded font-extrabold tracking-tight
+                       text-[34px] sm:text-[44px] md:text-[56px] leading-[1.08]"
           >
-            <span className="relative inline-block">
-              {/* Texto por cima */}
-              <span className="relative z-10">Seja um parceiro Motiva</span>
-
-              {/* Marca-texto como IMAGEM atrás do texto */}
-              <span className="absolute left-0 right-0 bottom-[8%] h-[0.55em] -z-10 pointer-events-none select-none">
-                <Image
-                  src="/texto.svg"
-                  alt=""
-                  aria-hidden
-                  fill
-                  sizes="(min-width: 768px) 640px, 90vw"
-                  className="object-fill w-full h-full"
-                  priority
-                />
-              </span>
+            <span>Seja um </span>
+            {/* ⬇️ Marca-texto roxo exatamente como no “Viaje fácil” */}
+            <span className="
+                inline px-[2px]
+                bg-[linear-gradient(180deg,transparent_66%,rgba(94,34,243,0.28)_0)]
+                box-decoration-clone
+              ">
+              parceiro Motiva
             </span>
           </h2>
 
-          <p className="mt-6 font-montserrat text-sm sm:text-base md:text-lg text-[#181818]">
+          <p
+            className="mt-5 md:mt-6 font-montserrat text-sm sm:text-base md:text-lg text-[#181818]"
+          >
             SUA EMPRESA CONECTADA A NÓS.{' '}
             <Link
               href="#saiba-mais-parcerias"
-              className="font-bold text-[#5E22F3] hover:underline underline-offset-4"
+              className="font-bold text-[#5E22F3] underline-offset-4 hover:underline"
             >
               SAIBA MAIS!
             </Link>
@@ -85,8 +79,8 @@ export default function Parcerias() {
               alt={desktopBanners[index].alt}
               width={desktopBanners[index].width}
               height={desktopBanners[index].height}
-              className="w-full h-full object-cover transition-opacity duration-700"
               priority
+              className="w-full h-full object-cover transition-opacity duration-700"
             />
           </div>
         </div>
@@ -100,8 +94,8 @@ export default function Parcerias() {
               alt={mobileBanners[index].alt}
               width={mobileBanners[index].width}
               height={mobileBanners[index].height}
-              className="w-full h-full object-cover transition-opacity duration-700"
               priority
+              className="w-full h-full object-cover transition-opacity duration-700"
             />
           </div>
         </div>
