@@ -7,7 +7,7 @@ import Chat from '../components/Chat'
 import Funcionalidades from '../components/Funcionalidades'
 import Parceria from '../components/Parceria'
 import Proposta from '../components/Proposta'
-import Integrantes from '../components/Integrantes'
+import Integrantes from '../components/Footer'
 
 export default function Home() {
   return (
@@ -38,7 +38,7 @@ export default function Home() {
         <Proposta />
       </section>
 
-      <section id="integrantes">
+      <section id="Footer">
         <Integrantes />
       </section>
     </main>
