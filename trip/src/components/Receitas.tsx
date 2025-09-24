@@ -60,7 +60,7 @@ export default function Parcerias() {
           <p
             className="mt-5 md:mt-6 font-montserrat text-sm sm:text-base md:text-lg text-[#181818]"
           >
-            SUA EMPRESA CONECTADA A NÓS.{' '}
+            SUA EMPRESA CONECTADA A NÓS.{` `}
             <Link
               href="#saiba-mais-parcerias"
               className="font-bold text-[#5E22F3] underline-offset-4 hover:underline"
@@ -72,7 +72,7 @@ export default function Parcerias() {
 
         {/* Banner Desktop */}
         <div className="hidden md:block mt-10 md:mt-12">
-          <div className="mx-auto rounded-3xl overflow-hidden w-[1440px] h-[710px] max-w-full shadow-lg">
+          <div className="mx-auto overflow-hidden w-[1440px] h-[710px] max-w-full shadow-lg">
             <Image
               key={desktopBanners[index].src}
               src={desktopBanners[index].src}
@@ -87,7 +87,7 @@ export default function Parcerias() {
 
         {/* Banner Mobile */}
         <div className="block md:hidden mt-8">
-          <div className="mx-auto rounded-3xl overflow-hidden w-[364px] h-[626px] max-w-full shadow-md">
+          <div className="mx-auto overflow-hidden w-[364px] h-[626px] max-w-full shadow-md">
             <Image
               key={mobileBanners[index].src}
               src={mobileBanners[index].src}

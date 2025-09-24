@@ -56,11 +56,11 @@ export default function Chat() {
             tudo com foco em praticidade, segurança e acessibilidade.
           </p>
 
-          {/* Botão animado */}
+          {/* Botão animado (quadrado) */}
           <div className="mt-8 flex justify-center lg:justify-start">
             <Link
               href="/chatbot"
-              className="inline-block px-7 py-3 rounded-md bg-[#5E22F3] text-white text-base md:text-lg font-bold shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300"
+              className="inline-block px-7 py-3 bg-[#5E22F3] text-white text-base md:text-lg font-bold shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300"
               style={{ fontFamily: 'Montserrat, sans-serif' }}
             >
               Começar agora

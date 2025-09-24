@@ -90,9 +90,9 @@ export default function PropostaForm() {
 
   // classes utilitárias
   const baseInput =
-    'w-full h-12 rounded-lg border px-4 outline-none bg-[rgba(255,255,255,0.2)] text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:border-[#5E22F3] focus:ring-[#5E22F3]'
+    'w-full h-12 border px-4 outline-none bg-[rgba(255,255,255,0.2)] text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:border-[#5E22F3] focus:ring-[#5E22F3]'
   const baseTextArea =
-    'w-full min-h-[110px] rounded-lg border px-4 py-3 outline-none bg-[rgba(255,255,255,0.2)] text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:border-[#5E22F3] focus:ring-[#5E22F3]'
+    'w-full min-h-[110px] border px-4 py-3 outline-none bg-[rgba(255,255,255,0.2)] text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:border-[#5E22F3] focus:ring-[#5E22F3]'
 
   return (
     <section
@@ -221,9 +221,9 @@ export default function PropostaForm() {
             <button
               type="submit"
               disabled={loading}
-              className={`min-w-[180px] rounded-md px-8 py-3 font-bold text-white transition-all duration-200 ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:scale-[1.03] active:scale-95'}`}
+              className={`min-w-[180px] px-8 py-3 font-bold text-white transition-all duration-200 ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:scale-[1.03] active:scale-95'}`}
               style={{
-                backgroundColor: loading ? '#9F86FF' : '#9F86FF', // roxo claro padrão
+                backgroundColor: loading ? '#9F86FF' : '#9F86FF',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5E22F3')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#9F86FF')}

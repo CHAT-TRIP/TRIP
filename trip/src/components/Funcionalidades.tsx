@@ -27,7 +27,7 @@ export default function Funcionalidades() {
           <div
             className="
               group relative lg:col-span-1 overflow-visible
-              rounded-[14px] border border-white/90
+              border border-white/90
               p-6 md:p-8 md:pb-28
               transition-all duration-300
               hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(220,194,255,0.35)]
@@ -52,7 +52,7 @@ export default function Funcionalidades() {
             <div
               className="hidden md:flex items-center justify-center
                          absolute left-1/2 -bottom-6 -translate-x-1/2
-                         rounded-xl px-10 py-5 z-[2] text-2xl font-bold
+                         px-10 py-5 z-[2] text-2xl font-bold
                          transition-all duration-300
                          group-hover:-translate-y-1"
               style={{
@@ -68,7 +68,7 @@ export default function Funcionalidades() {
 
             {/* badge mobile – dentro do fluxo */}
             <div
-              className="md:hidden inline-flex items-center rounded-xl px-6 py-3 mt-6 text-lg font-semibold"
+              className="md:hidden inline-flex items-center px-6 py-3 mt-6 text-lg font-semibold"
               style={{
                 background: 'rgba(255,255,255,0.98)',
                 color: '#5E22F3',
@@ -81,7 +81,7 @@ export default function Funcionalidades() {
           </div>
 
           {/* ACESSIBILIDADE */}
-          <div className="rounded-[14px] border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
+          <div className="border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
             <h4
               className="text-3xl md:text-4xl mb-2 leading-none"
               style={{ fontFamily: 'Unbounded, sans-serif' }}
@@ -94,7 +94,7 @@ export default function Funcionalidades() {
           </div>
 
           {/* BILHETES */}
-          <div className="rounded-[14px] border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
+          <div className="border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
             <h4
               className="text-3xl md:text-4xl mb-2 leading-none"
               style={{ fontFamily: 'Unbounded, sans-serif' }}
@@ -107,7 +107,7 @@ export default function Funcionalidades() {
           </div>
 
           {/* DENÚNCIAS */}
-          <div className="rounded-[14px] border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
+          <div className="border border-white/90 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_22px_rgba(220,194,255,0.28)]">
             <h4
               className="text-3xl md:text-4xl mb-2 leading-none"
               style={{ fontFamily: 'Unbounded, sans-serif' }}
@@ -121,7 +121,7 @@ export default function Funcionalidades() {
 
           {/* SEGURANÇA */}
           <div
-            className="rounded-[14px] p-7 flex items-center transition-all duration-300 hover:-translate-y-1"
+            className="p-7 flex items-center transition-all duration-300 hover:-translate-y-1"
             style={{
               background: 'rgba(255,255,255,0.97)',
               boxShadow: '0 0 60px 18px rgba(255,255,255,0.8)',

@@ -41,7 +41,7 @@ export default function Parceria() {
             href="https://www.motiva.com.br/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-block rounded-md px-6 py-3 text-white font-bold transition-transform hover:scale-[1.03] active:scale-95"
+            className="mt-8 inline-block px-6 py-3 text-white font-bold transition-transform hover:scale-[1.03] active:scale-95"
             style={{
               backgroundColor: '#5E22F3',
               fontFamily: 'Montserrat, sans-serif',
