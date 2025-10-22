@@ -61,17 +61,17 @@ export default function Chatbot() {
   const recognitionRef = useRef<ISpeechRecognition | null>(null)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-    if (!token) {
-      alert('Você precisa estar logado para acessar o assistente virtual.')
-      router.push('/')
-    } else {
-      setLogado(true)
-      const nome = localStorage.getItem('nome')
-      setNomeUsuario(nome)
-    }
-  }, [router])
+//  useEffect(() => {
+ //   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+ //   if (!token) {
+ //     alert('Você precisa estar logado para acessar o assistente virtual.')
+ //     router.push('/')
+ //   } else {
+ //     setLogado(true)
+ //     const nome = localStorage.getItem('nome')
+ //     setNomeUsuario(nome)
+ //   }
+ // }, [router])
 
   const formatarTexto = (texto: string) => {
   const negrito = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
