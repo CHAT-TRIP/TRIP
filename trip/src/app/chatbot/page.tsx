@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+
 export default function Chatbot() {
-  const router = useRouter()
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
