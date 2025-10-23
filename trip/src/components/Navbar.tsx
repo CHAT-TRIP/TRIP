@@ -39,11 +39,11 @@ export default function Navbar() {
         <Link href="/receitas">Rotas</Link>
       </nav>
 
-      {/* BOTÃO TRIP */}
+      {/* BOTÃO TRIP (Desktop) */}
       <div className="hidden md:flex items-center gap-4">
         <Link
-          href="/chatbot"
-          className="bg-[#ffffff] text-#300E86 font-bold text-base px-6 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-200"
+          href="/register"
+          className="bg-white text-[#300E86] font-bold text-base px-6 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-200"
           style={{ fontFamily: 'Unbounded, sans-serif' }}
         >
           TRIP
@@ -69,8 +69,8 @@ export default function Navbar() {
             <Link href="/integrantes" className="hover:text-[#DCC2FF]">Criadores</Link>
             <Link href="/receitas" className="hover:text-[#DCC2FF]">Rotas</Link>
             <Link
-              href="/chatbot"
-              className="w-full text-center bg-[#5E22F3] text-white font-bold rounded-md py-2 mt-2"
+              href="/register"
+              className="w-full text-center bg-[#5E22F3] text-white font-bold rounded-md py-2 mt-2 transition-transform hover:scale-105 duration-200"
             >
               TRIP
             </Link>

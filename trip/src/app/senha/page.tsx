@@ -5,30 +5,20 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function EsqueciSenhaPage() {
   const router = useRouter()
 
-  const [formData, setFormData] = useState({
-    email: '',
-    senha: '',
-  })
+  const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-    setError('')
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const { email, senha } = formData
 
-    // Validação básica
-    if (!email || !senha) {
-      setError('⚠️ Preencha todos os campos.')
+    if (!email) {
+      setError('⚠️ Por favor, insira seu e-mail.')
       return
     }
 
@@ -37,19 +27,14 @@ export default function LoginPage() {
       return
     }
 
-    if (senha.length < 6) {
-      setError('🔒 A senha deve ter pelo menos 6 caracteres.')
-      return
-    }
-
-    // Tudo certo: login bem-sucedido
-    setSuccess(true)
+    // Se tudo estiver certo
     setError('')
+    setSuccess(true)
 
-    // Redireciona pra tela do chatbot
+    // Simula envio de e-mail e volta ao login depois de 3s
     setTimeout(() => {
-      router.push('/chatbot')
-    }, 2500)
+      router.push('/login')
+    }, 3000)
   }
 
   return (
@@ -59,7 +44,7 @@ export default function LoginPage() {
         background: 'linear-gradient(135deg, #5E22F3 0%, #DCC2FF 100%)',
       }}
     >
-      {/* Lado esquerdo - Mascote (desktop) */}
+      {/* Lado esquerdo - Mascote (somente desktop) */}
       <div className="hidden md:flex flex-1 items-center justify-center">
         <Image
           src="/mascote-footer.svg"
@@ -71,37 +56,30 @@ export default function LoginPage() {
         />
       </div>
 
-      {/* Lado direito - Card de login */}
+      {/* Lado direito - Card de redefinição */}
       <div className="flex flex-1 items-center justify-center p-10 md:p-0">
         <div className="w-full max-w-[640px] bg-white/60 backdrop-blur-2xl rounded-2xl shadow-2xl p-14 border border-white/30">
           {/* Título */}
           <h1 className="text-center font-unbounded font-extrabold text-[48px] md:text-[56px] mb-4 text-[#5E22F3] leading-tight">
-            Bem-vindo de volta
+            Esqueceu sua senha?
           </h1>
           <p className="text-center text-[#5E22F3]/80 mb-10 font-montserrat text-lg md:text-xl">
-            Faça login para continuar sua jornada com a TRIP.
+            Insira seu e-mail e enviaremos um link para redefinir sua senha.
           </p>
 
           {/* Formulário */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 font-montserrat">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-7 font-montserrat">
             <input
               type="email"
               name="email"
               placeholder="E-mail"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                setError('')
+              }}
               className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
               required
-            />
-            <input
-              type="password"
-              name="senha"
-              placeholder="Senha"
-              value={formData.senha}
-              onChange={handleChange}
-              className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
-              required
-              minLength={6}
             />
 
             {/* Mensagem de erro */}
@@ -111,7 +89,7 @@ export default function LoginPage() {
               </p>
             )}
 
-            {/* Botão de login */}
+            {/* Botão de envio */}
             <button
               type="submit"
               disabled={success}
@@ -122,27 +100,18 @@ export default function LoginPage() {
                     : 'bg-[#5E22F3] hover:bg-[#4c18c8] text-white active:scale-95'
                 }`}
             >
-              {success ? 'Login realizado com sucesso!' : 'Entrar'}
+              {success ? 'E-mail enviado com sucesso!' : 'Enviar link de redefinição'}
             </button>
           </form>
 
-          {/* Links extras */}
-          <div className="text-center mt-8 text-base text-[#5E22F3] flex flex-col gap-3">
+          {/* Link de retorno */}
+          <div className="text-center mt-8 text-base text-[#5E22F3]">
             <Link
-              href="/senha"
-              className="font-semibold hover:underline hover:text-[#4c18c8] transition"
+              href="/login"
+              className="font-bold hover:underline hover:text-[#4c18c8] transition"
             >
-              Esqueceu sua senha?
+              Voltar para o login
             </Link>
-            <p>
-              Ainda não tem uma conta?{' '}
-              <Link
-                href="/register"
-                className="font-bold hover:underline hover:text-[#4c18c8] transition"
-              >
-                Cadastre-se
-              </Link>
-            </p>
           </div>
         </div>
       </div>
