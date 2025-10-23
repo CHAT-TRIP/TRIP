@@ -35,7 +35,7 @@ export default function Home() {
       </section>
 
       <section id="proposta">
-        <Proposta />
+        <Proposta />  
       </section>
 
       <section id="Footer">

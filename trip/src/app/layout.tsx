@@ -1,8 +1,9 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Unbounded, Montserrat } from "next/font/google";
+import Navbar from "../components/Navbar";
 
-// Títulos (Unbounded Light como padrão para títulos)
+// ====== FONTES ======
 const unbounded = Unbounded({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
@@ -10,7 +11,6 @@ const unbounded = Unbounded({
   display: "swap",
 });
 
-// Texto geral (Montserrat)
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
@@ -18,16 +18,29 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+// ====== METADATA ======
 export const metadata: Metadata = {
   title: "TRIP | CCR",
   description: "Assistente virtual da CCR para transporte ferroviário",
 };
 
+// ====== LAYOUT PRINCIPAL ======
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${unbounded.variable} ${montserrat.variable}`}>
-      <body className="bg-background text-foreground font-montserrat antialiased">
-        {children}
+    <html
+      lang="pt-BR"
+      className={`${unbounded.variable} ${montserrat.variable}`}
+      style={{ backgroundColor: "#E9E9E9" }}
+    >
+      <body
+        className="text-[#181818] font-montserrat antialiased"
+        style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
+      >
+        {/* NAVBAR FIXO E FLUTUANTE */}
+        <Navbar />
+
+        {/* CONTEÚDO DAS PÁGINAS */}
+        <main>{children}</main>
       </body>
     </html>
   );
