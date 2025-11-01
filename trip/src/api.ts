@@ -1,4 +1,4 @@
-const BASE_URL = 'https://triprenderjava.onrender.com'
+const BASE_URL = 'https://trip-backend-6whw.onrender.com'
 
 // Registro de usuário com tratamento de erro
 export async function cadastrarUsuario(dados: {
