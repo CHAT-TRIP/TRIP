@@ -59,6 +59,7 @@ export default function Chatbot() {
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
             white-space: pre-wrap !important;
+            font-weight: 600 !important;
           }
           .mensagem-bot a {
             color: #60A5FA !important;
@@ -126,12 +127,12 @@ export default function Chatbot() {
       </header>
 
       {/* chat */}
-      <main className="relative z-10 flex-1 flex flex-col justify-end w-full max-w-5xl px-4 sm:px-6 py-10 mx-auto">
-        <div className="flex flex-col gap-4 overflow-y-auto max-h-[70vh] mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent">
+      <main className="relative z-10 flex-1 flex flex-col justify-end w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto">
+        <div className="flex flex-col gap-4 overflow-y-auto max-h-[70vh] mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full">
           {mensagens.map((msg, i) => (
             <div
               key={i}
-              className={`w-fit max-w-[75%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg break-words ${
+              className={`w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg break-words ${
                 msg.remetente === 'user'
                   ? 'mensagem-user bg-white text-[#5E22F3] self-end'
                   : 'mensagem-bot bg-white/30 text-white self-start backdrop-blur-sm'
@@ -144,7 +145,7 @@ export default function Chatbot() {
 
         {/* input */}
         <div className="w-full flex justify-center px-2">
-          <div className="flex items-center gap-3 w-full max-w-3xl bg-white/20 backdrop-blur-md px-4 py-3 rounded-full shadow-lg">
+          <div className="flex items-center gap-3 w-full bg-white/20 backdrop-blur-md px-4 py-3 rounded-full shadow-lg">
             <input
               type="text"
               value={input}
