@@ -117,10 +117,10 @@ export default function Chatbot() {
           {mensagens.map((msg, i) => (
             <div
               key={i}
-              className={`w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg ${
+              className={`w-fit max-w-[75%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg break-words ${
                 msg.remetente === 'user'
-                  ? 'mensagem-user bg-white text-[#5E22F3] self-start'
-                  : 'mensagem-bot bg-white/30 text-white self-end backdrop-blur-sm'
+                  ? 'mensagem-user bg-white text-[#5E22F3] self-end'
+                  : 'mensagem-bot bg-white/30 text-white self-start backdrop-blur-sm'
               }`}
               dangerouslySetInnerHTML={{ __html: msg.texto.replace(/\n/g, '<br/>') }}
             />
