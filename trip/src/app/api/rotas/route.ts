@@ -134,16 +134,16 @@ function processarRota(rota: Route): RotaProcessada {
 export async function POST(request: Request) {
     try {
         const body: RequestBody = await request.json();
-        let { origem, destino } = body;
+        const { origem: origemRaw, destino: destinoRaw } = body;
 
-        if (!origem || !destino) {
+        if (!origemRaw || !destinoRaw) {
             return NextResponse.json({
                 erro: 'Origem e destino sao obrigatorios'
             }, { status: 400 });
         }
 
-        origem = normalizarEndereco(origem);
-        destino = normalizarEndereco(destino);
+        const origem = normalizarEndereco(origemRaw);
+        const destino = normalizarEndereco(destinoRaw);
 
         const response = await axios.post(
             'https://routes.googleapis.com/directions/v2:computeRoutes',
