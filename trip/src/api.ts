@@ -7,15 +7,22 @@ export async function cadastrarUsuario(dados: {
   senha: string
 }) {
   try {
+    console.log('=== CADASTRO - DEBUG ===')
+    console.log('URL:', `${BASE_URL}/api/users/register`)
+    console.log('Dados:', dados)
+
     const res = await fetch(`${BASE_URL}/api/users/register`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(dados)
     })
 
+    console.log('Status:', res.status)
     const conteudo = await res.text()
+    console.log('Resposta:', conteudo)
 
     if (!res.ok) {
       const msg = conteudo.toLowerCase()
@@ -41,6 +48,12 @@ export async function cadastrarUsuario(dados: {
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error('Erro no cadastro:', err.message)
+
+      // Detecta erro de CORS/Network
+      if (err.message.includes('Failed to fetch') || err.name === 'TypeError') {
+        throw new Error('Erro de conexão com o servidor. Verifique sua internet ou tente novamente.')
+      }
+
       throw err
     } else {
       console.error('Erro desconhecido no cadastro')
@@ -52,15 +65,22 @@ export async function cadastrarUsuario(dados: {
 // Login de usuário com exibição direta da mensagem do back-end
 export async function loginUsuario(email: string, senha: string) {
   try {
+    console.log('=== LOGIN - DEBUG ===')
+    console.log('URL:', `${BASE_URL}/api/users/login`)
+    console.log('Dados:', { email, senha: '***' })
+
     const res = await fetch(`${BASE_URL}/api/users/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({ email, senha })
     })
 
+    console.log('Status:', res.status)
     const texto = await res.text()
+    console.log('Resposta:', texto)
 
     if (!res.ok) {
       // Exibe a mensagem exata retornada do back-end
@@ -69,8 +89,9 @@ export async function loginUsuario(email: string, senha: string) {
 
     const data = JSON.parse(texto)
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && data.token) {
       localStorage.setItem('token', data.token)
+      console.log('Token salvo no localStorage')
     }
 
     return data
@@ -78,6 +99,12 @@ export async function loginUsuario(email: string, senha: string) {
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error('Erro no login:', err.message)
+
+      // Detecta erro de CORS/Network
+      if (err.message.includes('Failed to fetch') || err.name === 'TypeError') {
+        throw new Error('Erro de conexão com o servidor. Verifique sua internet ou tente novamente.')
+      }
+
       throw err
     } else {
       console.error('Erro desconhecido no login')
@@ -96,14 +123,23 @@ export async function enviarProposta(dados: {
   preview: string
 }) {
   try {
+    // Validação adicional para garantir que todos os campos têm valores
+    if (!dados.name?.trim()) throw new Error('Nome do responsável é obrigatório')
+    if (!dados.company?.trim()) throw new Error('Nome da empresa é obrigatório')
+    if (!dados.phone?.trim()) throw new Error('Telefone é obrigatório')
+    if (!dados.email?.trim()) throw new Error('E-mail é obrigatório')
+    if (!dados.description?.trim()) throw new Error('Descrição é obrigatória')
+    if (!dados.preview?.trim()) throw new Error('Prévia é obrigatória')
+
     // Mapeia os campos do frontend para o formato esperado pelo backend
+    // Garantindo que são strings limpas sem espaços extras
     const dadosBackend = {
-      nomeResponsavel: dados.name,
-      nomeEmpresa: dados.company,
-      telefone: dados.phone,
-      email: dados.email,
-      descricaoProposta: dados.description,
-      previaUrl: dados.preview
+      nomeResponsavel: dados.name.trim(),
+      nomeEmpresa: dados.company.trim(),
+      telefone: dados.phone.trim(),
+      email: dados.email.trim(),
+      descricaoProposta: dados.description.trim(),
+      previaUrl: dados.preview.trim()
     }
 
     console.log('=== DEBUG PROPOSTA ===')

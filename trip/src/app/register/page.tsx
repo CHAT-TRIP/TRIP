@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { cadastrarUsuario } from '../../api'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -16,6 +17,7 @@ export default function RegisterPage() {
   })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -24,7 +26,7 @@ export default function RegisterPage() {
     setError('')
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const { nome, email, senha, confirmarSenha } = formData
 
@@ -48,14 +50,30 @@ export default function RegisterPage() {
       return
     }
 
-    // Tudo certo!
-    setSuccess(true)
+    // Chamada ao backend
+    setLoading(true)
     setError('')
 
-    // Simula um feedback bonito e redireciona em 3s
-    setTimeout(() => {
-      router.push('/chatbot')
-    }, 3000)
+    try {
+      const resposta = await cadastrarUsuario({ nome, email, senha })
+      console.log('Cadastro bem-sucedido:', resposta)
+
+      setSuccess(true)
+
+      // Redireciona para o login após cadastro
+      setTimeout(() => {
+        router.push('/login')
+      }, 2000)
+    } catch (err) {
+      setSuccess(false)
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('❌ Erro ao cadastrar. Tente novamente.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -136,15 +154,17 @@ export default function RegisterPage() {
             {/* Botão com estado de sucesso */}
             <button
               type="submit"
-              disabled={success}
-              className={`mt-4 h-14 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg 
+              disabled={success || loading}
+              className={`mt-4 h-14 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg
                 ${
                   success
                     ? 'bg-green-500 hover:bg-green-500 text-white cursor-default'
+                    : loading
+                    ? 'bg-[#5E22F3]/70 text-white cursor-wait'
                     : 'bg-[#5E22F3] hover:bg-[#4c18c8] text-white active:scale-95'
                 }`}
             >
-              {success ? 'Cadastro realizado com sucesso!' : 'Cadastrar'}
+              {success ? 'Cadastro realizado! Redirecionando...' : loading ? 'Cadastrando...' : 'Cadastrar'}
             </button>
           </form>
 

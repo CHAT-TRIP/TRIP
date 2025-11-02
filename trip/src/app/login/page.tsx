@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { loginUsuario } from '../../api'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,6 +15,7 @@ export default function LoginPage() {
   })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -22,7 +24,7 @@ export default function LoginPage() {
     setError('')
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const { email, senha } = formData
 
@@ -42,14 +44,30 @@ export default function LoginPage() {
       return
     }
 
-    // Tudo certo: login bem-sucedido
-    setSuccess(true)
+    // Chamada ao backend
+    setLoading(true)
     setError('')
 
-    // Redireciona pra tela do chatbot
-    setTimeout(() => {
-      router.push('/chatbot')
-    }, 2500)
+    try {
+      const resposta = await loginUsuario(email, senha)
+      console.log('Login bem-sucedido:', resposta)
+
+      setSuccess(true)
+
+      // Redireciona pra tela do chatbot
+      setTimeout(() => {
+        router.push('/chatbot')
+      }, 1500)
+    } catch (err) {
+      setSuccess(false)
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('❌ Erro ao fazer login. Tente novamente.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -114,15 +132,17 @@ export default function LoginPage() {
             {/* Botão de login */}
             <button
               type="submit"
-              disabled={success}
-              className={`mt-4 h-14 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg 
+              disabled={success || loading}
+              className={`mt-4 h-14 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg
                 ${
                   success
                     ? 'bg-green-500 hover:bg-green-500 text-white cursor-default'
+                    : loading
+                    ? 'bg-[#5E22F3]/70 text-white cursor-wait'
                     : 'bg-[#5E22F3] hover:bg-[#4c18c8] text-white active:scale-95'
                 }`}
             >
-              {success ? 'Login realizado com sucesso!' : 'Entrar'}
+              {success ? 'Login realizado com sucesso!' : loading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
 
