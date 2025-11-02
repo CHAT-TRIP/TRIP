@@ -13,7 +13,7 @@ export default function CTA() {
         bg-[#E9E9E9]
       "
     >
-      {/* Fundo desktop */}
+      {/* Fundo desktopp */}
       <Image
         src="/background-cta.svg"
         alt="Fundo TRIP"
