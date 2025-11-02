@@ -46,6 +46,20 @@ export default function Chatbot() {
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
+          .mensagem-bot {
+            margin-right: auto !important;
+            align-self: flex-start !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: pre-wrap !important;
+          }
+          .mensagem-user {
+            margin-left: auto !important;
+            align-self: flex-end !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: pre-wrap !important;
+          }
           .mensagem-bot a {
             color: #60A5FA !important;
             text-decoration: underline !important;
