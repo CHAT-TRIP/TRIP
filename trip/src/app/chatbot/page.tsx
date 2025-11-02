@@ -47,14 +47,14 @@ export default function Chatbot() {
       <style dangerouslySetInnerHTML={{
         __html: `
           .mensagem-bot a {
-            color: #FFD700 !important;
+            color: #60A5FA !important;
             text-decoration: underline !important;
             font-weight: 600 !important;
             transition: all 0.2s ease !important;
           }
           .mensagem-bot a:hover {
-            color: #FFF !important;
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6) !important;
+            color: #93C5FD !important;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.6) !important;
           }
           .mensagem-user a {
             color: #5E22F3 !important;
