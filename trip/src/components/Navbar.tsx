@@ -109,6 +109,15 @@ export default function Navbar() {
         >
           Rotas
         </Link>
+
+        <Link
+          href="/buscar-rota"
+          className={`transition-colors duration-200 ${
+            pathname === '/buscar-rota' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'
+          }`}
+        >
+          Buscar Rota
+        </Link>
       </nav>
 
       {/* BOTÃO TRIP */}
@@ -165,6 +174,13 @@ export default function Navbar() {
               className={pathname === '/rota' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
             >
               Rotas
+            </Link>
+
+            <Link
+              href="/buscar-rota"
+              className={pathname === '/buscar-rota' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
+            >
+              Buscar Rota
             </Link>
 
             <Link

@@ -97,13 +97,18 @@ function processarRota(rota: Route): RotaProcessada {
         const leg = rota.legs[0];
 
         if (leg.steps) {
-            leg.steps.forEach(step => {
+            console.log('Total de steps:', leg.steps.length);
+
+            leg.steps.forEach((step, index) => {
                 if (step.travelMode === 'TRANSIT') {
                     const transit = step.transitDetails || {};
                     const transitLine = transit.transitLine || {};
                     const vehicle = transitLine.vehicle || {};
                     const vehicleType = vehicle.type || 'UNKNOWN';
 
+                    console.log(`Step ${index} - Tipo: ${vehicleType}, Linha: ${transitLine.nameShort || transitLine.name}`);
+
+                    // Captura SUBWAY (Metrô)
                     if (vehicleType === 'SUBWAY') {
                         resultado.temTransitoValido = true;
                         resultado.trechos.push({
@@ -113,7 +118,9 @@ function processarRota(rota: Route): RotaProcessada {
                             embarque: transit.stopDetails?.departureStop?.name || '',
                             desembarque: transit.stopDetails?.arrivalStop?.name || ''
                         });
-                    } else if (['HEAVY_RAIL', 'COMMUTER_TRAIN', 'RAIL'].includes(vehicleType)) {
+                    }
+                    // Captura RAIL, HEAVY_RAIL, COMMUTER_TRAIN (Trem/CPTM)
+                    else if (['HEAVY_RAIL', 'COMMUTER_TRAIN', 'RAIL'].includes(vehicleType)) {
                         resultado.temTransitoValido = true;
                         resultado.trechos.push({
                             tipo: 'Trem',
@@ -123,8 +130,23 @@ function processarRota(rota: Route): RotaProcessada {
                             desembarque: transit.stopDetails?.arrivalStop?.name || ''
                         });
                     }
+                    // Captura MONORAIL (Monotrilho - Linha 15)
+                    else if (vehicleType === 'MONORAIL') {
+                        resultado.temTransitoValido = true;
+                        resultado.trechos.push({
+                            tipo: 'Monotrilho',
+                            linha: transitLine.nameShort || transitLine.name || '',
+                            sentido: transit.headsign || '',
+                            embarque: transit.stopDetails?.departureStop?.name || '',
+                            desembarque: transit.stopDetails?.arrivalStop?.name || ''
+                        });
+                    }
+                } else {
+                    console.log(`Step ${index} - Modo: ${step.travelMode} (ignorado)`);
                 }
             });
+
+            console.log('Trechos processados:', resultado.trechos.length);
         }
     }
 
@@ -152,8 +174,7 @@ export async function POST(request: Request) {
                 destination: { address: destino },
                 travelMode: 'TRANSIT',
                 transitPreferences: {
-                    allowedTravelModes: ['SUBWAY', 'RAIL'],
-                    routingPreference: 'FEWER_TRANSFERS'
+                    allowedTravelModes: ['SUBWAY', 'RAIL']
                 },
                 computeAlternativeRoutes: false,
                 languageCode: 'pt-BR',
@@ -188,7 +209,11 @@ export async function POST(request: Request) {
             sucesso: true,
             origem: origem,
             destino: destino,
-            ...rotaProcessada
+            ...rotaProcessada,
+            debug: {
+                totalSteps: response.data.routes[0]?.legs?.[0]?.steps?.length || 0,
+                trechosProcessados: rotaProcessada.trechos.length
+            }
         });
 
     } catch (error: unknown) {
