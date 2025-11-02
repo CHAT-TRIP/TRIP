@@ -96,8 +96,23 @@ export async function enviarProposta(dados: {
   preview: string
 }) {
   try {
+    // Mapeia os campos do frontend para o formato esperado pelo backend
+    const dadosBackend = {
+      nomeResponsavel: dados.name,
+      nomeEmpresa: dados.company,
+      telefone: dados.phone,
+      email: dados.email,
+      descricaoProposta: dados.description,
+      previaUrl: dados.preview
+    }
+
+    console.log('=== DEBUG PROPOSTA ===')
+    console.log('Dados recebidos do formulário:', dados)
+    console.log('Dados mapeados para backend:', dadosBackend)
+    console.log('JSON que será enviado:', JSON.stringify(dadosBackend, null, 2))
     console.log('Enviando proposta para:', `${BASE_URL}/api/propostas`)
-    console.log('Dados:', dados)
+    console.log('======================')
+
 
     const res = await fetch(`${BASE_URL}/api/propostas`, {
       method: 'POST',
@@ -105,7 +120,7 @@ export async function enviarProposta(dados: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(dados)
+      body: JSON.stringify(dadosBackend)
     })
 
     console.log('Status da resposta:', res.status)
