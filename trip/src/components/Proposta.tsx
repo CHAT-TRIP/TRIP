@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { enviarProposta } from '../api'
 
 type Errors = {
   name?: string
@@ -63,7 +64,7 @@ export default function PropostaForm() {
     setEmail(v)
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
     // valida tudo na tentativa de envio
@@ -80,12 +81,37 @@ export default function PropostaForm() {
 
     if (Object.keys(newErrors).length > 0) return
 
-    // “envio”
+    // envio real para o backend
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
+    try {
+      await enviarProposta({
+        name,
+        company,
+        phone,
+        email,
+        description,
+        preview
+      })
+
       alert('Proposta enviada com sucesso!')
-    }, 1100)
+
+      // Limpa o formulário após sucesso
+      setName('')
+      setCompany('')
+      setPhone('')
+      setEmail('')
+      setDescription('')
+      setPreview('')
+      setErrors({})
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      } else {
+        alert('Erro ao enviar proposta. Tente novamente.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   // classes utilitárias
@@ -123,6 +149,7 @@ export default function PropostaForm() {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
           className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
@@ -157,7 +184,6 @@ export default function PropostaForm() {
             <input
               type="tel"
               inputMode="numeric"
-              pattern="\d*"
               placeholder="Telefone"
               value={phoneFormatted}
               onChange={(e) => handlePhoneChange(e.target.value)}
