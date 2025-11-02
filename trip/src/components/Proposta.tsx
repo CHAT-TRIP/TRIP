@@ -159,7 +159,17 @@ export default function PropostaForm() {
               type="text"
               placeholder="Nome do responsável"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value)
+                // Limpa o erro quando o usuário começa a digitar
+                if (errors.name && e.target.value.trim()) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.name
+                    return next
+                  })
+                }
+              }}
               onBlur={() => touchField('name', name)}
               className={`${baseInput} ${errors.name ? 'border-[#E63946] focus:ring-[#E63946]' : 'border-[#5E22F3]'}`}
             />
@@ -172,7 +182,16 @@ export default function PropostaForm() {
               type="text"
               placeholder="Nome da empresa"
               value={company}
-              onChange={(e) => setCompany(e.target.value)}
+              onChange={(e) => {
+                setCompany(e.target.value)
+                if (errors.company && e.target.value.trim()) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.company
+                    return next
+                  })
+                }
+              }}
               onBlur={() => touchField('company', company)}
               className={`${baseInput} ${errors.company ? 'border-[#E63946] focus:ring-[#E63946]' : 'border-[#5E22F3]'}`}
             />
@@ -186,7 +205,16 @@ export default function PropostaForm() {
               inputMode="numeric"
               placeholder="Telefone"
               value={phoneFormatted}
-              onChange={(e) => handlePhoneChange(e.target.value)}
+              onChange={(e) => {
+                handlePhoneChange(e.target.value)
+                if (errors.phone) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.phone
+                    return next
+                  })
+                }
+              }}
               onBlur={() =>
                 setErrors((prev) => ({
                   ...prev,
@@ -205,7 +233,16 @@ export default function PropostaForm() {
               type="email"
               placeholder="E-mail"
               value={email}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              onChange={(e) => {
+                handleEmailChange(e.target.value)
+                if (errors.email) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.email
+                    return next
+                  })
+                }
+              }}
               onBlur={() =>
                 setErrors((prev) => ({
                   ...prev,
@@ -223,7 +260,16 @@ export default function PropostaForm() {
             <textarea
               placeholder="Descreva um pouco sobre sua empresa e detalhes da sua proposta..."
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value)
+                if (errors.description && e.target.value.trim()) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.description
+                    return next
+                  })
+                }
+              }}
               onBlur={() => touchField('description', description)}
               className={`${baseTextArea} ${errors.description ? 'border-[#E63946] focus:ring-[#E63946]' : 'border-[#5E22F3]'}`}
             />
@@ -235,7 +281,16 @@ export default function PropostaForm() {
             <textarea
               placeholder="Envie uma prévia do seu anúncio"
               value={preview}
-              onChange={(e) => setPreview(e.target.value)}
+              onChange={(e) => {
+                setPreview(e.target.value)
+                if (errors.preview && e.target.value.trim()) {
+                  setErrors((prev) => {
+                    const next = { ...prev }
+                    delete next.preview
+                    return next
+                  })
+                }
+              }}
               onBlur={() => touchField('preview', preview)}
               className={`${baseTextArea} ${errors.preview ? 'border-[#E63946] focus:ring-[#E63946]' : 'border-[#5E22F3]'}`}
             />
