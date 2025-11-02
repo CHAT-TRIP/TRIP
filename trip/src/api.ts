@@ -62,7 +62,7 @@ export async function cadastrarUsuario(dados: {
   }
 }
 
-// Login de usuário com exibição direta da mensagem do back-end
+// Login de usuário com exibição direta da mensagem do back-ende
 export async function loginUsuario(email: string, senha: string) {
   try {
     console.log('=== LOGIN - DEBUG ===')
