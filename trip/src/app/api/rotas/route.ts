@@ -191,11 +191,14 @@ export async function POST(request: Request) {
             ...rotaProcessada
         });
 
-    } catch (error: any) {
-        console.error('Erro ao buscar rota:', error.response?.data || error.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+        const errorData = (error as { response?: { data?: unknown } })?.response?.data;
+
+        console.error('Erro ao buscar rota:', errorData || errorMessage);
         return NextResponse.json({
             erro: 'Erro ao buscar rotas',
-            detalhes: error.response?.data || error.message
+            detalhes: errorData || errorMessage
         }, { status: 500 });
     }
 }

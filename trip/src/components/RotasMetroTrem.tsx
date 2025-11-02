@@ -38,7 +38,7 @@ const coresLinhas: Record<string, string> = {
 
 function getCorLinha(linha: string): string {
   if (coresLinhas[linha]) return coresLinhas[linha];
-  let linhaLimpa = linha.replace(/^Linha\s+/i, '').trim();
+  const linhaLimpa = linha.replace(/^Linha\s+/i, '').trim();
   if (coresLinhas[linhaLimpa]) return coresLinhas[linhaLimpa];
   const numeroLinha = linhaLimpa.split('-')[0].split(' ')[0].trim();
   if (coresLinhas[numeroLinha]) return coresLinhas[numeroLinha];
