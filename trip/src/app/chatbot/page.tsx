@@ -43,9 +43,32 @@ export default function Chatbot() {
   }
 
   return (
-    <section
-      className="relative w-full min-h-screen flex flex-col font-[Poppins] bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF] overflow-hidden"
-    >
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .mensagem-bot a {
+            color: #FFD700 !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+            transition: all 0.2s ease !important;
+          }
+          .mensagem-bot a:hover {
+            color: #FFF !important;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6) !important;
+          }
+          .mensagem-user a {
+            color: #5E22F3 !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+          }
+          .mensagem-user a:hover {
+            color: #3D16A8 !important;
+          }
+        `
+      }} />
+      <section
+        className="relative w-full min-h-screen flex flex-col font-[Poppins] bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF] overflow-hidden"
+      >
       {/* mascote centralizado */}
       <div className="absolute inset-0 flex justify-center items-center opacity-20 pointer-events-none">
         <Image
@@ -96,12 +119,11 @@ export default function Chatbot() {
               key={i}
               className={`w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg ${
                 msg.remetente === 'user'
-                  ? 'bg-white text-[#5E22F3] self-start'
-                  : 'bg-white/30 text-white self-end backdrop-blur-sm'
+                  ? 'mensagem-user bg-white text-[#5E22F3] self-start'
+                  : 'mensagem-bot bg-white/30 text-white self-end backdrop-blur-sm'
               }`}
-            >
-              {msg.texto}
-            </div>
+              dangerouslySetInnerHTML={{ __html: msg.texto.replace(/\n/g, '<br/>') }}
+            />
           ))}
           <div ref={fimDasMensagensRef} />
         </div>
@@ -128,5 +150,6 @@ export default function Chatbot() {
         </div>
       </main>
     </section>
+    </>
   )
 }
