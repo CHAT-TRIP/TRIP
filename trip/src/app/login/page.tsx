@@ -147,13 +147,7 @@ export default function LoginPage() {
           </form>
 
           {/* Links extras */}
-          <div className="text-center mt-8 text-base text-[#5E22F3] flex flex-col gap-3">
-            <Link
-              href="/senha"
-              className="font-semibold hover:underline hover:text-[#4c18c8] transition"
-            >
-              Esqueceu sua senha?
-            </Link>
+          <div className="text-center mt-8 text-base text-[#5E22F3]">
             <p>
               Ainda não tem uma conta?{' '}
               <Link
