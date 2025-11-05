@@ -54,7 +54,6 @@ Nota: Para rodar o back-end Java e o chatbot localmente, será necessário confi
 | Nome                                | GitHub                                           | LinkedIn                                                     |
 |-------------------------------------|--------------------------------------------------|--------------------------------------------------------------|
 | Madjer Henrique Almeida Finamor     | [MadjerFin](https://github.com/MadjerFin)        | [LinkedIn](https://www.linkedin.com/in/madjer-finamor-51196117b/) |
-| Guilherme Santos Falcão             | [gsfalcao](https://github.com/gsfalcao)          | [LinkedIn](https://www.linkedin.com/in/guilherme-santos-falcão-a87012328/) |
 | Maria Eduarda Fernandes Rocha       | [dudafernanndes](https://github.com/dudafernanndes) | [LinkedIn](https://www.linkedin.com/in/dudafernanndes/) |
 
 ---
