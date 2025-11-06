@@ -118,6 +118,15 @@ export default function Navbar() {
         >
           Buscar Rota
         </Link>
+
+        <Link
+          href="/status-linhas"
+          className={`transition-colors duration-200 ${
+            pathname === '/status-linhas' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'
+          }`}
+        >
+          Status das Linhas
+        </Link>
       </nav>
 
       {/* BOTÃO TRIP */}
@@ -181,6 +190,13 @@ export default function Navbar() {
               className={pathname === '/buscar-rota' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
             >
               Buscar Rota
+            </Link>
+
+            <Link
+              href="/status-linhas"
+              className={pathname === '/status-linhas' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
+            >
+              Status das Linhas
             </Link>
 
             <Link

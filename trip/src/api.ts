@@ -190,3 +190,34 @@ export async function enviarProposta(dados: {
     }
   }
 }
+
+// Buscar status das linhas de metrô e trem
+export async function buscarStatusLinhas(tipo?: 'Metro' | 'Trem') {
+  try {
+    const params = tipo ? `?tipo=${tipo}` : '';
+    const res = await fetch(`/api/status-linhas${params}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      cache: 'no-store' // Garante que sempre busca dados atualizados
+    })
+
+    if (!res.ok) {
+      throw new Error('Erro ao buscar status das linhas')
+    }
+
+    const data = await res.json()
+    return data
+
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro ao buscar status das linhas:', err.message)
+      throw err
+    } else {
+      console.error('Erro desconhecido ao buscar status das linhas')
+      throw new Error('Erro inesperado ao buscar status das linhas')
+    }
+  }
+}
