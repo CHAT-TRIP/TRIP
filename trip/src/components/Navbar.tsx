@@ -95,8 +95,8 @@ export default function Navbar() {
         </a>
 
         <Link
-          href="/integrantes"
-          className={`${pathname === '/integrantes' ? 'text-[#DCC2FF]' : 'hover:text-[#DCC2FF]'} transition-colors duration-200`}
+          href="/criadores"
+          className={`${pathname === '/criadores' ? 'text-[#DCC2FF]' : 'hover:text-[#DCC2FF]'} transition-colors duration-200`}
         >
           Criadores
         </Link>
@@ -176,7 +176,7 @@ export default function Navbar() {
               Parcerias
             </a>
 
-            <Link href="/integrantes" className={pathname === '/integrantes' ? 'text-[#DCC2FF]' : 'hover:text-[#DCC2FF]'}>Criadores</Link>
+            <Link href="/criadores" className={pathname === '/criadores' ? 'text-[#DCC2FF]' : 'hover:text-[#DCC2FF]'}>Criadores</Link>
 
             <Link
               href="/rota"
