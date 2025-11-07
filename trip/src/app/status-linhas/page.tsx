@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import Image from 'next/image'
 import { buscarStatusLinhas } from '../../api'
 
 interface LinhaStatus {
@@ -79,13 +80,11 @@ export default function StatusLinhasPage() {
     return data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
   }
 
-  // Extrai o número da linha do nome (ex: "Linha 1 - Azul" -> 1)
   const extrairNumeroLinha = (nome: string): number => {
     const match = nome.match(/Linha (\d+)/)
     return match ? parseInt(match[1]) : 999
   }
 
-  // Ordena as linhas por número
   const ordenarLinhas = (linhas: LinhaStatus[]): LinhaStatus[] => {
     return [...linhas].sort((a, b) => {
       const numA = extrairNumeroLinha(a.nome)
@@ -95,23 +94,24 @@ export default function StatusLinhasPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pt-24 pb-12 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1
-            className="text-4xl md:text-5xl font-bold text-[#5E22F3] mb-4"
-            style={{ fontFamily: 'Unbounded, sans-serif' }}
-          >
-            Status das Linhas
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Acompanhe em tempo real a situação operacional das linhas de metrô e trem
-          </p>
-        </div>
+    <section className="w-full min-h-screen flex flex-col justify-between bg-[#F7F7FF] text-[#181818] pt-36">
 
-        {/* Filtros */}
-        <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-wrap gap-3 justify-center">
+      {/* CONTEÚDO PRINCIPAL */}
+      <div className="flex flex-col items-center flex-1 px-6">
+
+        <h1
+          className="text-[38px] md:text-[52px] font-extrabold text-[#5E22F3] mb-6 text-center"
+          style={{ fontFamily: 'Unbounded, sans-serif' }}
+        >
+          Status das Linhas
+        </h1>
+
+        <p className="text-gray-600 text-lg mb-8 text-center">
+          Acompanhe em tempo real a situação operacional das linhas de metrô e trem
+        </p>
+
+        {/* FILTROS */}
+        <div className="bg-white rounded-xl shadow-md p-4 mb-10 flex flex-wrap gap-3 justify-center max-w-[900px] w-full border border-[#d8c9ff]">
           <button
             onClick={() => setFiltroTipo('Todos')}
             className={`px-6 py-2 rounded-lg font-semibold transition-all ${
@@ -122,6 +122,7 @@ export default function StatusLinhasPage() {
           >
             Todas as Linhas
           </button>
+
           <button
             onClick={() => setFiltroTipo('Metro')}
             className={`px-6 py-2 rounded-lg font-semibold transition-all ${
@@ -132,6 +133,7 @@ export default function StatusLinhasPage() {
           >
             Metrô
           </button>
+
           <button
             onClick={() => setFiltroTipo('Trem')}
             className={`px-6 py-2 rounded-lg font-semibold transition-all ${
@@ -142,15 +144,16 @@ export default function StatusLinhasPage() {
           >
             Trem (CPTM)
           </button>
+
           <button
             onClick={carregarStatus}
-            className="px-6 py-2 rounded-lg font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all"
+            className="px-6 py-2 rounded-lg font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center gap-2"
           >
             ↻ Atualizar
           </button>
         </div>
 
-        {/* Loading */}
+        {/* LOADING */}
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent"></div>
@@ -158,7 +161,7 @@ export default function StatusLinhasPage() {
           </div>
         )}
 
-        {/* Error */}
+        {/* ERRO */}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
             <p className="text-red-600 font-semibold">{error}</p>
@@ -171,26 +174,21 @@ export default function StatusLinhasPage() {
           </div>
         )}
 
-        {/* Linhas */}
+        {/* LISTAGEM */}
         {!loading && !error && statusData && (
           <>
-            {/* Info */}
             <div className="text-center mb-6 text-sm text-gray-500">
-              <p>
-                Última atualização: {formatarHora(statusData.ultimaConsulta)} • {statusData.total}{' '}
-                {statusData.total === 1 ? 'linha' : 'linhas'}
-              </p>
+              Última atualização: {formatarHora(statusData.ultimaConsulta)} • {statusData.total}{' '}
+              {statusData.total === 1 ? 'linha' : 'linhas'}
             </div>
 
-            {/* Grid de Linhas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {ordenarLinhas(statusData.linhas).map((linha) => (
                 <div
                   key={linha.id}
                   className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow border-l-4"
                   style={{ borderLeftColor: linha.cor }}
                 >
-                  {/* Tipo Badge */}
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold px-3 py-1 bg-gray-100 text-gray-600 rounded-full">
                       {linha.tipo}
@@ -198,7 +196,6 @@ export default function StatusLinhasPage() {
                     <div className={`w-3 h-3 rounded-full ${getStatusColor(linha.status)}`}></div>
                   </div>
 
-                  {/* Nome da Linha */}
                   <h3
                     className="text-xl font-bold mb-3"
                     style={{ color: linha.cor, fontFamily: 'Montserrat, sans-serif' }}
@@ -206,7 +203,6 @@ export default function StatusLinhasPage() {
                     {linha.nome}
                   </h3>
 
-                  {/* Status */}
                   <div className="mb-4">
                     <p className={`text-sm font-bold ${getStatusTextColor(linha.status)}`}>
                       {linha.status}
@@ -216,7 +212,6 @@ export default function StatusLinhasPage() {
                     )}
                   </div>
 
-                  {/* Horário */}
                   <div className="text-xs text-gray-400 border-t pt-2">
                     Atualizado às {formatarHora(linha.ultimaAtualizacao)}
                   </div>
@@ -224,8 +219,8 @@ export default function StatusLinhasPage() {
               ))}
             </div>
 
-            {/* Legenda */}
-            <div className="mt-8 bg-white rounded-xl shadow-md p-6">
+            {/* LEGENDA */}
+            <div className="mt-8 bg-white rounded-xl shadow-md p-6 mb-20 max-w-[1100px] w-full">
               <h3 className="text-lg font-bold text-gray-800 mb-4">Legenda</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex items-center gap-2">
@@ -249,6 +244,7 @@ export default function StatusLinhasPage() {
           </>
         )}
       </div>
-    </div>
+
+    </section>
   )
 }

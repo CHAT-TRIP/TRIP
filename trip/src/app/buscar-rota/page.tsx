@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 
 interface Trecho {
@@ -169,7 +170,7 @@ export default function BuscarRota() {
 
       const data = await response.json()
 
-      // Validação adicional: verifica se realmente tem trechos válidos
+      // Validação adicional
       if (data.sucesso && (!data.trechos || data.trechos.length === 0)) {
         setResultado({
           sucesso: false,
@@ -374,8 +375,8 @@ export default function BuscarRota() {
         )}
       </div>
 
-      {/* RODAPÉ */}
-      <footer className="w-full bg-[rgb(24,24,24)] text-white py-6 md:py-7">
+      {/* ✅ RODAPÉ NOVO */}
+      <footer className="w-full bg-[#181818] text-white py-6 md:py-7">
         <div className="mx-auto w-full max-w-[1300px] px-6">
           {/* MOBILE */}
           <div className="md:hidden flex flex-col items-center justify-center gap-4">
@@ -396,11 +397,25 @@ export default function BuscarRota() {
 
             <div className="flex flex-col items-center gap-2 mt-2">
               <span className="text-[#AFC7E3] text-sm">Acompanhe-nos:</span>
-              <div className="flex items-center gap-4">
-                <Image src="/Facebook.svg" alt="Facebook" width={15} height={24} />
-                <Image src="/Instagram.svg" alt="Instagram" width={24} height={24} />
-                <Image src="/Twitter.svg" alt="Twitter" width={24} height={24} />
-                <Image src="/Linkedin.svg" alt="LinkedIn" width={24} height={24} />
+              <div className="flex items-center gap-3">
+                <Link href="https://www.youtube.com/user/GrupoCCROficial" target="_blank">
+                  <Image
+                    src="/youtube.png"
+                    alt="YouTube"
+                    width={38}
+                    height={38}
+                    className="hover:scale-110 transition-transform"
+                  />
+                </Link>
+                <Link href="https://www.linkedin.com/company/motivamobilidade/" target="_blank">
+                  <Image
+                    src="/Linkedin.svg"
+                    alt="LinkedIn"
+                    width={24}
+                    height={24}
+                    className="hover:scale-110 transition-transform"
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -424,15 +439,29 @@ export default function BuscarRota() {
               </p>
             </div>
 
-            <div className="flex items-start gap-16">
+            <div className="flex items-start gap-14">
               <span className="block h-20 w-px bg-white/40" />
               <div className="min-w-[350px]">
                 <span className="block text-[#AFC7E3] text-sm">Acompanhe-nos:</span>
-                <div className="mt-2 flex items-center gap-4">
-                  <Image src="/Facebook.svg" alt="Facebook" width={15} height={28} />
-                  <Image src="/Instagram.svg" alt="Instagram" width={24} height={28} />
-                  <Image src="/Twitter.svg" alt="Twitter" width={24} height={28} />
-                  <Image src="/Linkedin.svg" alt="LinkedIn" width={24} height={28} />
+                <div className="mt-2 flex items-center gap-3">
+                  <Link href="https://www.youtube.com/user/GrupoCCROficial" target="_blank">
+                    <Image
+                      src="/youtube.png"
+                      alt="YouTube"
+                      width={44}
+                      height={44}
+                      className="hover:scale-110 transition-transform"
+                    />
+                  </Link>
+                  <Link href="https://www.linkedin.com/company/motivamobilidade/" target="_blank">
+                    <Image
+                      src="/Linkedin.svg"
+                      alt="LinkedIn"
+                      width={28}
+                      height={28}
+                      className="hover:scale-110 transition-transform"
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
