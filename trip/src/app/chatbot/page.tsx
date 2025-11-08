@@ -188,7 +188,8 @@ export default function Chatbot() {
                                bg-white text-[#5E22F3] shadow-md hover:shadow-lg transition
                                focus:outline-none focus:ring-2 focus:ring-white/60 disabled:opacity-60"
                   >
-                    Enviar
+                    
+                    Enviar  
                   </button>
                 </div>
               </div>
