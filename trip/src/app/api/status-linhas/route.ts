@@ -13,6 +13,14 @@ interface LinhaStatus {
   ultimaAtualizacao: string;
 }
 
+// Tipo dos dados retornados pela API DiretoDosTrens
+interface ApiLinha {
+  codigo: string | number;
+  situacao?: string;
+  modificado?: string;
+  [key: string]: unknown; // permite campos extras sem erro
+}
+
 // Mapeamento das cores oficiais das linhas
 const coresLinhas: Record<string, { cor: string; tipo: 'Metro' | 'Trem' }> = {
   '1': { cor: '#0455A1', tipo: 'Metro' }, // Azul
@@ -30,7 +38,7 @@ const coresLinhas: Record<string, { cor: string; tipo: 'Metro' | 'Trem' }> = {
   '13': { cor: '#00AE5C', tipo: 'Trem' }, // Jade
 };
 
-// Mapear status da API DiretodosTrens para nosso formato
+// Mapear status da API DiretoDosTrens para nosso formato
 function mapearStatus(statusApi: string): StatusOperacao {
   const statusLower = statusApi.toLowerCase();
 
@@ -50,37 +58,33 @@ function mapearStatus(statusApi: string): StatusOperacao {
   return 'Normal'; // Padrão
 }
 
-// GET - Retorna o status de todas as linhas buscando da API DiretodosTrens
+// GET - Retorna o status de todas as linhas buscando da API DiretoDosTrens
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const tipoFiltro = searchParams.get('tipo'); // 'Metro' ou 'Trem'
     const linhaId = searchParams.get('id'); // ID específico de uma linha
 
-    // Buscar dados da API DiretodosTrens
+    // Buscar dados da API DiretoDosTrens
     const response = await fetch('https://www.diretodostrens.com.br/api/status', {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
+      headers: { Accept: 'application/json' },
       cache: 'no-store', // Sempre buscar dados atualizados
     });
 
     if (!response.ok) {
-      throw new Error('Erro ao buscar dados da API DiretodosTrens');
+      throw new Error('Erro ao buscar dados da API DiretoDosTrens');
     }
 
     const data = await response.json();
-    const linhasApi = Array.isArray(data) ? data : (data.linhas || []);
+    const linhasApi: ApiLinha[] = Array.isArray(data) ? data : (data.linhas || []);
 
     // Transformar dados da API para nosso formato
-    const statusLinhas: LinhaStatus[] = linhasApi.map((linha: any, index: number) => {
-      // Extrair o número da linha do campo 'codigo'
+    const statusLinhas: LinhaStatus[] = linhasApi.map((linha: ApiLinha, index: number) => {
       const numeroLinha = linha.codigo?.toString() || `${index + 1}`;
 
       const infoLinha = coresLinhas[numeroLinha] || { cor: '#CCCCCC', tipo: 'Metro' as const };
 
-      // Mapear nomes das linhas baseado no código
       const nomesLinhas: Record<string, string> = {
         '1': 'Linha 1 - Azul',
         '2': 'Linha 2 - Verde',
@@ -105,19 +109,19 @@ export async function GET(request: Request) {
         tipo: infoLinha.tipo,
         cor: infoLinha.cor,
         status: mapearStatus(linha.situacao || 'Normal'),
-        descricao: undefined, // API não retorna descrição
-        ultimaAtualizacao: linha.modificado || new Date().toISOString()
+        descricao: undefined,
+        ultimaAtualizacao: linha.modificado || new Date().toISOString(),
       };
     });
 
     let resultado = statusLinhas;
 
-    // Filtrar por tipo se especificado
+    // Filtro por tipo
     if (tipoFiltro && (tipoFiltro === 'Metro' || tipoFiltro === 'Trem')) {
       resultado = resultado.filter(linha => linha.tipo === tipoFiltro);
     }
 
-    // Filtrar por ID se especificado
+    // Filtro por ID
     if (linhaId) {
       resultado = resultado.filter(linha => linha.id === linhaId);
     }
@@ -126,7 +130,7 @@ export async function GET(request: Request) {
       sucesso: true,
       total: resultado.length,
       linhas: resultado,
-      ultimaConsulta: new Date().toISOString()
+      ultimaConsulta: new Date().toISOString(),
     });
 
   } catch (error: unknown) {
@@ -136,9 +140,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       sucesso: false,
       erro: 'Erro ao buscar status das linhas',
-      detalhes: errorMessage
+      detalhes: errorMessage,
     }, { status: 500 });
   }
 }
-
- 
