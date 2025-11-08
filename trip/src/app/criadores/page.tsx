@@ -39,13 +39,15 @@ export default function CriadoresPage() {
             <p className="text-neutral-800 leading-relaxed mb-4">
               O TRIP é um sistema 100% online que integra um front-end moderno em{" "}
               <b>Next.js + TypeScript + Tailwind</b>, uma API REST em{" "}
-              <b>Java (Quarkus, JPA, JWT)</b> e um chatbot em <b>Python (Flask)</b>,
-              com deploy em <b>Vercel</b> e <b>Render</b>.
+              <b>Java (Spring Boot)</b> com banco de dados <b>Oracle</b> e um chatbot em{" "}
+              <b>Python (Flask)</b>, com deploy em <b>Vercel</b> e <b>Render</b>.
             </p>
 
             <p className="text-neutral-800 leading-relaxed">
-              O usuário pode consultar rotas, horários, acessibilidade, denunciar ocorrências
-              e até usar reconhecimento de voz via <b>SpeechRecognition API</b> no Google Chrome.
+              O usuário pode consultar rotas e horários utilizando a{" "}
+              <b>API Google Maps</b>, conversar com o chatbot alimentado pela{" "}
+              <b>API Anthropic</b> e acessar dados em tempo real da{" "}
+              <b>API DiretodosTrens</b>.
             </p>
 
             <h3 className="mt-6 mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-700">
@@ -57,12 +59,14 @@ export default function CriadoresPage() {
                 "Next.js",
                 "TypeScript",
                 "Tailwind CSS",
-                "Quarkus",
-                "JPA + JWT",
+                "Spring Boot",
+                "Oracle DB",
                 "Flask (Python)",
+                "API Google Maps",
+                "API Anthropic",
+                "API DiretodosTrens",
                 "Vercel",
                 "Render",
-                "SpeechRecognition",
               ]}
             />
           </GlassCard>
@@ -143,9 +147,9 @@ export default function CriadoresPage() {
               </Link>.
             </li>
             <li>• Front-end: Next.js + TypeScript + Tailwind.</li>
-            <li>• Back-end: Quarkus (Java) + JPA + JWT.</li>
-            <li>• Chatbot: Python (Flask) no Render.</li>
-            <li>• Reconhecimento de voz: SpeechRecognition API.</li>
+            <li>• Back-end: Spring Boot (Java) + Oracle Database.</li>
+            <li>• Chatbot: Python (Flask) + API Anthropic (Claude).</li>
+            <li>• APIs integradas: Google Maps, DiretodosTrens, Anthropic.</li>
             <li>• Deploy: Vercel (front) e Render (back/chatbot).</li>
           </ul>
 
