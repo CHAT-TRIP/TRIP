@@ -5,12 +5,12 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const desktopBanners = [
-  { src: '/anuncio-desktop-thetown.png', alt: 'Banner 1', width: 1440, height: 710 },
+  { src: '/anuncio-desktop-f1.png', alt: 'Banner 1', width: 1440, height: 710 },
   { src: '/anuncio-desktop-ccr.png',    alt: 'Banner 2', width: 1440, height: 710 },
 ]
 
 const mobileBanners = [
-  { src: '/anuncio-mobile-thetown.png', alt: 'Banner 1 Mobile', width: 364, height: 626 },
+  { src: '/anuncio-mobile-f1.png', alt: 'Banner 1 Mobile', width: 364, height: 626 },
   { src: '/anuncio-mobile-ccr.png',     alt: 'Banner 2 Mobile', width: 364, height: 626 },
 ]
 
