@@ -29,7 +29,7 @@ interface LinhaInfo {
   nome: string
 }
 
-// Lista de estações do sistema metroferroviário de SP (remove duplicadas)
+// Lista completa de estações do sistema metroferroviário de SP (atualizada até agosto 2025)
 const estacoesArray = [
   // Linha 1 - Azul
   'Jabaquara', 'Conceição', 'São Judas', 'Saúde', 'Praça da Árvore', 'Santa Cruz',
@@ -39,65 +39,70 @@ const estacoesArray = [
 
   // Linha 2 - Verde
   'Vila Prudente', 'Tamanduateí', 'Sacoma', 'Alto do Ipiranga', 'Santos-Imigrantes',
-  'Chácara Klabin', 'Consolação', 'Clínicas', 'Sumaré', 'Vila Madalena',
+  'Chácara Klabin', 'Ana Rosa', 'Paraíso', 'Brigadeiro', 'Trianon-Masp', 'Consolação', 'Clínicas', 'Sumaré', 'Vila Madalena',
 
   // Linha 3 - Vermelha
   'Corinthians-Itaquera', 'Artur Alvim', 'Patriarca', 'Guilhermina-Esperança',
   'Vila Matilde', 'Penha', 'Carrão', 'Tatuapé', 'Belém', 'Bresser-Mooca',
-  'Brás', 'Pedro II', 'República', 'Anhangabaú', 'Santa Cecília', 'Marechal Deodoro',
+  'Brás', 'Pedro II', 'Sé', 'Anhangabaú', 'República', 'Santa Cecília', 'Marechal Deodoro',
   'Palmeiras-Barra Funda', 'Barra Funda',
 
-  // Linha 4 - Amarela
-  'Higienópolis-Mackenzie', 'Paulista', 'Fradique Coutinho',
-  'Faria Lima', 'Pinheiros', 'Butantã', 'São Paulo-Morumbi', 'Vila Sônia',
+  // Linha 4 - Amarela (13 estações - incluindo expansão 2024/2025)
+  'Luz', 'República', 'Higienópolis-Mackenzie', 'Paulista', 'Oscar Freire',
+  'Fradique Coutinho', 'Faria Lima', 'Pinheiros', 'Butantã',
+  'São Paulo-Morumbi', 'Vila Sônia', 'Taboão da Serra', 'Jardim da Glória',
 
-  // Linha 5 - Lilás
+  // Linha 5 - Lilás (17 estações)
   'Capão Redondo', 'Campo Limpo', 'Vila das Belezas', 'Giovanni Gronchi',
   'Santo Amaro', 'Largo Treze', 'Adolfo Pinheiro', 'Alto da Boa Vista',
   'Borba Gato', 'Brooklin', 'Campo Belo', 'Eucaliptos', 'Moema', 'AACD-Servidor',
-  'Hospital São Paulo',
+  'Hospital São Paulo', 'Santa Cruz', 'Chácara Klabin',
 
-  // Linha 15 - Prata
-  'Oratório', 'São Lucas', 'Camilo Haddad', 'Vila Tolstói',
+  // Linha 6 - Laranja (3 estações em construção)
+  'Brasilândia', 'Freguesia do Ó', 'Barra Funda',
+
+  // Linha 15 - Prata (17 estações - Monotrilho completo)
+  'Vila Prudente', 'Oratório', 'São Lucas', 'Camilo Haddad', 'Vila Tolstói',
   'Vila União', 'Jardim Planalto', 'Sapopemba', 'Fazenda da Juta', 'São Mateus',
-  'Jardim Colonial',
+  'Jardim Colonial', 'Boa Esperança', 'Estrela do Oriente', 'Rio Verde',
+  'Tiradentes', 'Jardim Nélia', 'Cidade Tiradentes',
 
-  // Linha 7 - Rubi (CPTM)
+  // Linha 7 - Rubi (CPTM - 18 estações)
   'Jundiaí', 'Várzea Paulista', 'Campo Limpo Paulista', 'Botujuru', 'Francisco Morato',
   'Baltazar Fidélis', 'Franco da Rocha', 'Caieiras', 'Perus', 'Jaraguá',
-  'Vila Aurora', 'Vila Clarice', 'Água Branca', 'Lapa',
+  'Vila Aurora', 'Vila Clarice', 'Palmeiras-Barra Funda', 'Água Branca',
+  'Lapa', 'Piqueri', 'Pirituba', 'Vila Clarice',
 
-  // Linha 8 - Diamante (CPTM)
-  'Júlio Prestes', 'Domingos de Moraes', 'Imperatriz Leopoldina',
-  'Presidente Altino', 'Osasco', 'Comandante Sampaio', 'Quitaúna', 'General Miguel Costa',
-  'Carapicuíba', 'Santa Terezinha', 'Antônio João', 'Barueri', 'Jardim Belval',
-  'Jardim Silveira', 'Jandira', 'Sagrado Coração', 'Engenheiro Cardoso', 'Itapevi',
-  'Santa Rita', 'Amador Bueno',
+  // Linha 8 - Diamante (CPTM - 22 estações)
+  'Júlio Prestes', 'Palmeiras-Barra Funda', 'Lapa', 'Domingos de Moraes',
+  'Imperatriz Leopoldina', 'Presidente Altino', 'Osasco', 'Comandante Sampaio',
+  'Quitaúna', 'General Miguel Costa', 'Carapicuíba', 'Santa Terezinha',
+  'Antônio João', 'Barueri', 'Jardim Belval', 'Jardim Silveira', 'Jandira',
+  'Sagrado Coração', 'Engenheiro Cardoso', 'Itapevi', 'Santa Rita', 'Amador Bueno',
 
-  // Linha 9 - Esmeralda (CPTM)
-  'Ceasa', 'Villa-Lobos-Jaguaré', 'Cidade Universitária',
-  'Hebraica-Rebouças', 'Cidade Jardim', 'Vila Olímpia', 'Berrini',
+  // Linha 9 - Esmeralda (CPTM - 18 estações)
+  'Osasco', 'Ceasa', 'Villa-Lobos-Jaguaré', 'Cidade Universitária',
+  'Pinheiros', 'Hebraica-Rebouças', 'Cidade Jardim', 'Vila Olímpia', 'Berrini',
   'Morumbi', 'Granja Julieta', 'Socorro', 'Jurubatuba', 'Autódromo',
-  'Primavera-Interlagos', 'Grajaú',
+  'Primavera-Interlagos', 'Grajaú', 'Mendes-Vila Natal', 'Varginha',
 
-  // Linha 10 - Turquesa (CPTM)
-  'Mooca', 'Ipiranga', 'São Caetano do Sul', 'Utinga',
-  'Prefeito Saladino', 'Prefeito Celso Daniel-Santo André', 'Capuava', 'Mauá',
-  'Guapituba', 'Ribeirão Pires',
+  // Linha 10 - Turquesa (CPTM - 14 estações)
+  'Luz', 'Brás', 'Mooca', 'Ipiranga', 'Tamanduateí', 'São Caetano do Sul',
+  'Utinga', 'Prefeito Saladino', 'Prefeito Celso Daniel-Santo André',
+  'Capuava', 'Mauá', 'Guapituba', 'Ribeirão Pires', 'Rio Grande da Serra',
 
-  // Linha 11 - Coral (CPTM)
-  'Dom Bosco', 'José Bonifácio',
+  // Linha 11 - Coral (CPTM - 15 estações - Expresso Leste)
+  'Luz', 'Brás', 'Tatuapé', 'Corinthians-Itaquera', 'Dom Bosco', 'José Bonifácio',
   'Guaianases', 'Antonio Gianetti Neto', 'Ferraz de Vasconcelos', 'Poá',
   'Calmon Viana', 'Suzano', 'Jundiapeba', 'Braz Cubas', 'Mogi das Cruzes',
-  'Estudantes',
 
-  // Linha 12 - Safira (CPTM)
-  'Engenheiro Goulart', 'USP Leste', 'Comendador Ermelino',
-  'São Miguel Paulista', 'Jardim Helena-Vila Mara', 'Itaim Paulista', 'Jardim Romano',
-  'Engenheiro Manoel Feio', 'Itaquaquecetuba', 'Aracaré',
+  // Linha 12 - Safira (CPTM - 13 estações)
+  'Brás', 'Tatuapé', 'Engenheiro Goulart', 'USP Leste', 'Comendador Ermelino',
+  'São Miguel Paulista', 'Jardim Helena-Vila Mara', 'Itaim Paulista',
+  'Jardim Romano', 'Engenheiro Manoel Feio', 'Itaquaquecetuba', 'Aracaré', 'Calmon Viana',
 
-  // Linha 13 - Jade (CPTM)
-  'Guarulhos-Cecap', 'Aeroporto-Guarulhos'
+  // Linha 13 - Jade (CPTM - 4 estações)
+  'Engenheiro Goulart', 'Guarulhos-Cecap', 'Guarulhos-Aeroporto', 'Aeroporto-Guarulhos'
 ]
 
 const estacoes = [...new Set(estacoesArray)].sort()
@@ -109,6 +114,7 @@ const coresLinhas: Record<string, LinhaInfo> = {
   '3': { cor: '#EE372F', corTexto: '#FFFFFF', nome: 'Vermelha' },
   '4': { cor: '#FFD100', corTexto: '#000000', nome: 'Amarela' },
   '5': { cor: '#9B3894', corTexto: '#FFFFFF', nome: 'Lilás' },
+  '6': { cor: '#F7AB00', corTexto: '#000000', nome: 'Laranja' },
   '15': { cor: '#C0C0C0', corTexto: '#000000', nome: 'Prata' },
   '7': { cor: '#97005C', corTexto: '#FFFFFF', nome: 'Rubi' },
   '8': { cor: '#97A098', corTexto: '#FFFFFF', nome: 'Diamante' },
