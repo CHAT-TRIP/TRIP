@@ -116,7 +116,7 @@ export default function Chatbot() {
         <div className="flex-1 min-h-0 w-full flex flex-col items-center">
           <div className="w-full max-w-3xl px-4 sm:px-6 flex-1 min-h-0 flex flex-col">
 
-            {/* CHAT */}
+            {/* CHAT //*/}
             <div
               className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-5
                          scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent"

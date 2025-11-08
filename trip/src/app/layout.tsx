@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Unbounded, Montserrat } from "next/font/google";
 import NavbarWrapper from "../components/NavbarWrapper";
 
-// ====== FONTES ======
+// ====== FONTES ====== // 
 const unbounded = Unbounded({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
