@@ -22,6 +22,12 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "TRIP | CCR",
   description: "Assistente virtual da CCR para transporte ferroviário",
+
+  icons: {
+    icon: "/favicon.ico",          // ícone padrão
+    shortcut: "/favicon.ico",      // atalho (browser)
+    apple: "/favicon.png",         // para iPhone/iPad
+  },
 };
 
 // ====== LAYOUT PRINCIPAL ======
