@@ -22,7 +22,6 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "TRIP | CCR",
   description: "Assistente virtual da CCR para transporte ferroviário",
-
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -39,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <head>
-        {/* Corrige zoom/altura no iPhone */}
+        {/* Corrige zoom, vh e safe-area no iPhone */}
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
@@ -49,11 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className="text-[#181818] font-montserrat antialiased"
         style={{
-          minHeight: "100dvh", // corrige vh no iOS
-          backgroundColor: "transparent", // deixa o fundo livre para cada página
+          minHeight: "100dvh", // previne bug do teclado no iOS
+          backgroundColor: "transparent", // deixa cada página ter seu próprio fundo
         }}
       >
-        {/* NAVBAR FIXO */}
+        {/* NAVBAR FIXA */}
         <NavbarWrapper />
 
         {/* CONTEÚDO DAS PÁGINAS */}
