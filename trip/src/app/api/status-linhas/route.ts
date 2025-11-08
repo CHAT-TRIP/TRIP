@@ -13,142 +13,108 @@ interface LinhaStatus {
   ultimaAtualizacao: string;
 }
 
-// Dados simulados - Em produção, isso viria de uma API real da CPTM/Metrô
-// Cores oficiais baseadas no padrão visual do Metrô de SP e CPTM
-const statusLinhas: LinhaStatus[] = [
-  // Linhas de Metrô
-  {
-    id: 'metro-1',
-    nome: 'Linha 1 - Azul',
-    tipo: 'Metro',
-    cor: '#0455A1', // Azul oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'metro-2',
-    nome: 'Linha 2 - Verde',
-    tipo: 'Metro',
-    cor: '#007E5E', // Verde oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'metro-3',
-    nome: 'Linha 3 - Vermelha',
-    tipo: 'Metro',
-    cor: '#EE372F', // Vermelho oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'metro-4',
-    nome: 'Linha 4 - Amarela',
-    tipo: 'Metro',
-    cor: '#FFD100', // Amarelo oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'metro-5',
-    nome: 'Linha 5 - Lilás',
-    tipo: 'Metro',
-    cor: '#9B3894', // Lilás oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'metro-15',
-    nome: 'Linha 15 - Prata (Monotrilho)',
-    tipo: 'Metro',
-    cor: '#A8A9AD', // Prata oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  // Linhas de Trem (CPTM)
-  {
-    id: 'trem-7',
-    nome: 'Linha 7 - Rubi',
-    tipo: 'Trem',
-    cor: '#CA016B', // Rubi oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-8',
-    nome: 'Linha 8 - Diamante',
-    tipo: 'Trem',
-    cor: '#97A098', // Diamante oficial (cinza esverdeado)
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-9',
-    nome: 'Linha 9 - Esmeralda',
-    tipo: 'Trem',
-    cor: '#01A89E', // Esmeralda oficial (verde água)
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-10',
-    nome: 'Linha 10 - Turquesa',
-    tipo: 'Trem',
-    cor: '#017C8B', // Turquesa oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-11',
-    nome: 'Linha 11 - Coral',
-    tipo: 'Trem',
-    cor: '#F68368', // Coral oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-12',
-    nome: 'Linha 12 - Safira',
-    tipo: 'Trem',
-    cor: '#133C8D', // Safira oficial (azul escuro)
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  },
-  {
-    id: 'trem-13',
-    nome: 'Linha 13 - Jade',
-    tipo: 'Trem',
-    cor: '#00AE5C', // Jade oficial
-    status: 'Normal',
-    descricao: 'Operação normal em toda a linha',
-    ultimaAtualizacao: new Date().toISOString()
-  }
-];
+// Mapeamento das cores oficiais das linhas
+const coresLinhas: Record<string, { cor: string; tipo: 'Metro' | 'Trem' }> = {
+  '1': { cor: '#0455A1', tipo: 'Metro' }, // Azul
+  '2': { cor: '#007E5E', tipo: 'Metro' }, // Verde
+  '3': { cor: '#EE372F', tipo: 'Metro' }, // Vermelha
+  '4': { cor: '#FFD100', tipo: 'Metro' }, // Amarela
+  '5': { cor: '#9B3894', tipo: 'Metro' }, // Lilás
+  '15': { cor: '#A8A9AD', tipo: 'Metro' }, // Prata
+  '7': { cor: '#CA016B', tipo: 'Trem' }, // Rubi
+  '8': { cor: '#97A098', tipo: 'Trem' }, // Diamante
+  '9': { cor: '#01A89E', tipo: 'Trem' }, // Esmeralda
+  '10': { cor: '#017C8B', tipo: 'Trem' }, // Turquesa
+  '11': { cor: '#F68368', tipo: 'Trem' }, // Coral
+  '12': { cor: '#133C8D', tipo: 'Trem' }, // Safira
+  '13': { cor: '#00AE5C', tipo: 'Trem' }, // Jade
+};
 
-// GET - Retorna o status de todas as linhas
+// Mapear status da API DiretodosTrens para nosso formato
+function mapearStatus(statusApi: string): StatusOperacao {
+  const statusLower = statusApi.toLowerCase();
+
+  if (statusLower.includes('normal') || statusLower.includes('normalizada')) {
+    return 'Normal';
+  }
+  if (statusLower.includes('reduzida')) {
+    return 'Velocidade Reduzida';
+  }
+  if (statusLower.includes('paralisada') || statusLower.includes('interrompida')) {
+    return 'Paralisada';
+  }
+  if (statusLower.includes('encerrada') || statusLower.includes('encerrado')) {
+    return 'Operação Encerrada';
+  }
+
+  return 'Normal'; // Padrão
+}
+
+// GET - Retorna o status de todas as linhas buscando da API DiretodosTrens
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const tipo = searchParams.get('tipo'); // 'Metro' ou 'Trem'
+    const tipoFiltro = searchParams.get('tipo'); // 'Metro' ou 'Trem'
     const linhaId = searchParams.get('id'); // ID específico de uma linha
+
+    // Buscar dados da API DiretodosTrens
+    const response = await fetch('https://www.diretodostrens.com.br/api/status', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+      cache: 'no-store', // Sempre buscar dados atualizados
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar dados da API DiretodosTrens');
+    }
+
+    const data = await response.json();
+    const linhasApi = Array.isArray(data) ? data : (data.linhas || []);
+
+    // Transformar dados da API para nosso formato
+    const statusLinhas: LinhaStatus[] = linhasApi.map((linha: any, index: number) => {
+      // Extrair o número da linha do campo 'codigo'
+      const numeroLinha = linha.codigo?.toString() || `${index + 1}`;
+
+      const infoLinha = coresLinhas[numeroLinha] || { cor: '#CCCCCC', tipo: 'Metro' as const };
+
+      // Mapear nomes das linhas baseado no código
+      const nomesLinhas: Record<string, string> = {
+        '1': 'Linha 1 - Azul',
+        '2': 'Linha 2 - Verde',
+        '3': 'Linha 3 - Vermelha',
+        '4': 'Linha 4 - Amarela',
+        '5': 'Linha 5 - Lilás',
+        '7': 'Linha 7 - Rubi',
+        '8': 'Linha 8 - Diamante',
+        '9': 'Linha 9 - Esmeralda',
+        '10': 'Linha 10 - Turquesa',
+        '11': 'Linha 11 - Coral',
+        '12': 'Linha 12 - Safira',
+        '13': 'Linha 13 - Jade',
+        '15': 'Linha 15 - Prata',
+      };
+
+      const nomeCompleto = nomesLinhas[numeroLinha] || `Linha ${numeroLinha}`;
+
+      return {
+        id: `${infoLinha.tipo.toLowerCase()}-${numeroLinha}`,
+        nome: nomeCompleto,
+        tipo: infoLinha.tipo,
+        cor: infoLinha.cor,
+        status: mapearStatus(linha.situacao || 'Normal'),
+        descricao: undefined, // API não retorna descrição
+        ultimaAtualizacao: linha.modificado || new Date().toISOString()
+      };
+    });
 
     let resultado = statusLinhas;
 
     // Filtrar por tipo se especificado
-    if (tipo && (tipo === 'Metro' || tipo === 'Trem')) {
-      resultado = resultado.filter(linha => linha.tipo === tipo);
+    if (tipoFiltro && (tipoFiltro === 'Metro' || tipoFiltro === 'Trem')) {
+      resultado = resultado.filter(linha => linha.tipo === tipoFiltro);
     }
 
     // Filtrar por ID se especificado
@@ -174,3 +140,5 @@ export async function GET(request: Request) {
     }, { status: 500 });
   }
 }
+
+ 

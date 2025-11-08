@@ -30,47 +30,23 @@ export default function RegisterPage() {
     e.preventDefault()
     const { nome, email, senha, confirmarSenha } = formData
 
-    if (!nome || !email || !senha || !confirmarSenha) {
-      setError('⚠️ Todos os campos são obrigatórios.')
-      return
-    }
+    if (!nome || !email || !senha || !confirmarSenha)
+      return setError('⚠️ Todos os campos são obrigatórios.')
+    if (!emailRegex.test(email)) return setError('❌ E-mail inválido.')
+    if (senha.length < 6) return setError('🔒 A senha deve ter pelo menos 6 caracteres.')
+    if (senha !== confirmarSenha) return setError('🚫 As senhas não coincidem.')
 
-    if (!emailRegex.test(email)) {
-      setError('❌ E-mail inválido. Digite um e-mail válido.')
-      return
-    }
-
-    if (senha.length < 6) {
-      setError('🔒 A senha deve ter pelo menos 6 caracteres.')
-      return
-    }
-
-    if (senha !== confirmarSenha) {
-      setError('🚫 As senhas não coincidem.')
-      return
-    }
-
-    // Chamada ao backend
     setLoading(true)
     setError('')
 
     try {
       const resposta = await cadastrarUsuario({ nome, email, senha })
       console.log('Cadastro bem-sucedido:', resposta)
-
       setSuccess(true)
-
-      // Redireciona para o login após cadastro
-      setTimeout(() => {
-        router.push('/login')
-      }, 2000)
+      setTimeout(() => router.push('/login'), 1800)
     } catch (err) {
       setSuccess(false)
-      if (err instanceof Error) {
-        setError(err.message)
-      } else {
-        setError('❌ Erro ao cadastrar. Tente novamente.')
-      }
+      setError(err instanceof Error ? err.message : '❌ Erro ao cadastrar. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -78,42 +54,52 @@ export default function RegisterPage() {
 
   return (
     <section
-      className="relative min-h-screen w-full flex flex-col md:flex-row items-center justify-center overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #5E22F3 0%, #DCC2FF 100%)',
-      }}
+      className="
+        fixed inset-0 w-full h-[100dvh]
+        flex flex-col md:flex-row
+        items-center justify-center
+        bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF]
+        overflow-hidden
+        px-4 pt-[110px] md:pt-0
+      "
     >
-      {/* Lado esquerdo - Mascote */}
-      <div className="hidden md:flex flex-1 items-center justify-center">
-        <Image
-          src="/mascote-footer.svg"
-          alt="Mascote TRIP"
-          width={760}
-          height={760}
-          className="w-[80%] h-auto object-contain select-none drop-shadow-[0_0_60px_rgba(94,34,243,0.5)]"
-          priority
-        />
-      </div>
+    {/* Mascote (desktop) */}
+    <div className="hidden md:flex flex-1 items-center justify-center md:mt-10">
+      <Image
+        src="/mascote-footer.svg"
+        alt="Mascote TRIP"
+        width={620}   // antes 760
+        height={620}  // antes 760
+        className="w-[70%] h-auto object-contain select-none drop-shadow-[0_0_60px_rgba(94,34,243,0.5)]"
+        priority
+      />
+    </div>
 
-      {/* Lado direito - Card de cadastro */}
-      <div className="flex flex-1 items-center justify-center p-10 md:p-0">
-        <div className="w-full max-w-[640px] bg-white/60 backdrop-blur-2xl rounded-2xl shadow-2xl p-14 border border-white/30">
-          <h1 className="text-center font-unbounded font-extrabold text-[48px] md:text-[56px] mb-4 text-[#5E22F3] leading-tight">
+      {/* Card de cadastro */}
+      <div className="flex flex-1 items-center justify-center md:pt-10">
+        <div
+          className="
+            w-full max-w-[640px]
+            bg-white/60 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/30
+            p-6 sm:p-8 md:p-10
+          "
+        >
+          <h1 className="text-center font-unbounded font-extrabold text-[32px] sm:text-[40px] md:text-[48px] text-[#5E22F3] leading-tight mb-2">
             Crie sua conta
           </h1>
-          <p className="text-center text-[#5E22F3]/80 mb-10 font-montserrat text-lg md:text-xl">
+
+          <p className="text-center text-[#5E22F3]/80 font-montserrat text-base sm:text-lg mb-6">
             Cadastre-se e viaje com facilidade pelo TRIP.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 font-montserrat">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-montserrat">
             <input
               type="text"
               name="nome"
               placeholder="Nome completo"
               value={formData.nome}
               onChange={handleChange}
-              className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
-              required
+              className="h-12 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-base"
             />
             <input
               type="email"
@@ -121,8 +107,7 @@ export default function RegisterPage() {
               placeholder="E-mail"
               value={formData.email}
               onChange={handleChange}
-              className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
-              required
+              className="h-12 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-base"
             />
             <input
               type="password"
@@ -130,8 +115,7 @@ export default function RegisterPage() {
               placeholder="Senha"
               value={formData.senha}
               onChange={handleChange}
-              className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
-              required
+              className="h-12 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-base"
               minLength={6}
             />
             <input
@@ -140,43 +124,34 @@ export default function RegisterPage() {
               placeholder="Confirmar senha"
               value={formData.confirmarSenha}
               onChange={handleChange}
-              className="h-14 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-lg"
-              required
+              className="h-12 rounded-lg border border-[#5E22F3]/60 bg-white/40 px-4 text-[#5E22F3] placeholder-[#9F86FF] focus:ring-2 focus:ring-[#5E22F3] outline-none transition-all text-base"
             />
 
-            {/* Mensagem de erro */}
             {error && (
               <p className="text-center text-red-600 font-medium bg-red-100/60 py-2 px-3 rounded-lg border border-red-300 animate-pulse">
                 {error}
               </p>
             )}
 
-            {/* Botão com estado de sucesso */}
             <button
               type="submit"
               disabled={success || loading}
-              className={`mt-4 h-14 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg
-                ${
-                  success
-                    ? 'bg-green-500 hover:bg-green-500 text-white cursor-default'
-                    : loading
-                    ? 'bg-[#5E22F3]/70 text-white cursor-wait'
-                    : 'bg-[#5E22F3] hover:bg-[#4c18c8] text-white active:scale-95'
-                }`}
+              className={`
+                mt-2 h-12 rounded-md font-bold text-lg transition-all duration-300 shadow-md hover:shadow-lg
+                ${success ? 'bg-green-500 cursor-default' : loading ? 'bg-[#5E22F3]/70 cursor-wait' : 'bg-[#5E22F3] hover:bg-[#4c18c8]'}
+                text-white active:scale-95
+              `}
             >
-              {success ? 'Cadastro realizado! Redirecionando...' : loading ? 'Cadastrando...' : 'Cadastrar'}
+              {success ? 'Cadastro realizado!' : loading ? 'Cadastrando...' : 'Cadastrar'}
             </button>
           </form>
 
-          <div className="text-center mt-8 text-base text-[#5E22F3]">
+          <p className="text-center mt-6 text-base text-[#5E22F3]">
             Já tem uma conta?{' '}
-            <Link
-              href="/login"
-              className="font-bold hover:underline hover:text-[#4c18c8] transition"
-            >
+            <Link href="/login" className="font-bold hover:underline hover:text-[#4c18c8] transition">
               Faça login
             </Link>
-          </div>
+          </p>
         </div>
       </div>
     </section>
