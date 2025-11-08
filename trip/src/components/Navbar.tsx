@@ -127,6 +127,15 @@ export default function Navbar() {
         >
           Status das Linhas
         </Link>
+
+        <Link
+          href="/chatbot"
+          className={`transition-colors duration-200 ${
+            pathname === '/chatbot' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'
+          }`}
+        >
+          Chatbot
+        </Link>
       </nav>
 
       {/* BOTÃO TRIP */}
@@ -197,6 +206,13 @@ export default function Navbar() {
               className={pathname === '/status-linhas' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
             >
               Status das Linhas
+            </Link>
+
+            <Link
+              href="/chatbot"
+              className={pathname === '/chatbot' ? 'text-[#CBA6FF]' : 'hover:text-[#DCC2FF]'}
+            >
+              Chatbot
             </Link>
 
             <Link

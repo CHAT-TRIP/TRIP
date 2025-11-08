@@ -89,9 +89,14 @@ export async function loginUsuario(email: string, senha: string) {
 
     const data = JSON.parse(texto)
 
-    if (typeof window !== 'undefined' && data.token) {
-      localStorage.setItem('token', data.token)
-      console.log('Token salvo no localStorage')
+    // Como o backend não retorna token JWT, vamos criar uma sessão local
+    // Salva os dados do usuário no localStorage para simular autenticação
+    if (typeof window !== 'undefined' && data.id) {
+      // Salva os dados do usuário
+      localStorage.setItem('user', JSON.stringify(data))
+      // Cria um timestamp de login para controle de sessão
+      localStorage.setItem('loginTime', new Date().getTime().toString())
+      console.log('✅ Usuário autenticado e salvo no localStorage')
     }
 
     return data

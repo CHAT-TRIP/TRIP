@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
 
 export default function Chatbot() {
+  const router = useRouter()
   const [mensagens, setMensagens] = useState([
     {
       remetente: 'bot',
@@ -15,7 +17,38 @@ export default function Chatbot() {
   ])
   const [input, setInput] = useState('')
   const [enviando, setEnviando] = useState(false)
+  const [autenticado, setAutenticado] = useState(false)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
+
+  // Verifica autenticação ao carregar a página
+  useEffect(() => {
+    const verificarAutenticacao = () => {
+      const user = localStorage.getItem('user')
+      const loginTime = localStorage.getItem('loginTime')
+
+      if (!user || !loginTime) {
+        // Sem dados de usuário - redireciona para login
+        router.push('/login')
+      } else {
+        // Verifica se a sessão expirou (24 horas)
+        const tempoDecorrido = new Date().getTime() - parseInt(loginTime)
+        const horasDecorridas = tempoDecorrido / (1000 * 60 * 60)
+
+        if (horasDecorridas > 24) {
+          // Sessão expirada - limpa dados e redireciona
+          localStorage.removeItem('user')
+          localStorage.removeItem('loginTime')
+          router.push('/login')
+        } else {
+          // Usuário autenticado
+          setAutenticado(true)
+        }
+      }
+    }
+
+    verificarAutenticacao()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const enviarMensagem = async () => {
     if (!input.trim()) return
@@ -40,6 +73,18 @@ export default function Chatbot() {
     }
 
     setEnviando(false)
+  }
+
+  const handleLogout = () => {
+    // Remove todos os dados de autenticação
+    localStorage.removeItem('user')
+    localStorage.removeItem('loginTime')
+    router.push('/login')
+  }
+
+  // Exibe tela em branco enquanto verifica autenticação
+  if (!autenticado) {
+    return null
   }
 
   return (
@@ -97,7 +142,7 @@ export default function Chatbot() {
       </div>
 
       {/* header */}
-      <header className="relative z-10 w-full px-8 py-4 flex items-center justify-between backdrop-blur-md bg-white/10 border-b border-white/20">
+      <header className="sticky top-0 z-50 w-full px-8 py-4 flex items-center justify-between backdrop-blur-md bg-white/10 border-b border-white/20">
         <div className="flex items-center gap-3">
           <Image src="/logo-header.png" alt="Logo TRIP" width={120} height={60} />
         </div>
@@ -122,6 +167,12 @@ export default function Chatbot() {
             className="bg-white text-[#5E22F3] text-sm font-semibold px-5 py-2 rounded-md hover:opacity-90 transition"
           >
             Limpar
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-white text-sm font-semibold px-5 py-2 rounded-md border border-white hover:bg-red-500 hover:border-red-500 transition"
+          >
+            Sair
           </button>
         </div>
       </header>
