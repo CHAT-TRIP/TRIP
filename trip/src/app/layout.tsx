@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   description: "Assistente virtual da CCR para transporte ferroviário",
 
   icons: {
-    icon: "/favicon.ico",          // ícone padrão
-    shortcut: "/favicon.ico",      // atalho (browser)
-    apple: "/favicon.png",         // para iPhone/iPad
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
   },
 };
 
@@ -36,13 +36,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="pt-BR"
       className={`${unbounded.variable} ${montserrat.variable}`}
-      style={{ backgroundColor: "#E9E9E9" }}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Corrige zoom/altura no iPhone */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+        />
+      </head>
+
       <body
         className="text-[#181818] font-montserrat antialiased"
-        style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
+        style={{
+          minHeight: "100dvh", // corrige vh no iOS
+          backgroundColor: "transparent", // deixa o fundo livre para cada página
+        }}
       >
-        {/* NAVBAR FIXO E FLUTUANTE */}
+        {/* NAVBAR FIXO */}
         <NavbarWrapper />
 
         {/* CONTEÚDO DAS PÁGINAS */}
