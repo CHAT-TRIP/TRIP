@@ -63,20 +63,21 @@ body {
 
 /* ==================== MOBILE: ZOOM, TECLADO E ÁREA ÚTIL ==================== */
 
-/* 1) impedir o "focus zoom" do iOS/Android: inputs ≥16px */
+/* impede zoom ao focar: 16px reais nos controles */
 input, textarea, select, button {
-  font-size: 16px;
+  font-size: 16px !important;
+  line-height: 1.2;
+  min-height: 44px;           /* hit area recomendada pela Apple */
 }
 
-/* 2) manter tamanho de texto consistente no Safari/iOS */
-html { -webkit-text-size-adjust: 100%; }
+/* mantêm escala de texto estável no iOS */
+html, body, input, textarea, select, button {
+  -webkit-text-size-adjust: 100% !important;
+}
 
-/* 3) reduzir double-tap-zoom e atrasos de clique em mobile */
 * { touch-action: manipulation; }
 
-/* 4) utilitário para respeitar área segura no iPhone (notch) */
+/* utilitário p/ safe area e altura visível */
 .safe-pad-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.min-h-100svh     { min-height: 100svh; }
 
-/* 5) utilitários de altura responsivos à UI/teclado do mobile */
-.min-h-100svh { min-height: 100svh; }  /* viewport visível “real” */
-.h-100svh { height: 100svh; }

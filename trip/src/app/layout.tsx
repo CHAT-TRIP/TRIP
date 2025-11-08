@@ -38,15 +38,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ backgroundColor: "#E9E9E9" }}
     >
       <head>
-        {/* evita zoom ao focar, usa área segura do notch, e melhora altura no iOS */}
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
+          content="
+            width=device-width,
+            initial-scale=1,
+            viewport-fit=cover,
+            user-scalable=no,
+            maximum-scale=1,
+            interactive-widget=resizes-content"
         />
-        {/* Se quiser bloquear pinch-zoom totalmente (menos acessível):
-            content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, maximum-scale=1"
-        */}
       </head>
+
       <body
         className="text-[#181818] font-montserrat antialiased"
         style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
