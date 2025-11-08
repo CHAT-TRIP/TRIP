@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 
 type Msg = { remetente: 'bot' | 'user'; texto: string }
@@ -21,29 +20,26 @@ export default function Chatbot() {
   const [autenticado, setAutenticado] = useState(false)
   const fimDasMensagensRef = useRef<HTMLDivElement | null>(null)
 
-  // autenticação
+  /* ================== AUTENTICAÇÃO ================== */
   useEffect(() => {
-    const verificarAutenticacao = () => {
-      const user = localStorage.getItem('user')
-      const loginTime = localStorage.getItem('loginTime')
-      if (!user || !loginTime) {
-        router.push('/login')
-        return
-      }
-      const tempoDecorrido = Date.now() - parseInt(loginTime)
-      const horasDecorridas = tempoDecorrido / (1000 * 60 * 60)
-      if (horasDecorridas > 24) {
-        localStorage.removeItem('user')
-        localStorage.removeItem('loginTime')
-        router.push('/login')
-      } else {
-        setAutenticado(true)
-      }
+    const user = localStorage.getItem('user')
+    const loginTime = localStorage.getItem('loginTime')
+
+    if (!user || !loginTime) {
+      router.push('/login')
+      return
     }
-    verificarAutenticacao()
+    const horas = (Date.now() - parseInt(loginTime)) / (1000 * 60 * 60)
+    if (horas > 24) {
+      localStorage.removeItem('user')
+      localStorage.removeItem('loginTime')
+      router.push('/login')
+    } else {
+      setAutenticado(true)
+    }
   }, [router])
 
-  // ouve "limpar chat" vindo do Navbar
+  /* ================== LIMPAR VIA NAVBAR ================== */
   useEffect(() => {
     const clearHandler = () => {
       setMensagens([
@@ -58,7 +54,7 @@ export default function Chatbot() {
     return () => window.removeEventListener('trip:clear-chat', clearHandler)
   }, [])
 
-  // enviar mensagem
+  /* ================== ENVIAR MENSAGEM ================== */
   const enviarMensagem = async () => {
     const textoUsuario = input.trim()
     if (!textoUsuario) return
@@ -72,10 +68,7 @@ export default function Chatbot() {
     setInput('')
     setEnviando(true)
 
-    setTimeout(
-      () => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }),
-      50
-    )
+    setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 80)
 
     try {
       const resposta = await fetch('https://chatbot-trip.onrender.com/chat', {
@@ -85,21 +78,12 @@ export default function Chatbot() {
       })
       const data = await resposta.json()
       const texto = data?.resposta || 'Erro: resposta vazia'
-      setMensagens((msgs) => [
-        ...msgs.slice(0, -1),
-        { remetente: 'bot', texto },
-      ])
+      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto }])
     } catch {
-      setMensagens((msgs) => [
-        ...msgs.slice(0, -1),
-        { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' },
-      ])
+      setMensagens((msgs) => [...msgs.slice(0, -1), { remetente: 'bot', texto: 'Desculpe, ocorreu um erro.' }])
     } finally {
       setEnviando(false)
-      setTimeout(
-        () => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }),
-        50
-      )
+      setTimeout(() => fimDasMensagensRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
     }
   }
 
@@ -108,102 +92,81 @@ export default function Chatbot() {
   return (
     <>
       <Navbar />
+
       <style
         dangerouslySetInnerHTML={{
           __html: `
-          .mensagem-bot {
-            margin-right: auto !important;
-            align-self: flex-start !important;
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            white-space: pre-wrap !important;
-          }
-          .mensagem-user {
-            margin-left: auto !important;
-            align-self: flex-end !important;
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            white-space: pre-wrap !important;
-            font-weight: 600 !important;
-          }
-          .mensagem-bot a {
-            color: #60A5FA !important;
-            text-decoration: underline !important;
-            font-weight: 600 !important;
-            transition: all 0.2s ease !important;
-          }
-          .mensagem-bot a:hover {
-            color: #93C5FD !important;
-            text-shadow: 0 0 8px rgba(96, 165, 250, 0.6) !important;
-          }
-          .mensagem-user a {
-            color: #5E22F3 !important;
-            text-decoration: underline !important;
-            font-weight: 600 !important;
-          }
-          .mensagem-user a:hover {
-            color: #3D16A8 !important;
-          }
+          .mensagem-bot { margin-right: auto !important; align-self: flex-start !important; white-space: pre-wrap !important; }
+          .mensagem-user { margin-left: auto !important; align-self: flex-end !important; white-space: pre-wrap !important; font-weight: 600 !important; }
+          .mensagem-bot a { color: #93C5FD !important; text-decoration: underline !important; font-weight: 600 !important; }
         `,
         }}
       />
-      <section className="relative w-full min-h-screen flex flex-col font-[Poppins] bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF] overflow-hidden">
-        {/* mascote */}
-        <div className="absolute inset-0 flex justify-center items-center opacity-20 pointer-events-none">
-          <Image
-            src="/mascote-footer.svg"
-            alt="Mascote TRIP"
-            width={750}
-            height={750}
-            className="object-contain select-none"
-            priority
-          />
-        </div>
 
-        {/* header do chatbot incluído diretamente */}
+      {/* ===== FUNDO FIXO ===== */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#5E22F3] via-[#7B4DF7] to-[#DCC2FF]" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_25%,rgba(255,255,255,0.22),transparent_60%)]" />
+      </div>
 
-        {/* chat */}
-        <main className="relative z-10 flex-1 flex flex-col justify-end w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24">
-          <div className="flex flex-col gap-4 overflow-y-auto max-h-[70vh] mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full">
-            {mensagens.map((msg, i) => (
-              <div
-                key={i}
-                className={`w-fit max-w-[85%] px-6 py-3 rounded-3xl text-sm md:text-base font-medium shadow-lg break-words ${
-                  msg.remetente === 'user'
-                    ? 'mensagem-user bg-white text-[#5E22F3] self-end'
-                    : 'mensagem-bot bg-white/30 text-white self-start backdrop-blur-sm'
-                }`}
-                dangerouslySetInnerHTML={{
-                  __html: msg.texto.replace(/\n/g, '<br/>'),
-                }}
-              />
-            ))}
-            <div ref={fimDasMensagensRef} />
-          </div>
+      {/* ===== CONTAINER ===== */}
+      <section className="relative w-full h-[100dvh] flex flex-col font-[Montserrat] text-white/95">
+        <div className="h-24 shrink-0" aria-hidden />
 
-          {/* input */}
-          <div className="w-full flex justify-center px-2">
-            <div className="flex items-center gap-3 w-full bg-white/20 backdrop-blur-md px-4 py-3 rounded-full shadow-lg">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(ev) => {
-                  if (ev.key === 'Enter') enviarMensagem()
-                }}
-                placeholder="Digite sua mensagem..."
-                className="flex-1 bg-transparent text-white placeholder:text-white/70 outline-none text-sm md:text-base"
-              />
-              <button
-                onClick={enviarMensagem}
-                disabled={enviando}
-                className="bg-white text-[#5E22F3] px-6 py-2 rounded-full font-bold text-sm shadow-md hover:shadow-lg transition"
-              >
-                Enviar
-              </button>
+        <div className="flex-1 min-h-0 w-full flex flex-col items-center">
+          <div className="w-full max-w-3xl px-4 sm:px-6 flex-1 min-h-0 flex flex-col">
+
+            {/* CHAT //*/}
+            <div
+              className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-5
+                         scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent"
+            >
+              {mensagens.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`w-fit max-w-[90%] sm:max-w-[85%] px-6 py-4 rounded-3xl text-[15px] md:text-base font-medium shadow-[0_10px_30px_rgba(0,0,0,0.2)] break-words
+                  ${
+                    msg.remetente === 'user'
+                      ? 'mensagem-user bg-white text-[#5E22F3] self-end'
+                      : 'mensagem-bot bg-white/15 text-white self-start backdrop-blur-md border border-white/10'
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: msg.texto.replace(/\n/g, '<br/>') }}
+                />
+              ))}
+              <div ref={fimDasMensagensRef} />
+            </div>
+
+            {/* INPUT FIXO */}
+            <div className="sticky bottom-0 left-0 w-full pt-4 pb-6 bg-transparent">
+              <div className="w-full max-w-3xl mx-auto px-0 sm:px-0">
+                <div className="flex items-center gap-3 w-full
+                                rounded-full border border-white/20
+                                bg-white/14 backdrop-blur-md
+                                px-5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(ev) => ev.key === 'Enter' && enviarMensagem()}
+                    placeholder="Digite sua mensagem..."
+                    className="flex-1 bg-transparent text-white placeholder:text-white/75 outline-none text-base"
+                  />
+                  <button
+                    onClick={enviarMensagem}
+                    disabled={enviando}
+                    className="shrink-0 rounded-full px-6 min-h-[44px] text-sm font-semibold
+                               bg-white text-[#5E22F3] shadow-md hover:shadow-lg transition
+                               focus:outline-none focus:ring-2 focus:ring-white/60 disabled:opacity-60"
+                  >
+                    Enviar
+                  </button>
+                </div>
+              </div>
+
+              <div className="pb-[env(safe-area-inset-bottom)]" />
             </div>
           </div>
-        </main>
+        </div>
       </section>
     </>
   )

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Unbounded, Montserrat } from "next/font/google";
 import NavbarWrapper from "../components/NavbarWrapper";
 
-// ====== FONTES ======
+// ====== FONTES ====== // 
 const unbounded = Unbounded({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
@@ -22,11 +22,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "TRIP | CCR",
   description: "Assistente virtual da CCR para transporte ferroviário",
-
   icons: {
-    icon: "/favicon.ico",          // ícone padrão
-    shortcut: "/favicon.ico",      // atalho (browser)
-    apple: "/favicon.png",         // para iPhone/iPad
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
   },
 };
 
@@ -36,13 +35,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="pt-BR"
       className={`${unbounded.variable} ${montserrat.variable}`}
-      style={{ backgroundColor: "#E9E9E9" }}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Corrige zoom, vh e safe-area no iPhone */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+        />
+      </head>
+
       <body
         className="text-[#181818] font-montserrat antialiased"
-        style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
+        style={{
+          minHeight: "100dvh", // previne bug do teclado no iOS
+          backgroundColor: "transparent", // deixa cada página ter seu próprio fundo
+        }}
       >
-        {/* NAVBAR FIXO E FLUTUANTE */}
+        {/* NAVBAR FIXA */}
         <NavbarWrapper />
 
         {/* CONTEÚDO DAS PÁGINAS */}

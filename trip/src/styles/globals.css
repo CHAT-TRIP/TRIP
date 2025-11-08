@@ -43,7 +43,7 @@ body {
   }
 }
 
-/* Mapear tokens para Tailwind via classes utilitárias */
+/* Mapear tokens para Tailwind via classes utilitárias// */
 .bg-background { background-color: var(--background) !important; }
 .text-foreground { color: var(--foreground) !important; }
 
@@ -59,3 +59,8 @@ body {
   font-weight: 700;
 }
 .btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); transition: .2s; }
+
+body {
+  background: linear-gradient(135deg, #5E22F3 0%, #7B4DF7 40%, #DCC2FF 100%) !important;
+  background-attachment: fixed !important;
+}
