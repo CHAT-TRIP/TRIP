@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ==================== TOKENS E BASE DO PROJETO ==================== */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -59,3 +60,23 @@ body {
   font-weight: 700;
 }
 .btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); transition: .2s; }
+
+/* ==================== MOBILE: ZOOM, TECLADO E ÁREA ÚTIL ==================== */
+
+/* 1) impedir o "focus zoom" do iOS/Android: inputs ≥16px */
+input, textarea, select, button {
+  font-size: 16px;
+}
+
+/* 2) manter tamanho de texto consistente no Safari/iOS */
+html { -webkit-text-size-adjust: 100%; }
+
+/* 3) reduzir double-tap-zoom e atrasos de clique em mobile */
+* { touch-action: manipulation; }
+
+/* 4) utilitário para respeitar área segura no iPhone (notch) */
+.safe-pad-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* 5) utilitários de altura responsivos à UI/teclado do mobile */
+.min-h-100svh { min-height: 100svh; }  /* viewport visível “real” */
+.h-100svh { height: 100svh; }

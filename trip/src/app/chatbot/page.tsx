@@ -145,7 +145,10 @@ export default function Chatbot() {
         `,
         }}
       />
-      <section className="relative w-full min-h-screen flex flex-col font-[Poppins] bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF] overflow-hidden">
+      <section
+        className="relative w-full min-h-[100svh] flex flex-col font-[Poppins]
+                   bg-gradient-to-br from-[#5E22F3] to-[#DCC2FF] overflow-hidden"
+      >
         {/* mascote */}
         <div className="absolute inset-0 flex justify-center items-center opacity-20 pointer-events-none">
           <Image
@@ -161,8 +164,16 @@ export default function Chatbot() {
         {/* sem header aqui; usamos o Navbar fixo global */}
 
         {/* chat */}
-        <main className="relative z-10 flex-1 flex flex-col justify-end w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24">
-          <div className="flex flex-col gap-4 overflow-y-auto max-h-[70vh] mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full">
+        <main
+          className="relative z-10 flex-1 flex flex-col justify-end
+                     w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24
+                     pb-[88px]"
+        >
+          <div
+            className="flex flex-col gap-4 overflow-y-auto
+                       max-h-[calc(100svh-96px-88px)]
+                       mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full"
+          >
             {mensagens.map((msg, i) => (
               <div
                 key={i}
@@ -181,21 +192,30 @@ export default function Chatbot() {
 
           {/* input */}
           <div className="w-full flex justify-center px-2">
-            <div className="flex items-center gap-3 w-full bg-white/20 backdrop-blur-md px-4 py-3 rounded-full shadow-lg">
+            <div
+              className="md:static fixed bottom-0 left-0 right-0 md:left-auto md:right-auto
+                         mx-auto md:mx-0 md:w-full
+                         flex items-center gap-3
+                         bg-white/20 backdrop-blur-md px-4 py-3
+                         rounded-none md:rounded-full
+                         shadow-[0_-4px_20px_rgba(0,0,0,0.15)] md:shadow-lg
+                         border-t border-white/15 md:border-0
+                         max-w-3xl safe-pad-bottom"
+            >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(ev) => {
-                  if (ev.key === 'Enter') enviarMensagem()
-                }}
+                onKeyDown={(ev) => { if (ev.key === 'Enter') enviarMensagem() }}
                 placeholder="Digite sua mensagem..."
-                className="flex-1 bg-transparent text-white placeholder:text-white/70 outline-none text-sm md:text-base"
+                className="flex-1 bg-transparent text-white placeholder:text-white/70
+                           outline-none text-base md:text-base"
               />
               <button
                 onClick={enviarMensagem}
                 disabled={enviando}
-                className="bg-white text-[#5E22F3] px-6 py-2 rounded-full font-bold text-sm shadow-md hover:shadow-lg transition"
+                className="bg-white text-[#5E22F3] text-base font-bold
+                           px-6 py-2 rounded-full shadow-md hover:shadow-lg transition"
               >
                 Enviar
               </button>

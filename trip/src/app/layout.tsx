@@ -22,11 +22,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "TRIP | CCR",
   description: "Assistente virtual da CCR para transporte ferroviário",
-
   icons: {
-    icon: "/favicon.ico",          // ícone padrão
-    shortcut: "/favicon.ico",      // atalho (browser)
-    apple: "/favicon.png",         // para iPhone/iPad
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
   },
 };
 
@@ -38,11 +37,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${unbounded.variable} ${montserrat.variable}`}
       style={{ backgroundColor: "#E9E9E9" }}
     >
+      <head>
+        {/* evita zoom ao focar, usa área segura do notch, e melhora altura no iOS */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
+        />
+        {/* Se quiser bloquear pinch-zoom totalmente (menos acessível):
+            content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, maximum-scale=1"
+        */}
+      </head>
       <body
         className="text-[#181818] font-montserrat antialiased"
         style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
       >
-        {/* NAVBAR FIXO E FLUTUANTE */}
+        {/* NAVBAR FIXO */}
         <Navbar />
 
         {/* CONTEÚDO DAS PÁGINAS */}
