@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import Image from 'next/image'
 import { buscarStatusLinhas } from '../../api'
 
 interface LinhaStatus {
