@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Navbar from '../../components/Navbar'
 
 type Msg = { remetente: 'bot' | 'user'; texto: string }
 
@@ -106,6 +107,7 @@ export default function Chatbot() {
 
   return (
     <>
+      <Navbar />
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -158,7 +160,7 @@ export default function Chatbot() {
           />
         </div>
 
-        {/* sem header aqui; usamos o Navbar fixo global */}
+        {/* header do chatbot incluído diretamente */}
 
         {/* chat */}
         <main className="relative z-10 flex-1 flex flex-col justify-end w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24">

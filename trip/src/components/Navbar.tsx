@@ -62,6 +62,13 @@ export default function Navbar() {
     setChatMenuOpen(false)
   }
 
+  // função de logout
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('loginTime')
+    router.push('/login')
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-12 py-4 shadow-md
@@ -108,7 +115,7 @@ export default function Navbar() {
           </div>
         </>
       ) : (
-        // barra especial do CHATBOT (desktop): só "Início" e "Limpar"
+        // barra especial do CHATBOT (desktop): "Início", "Limpar" e "Sair"
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/"
@@ -118,9 +125,15 @@ export default function Navbar() {
           </Link>
           <button
             onClick={dispatchClearChat}
-            className="bg-white text-[#5E22F3] text-sm font-semibold px-5 py-2 rounded-md hover:opacity-90 transition"
+            className="text-white text-sm font-semibold px-5 py-2 rounded-md border border-white/80 hover:bg-white hover:text-[#5E22F3] transition"
           >
             Limpar
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-white text-[#5E22F3] text-sm font-semibold px-5 py-2 rounded-md hover:opacity-90 transition"
+          >
+            Sair
           </button>
         </div>
       )}
@@ -171,6 +184,7 @@ export default function Navbar() {
             >
               <Link href="/" onClick={() => setChatMenuOpen(false)} className="hover:text-[#DCC2FF]">Início</Link>
               <button onClick={dispatchClearChat} className="text-left hover:text-[#DCC2FF]">Limpar chat</button>
+              <button onClick={handleLogout} className="text-left hover:text-[#DCC2FF]">Sair</button>
             </div>
           )}
         </div>

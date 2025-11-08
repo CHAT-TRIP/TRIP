@@ -1,16 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)",
-      "Bash(npm install:*)",
-      "Bash(npm run build:*)",
-      "Bash(git add:*)",
-      "Bash(git log:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(mkdir:*)",
-      "Bash(npm run dev:*)",
-      "Bash(ls -la \"c:\\Users\\Pichau\\Desktop\\TRIP\\trip\\src\\components\"\" | grep -i \"css|rotas \")"
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

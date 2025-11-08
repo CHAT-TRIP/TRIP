@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Unbounded, Montserrat } from "next/font/google";
-import Navbar from "../components/Navbar";
+import NavbarWrapper from "../components/NavbarWrapper";
 
 // ====== FONTES ======
 const unbounded = Unbounded({
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ backgroundColor: "#E9E9E9", minHeight: "100vh" }}
       >
         {/* NAVBAR FIXO E FLUTUANTE */}
-        <Navbar />
+        <NavbarWrapper />
 
         {/* CONTEÚDO DAS PÁGINAS */}
         <main>{children}</main>
