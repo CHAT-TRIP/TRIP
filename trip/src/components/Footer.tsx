@@ -10,7 +10,6 @@ export default function Footer() {
 
         {/* ===================== MOBILE ===================== */}
         <div className="md:hidden flex flex-col items-center justify-center gap-4">
-          {/* Mascote em cima */}
           <Image
             src="/mascote-footer.svg"
             alt="Mascote TRIP"
@@ -20,7 +19,6 @@ export default function Footer() {
             className="w-[110px] h-auto select-none pointer-events-none"
           />
 
-          {/* Texto centralizado abaixo do boneco */}
           <p
             className="text-[13px] text-[#D5D5D5] leading-relaxed text-center max-w-[320px]"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
@@ -29,7 +27,6 @@ export default function Footer() {
             Pinheiros – São Paulo – SP – CEP: 05425-070 • © 2025 Motiva
           </p>
 
-          {/* Acompanhe-nos centralizado */}
           <div className="flex flex-col items-center gap-2 mt-2">
             <span
               className="text-[#AFC7E3] text-sm"
@@ -37,18 +34,22 @@ export default function Footer() {
             >
               Acompanhe-nos:
             </span>
+
             <div className="flex items-center gap-4">
-              <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
-                <Image src="/Facebook.svg" alt="Facebook" width={15} height={24} />
+              <Link
+                href="https://www.youtube.com/user/GrupoCCROficial"
+                target="_blank"
+                aria-label="YouTube"
+              >
+                <Image src="/youtube.png" alt="YouTube" width={45} height={45} />
               </Link>
-              <Link href="https://instagram.com" target="_blank" aria-label="Instagram">
-                <Image src="/Instagram.svg" alt="Instagram" width={24} height={24} />
-              </Link>
-              <Link href="https://twitter.com" target="_blank" aria-label="X (Twitter)">
-                <Image src="/Twitter.svg" alt="X (Twitter)" width={24} height={24} />
-              </Link>
-              <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-                <Image src="/Linkedin.svg" alt="LinkedIn" width={24} height={24} />
+
+              <Link
+                href="https://www.linkedin.com/company/motivamobilidade/"
+                target="_blank"
+                aria-label="LinkedIn"
+              >
+                <Image src="/Linkedin.svg" alt="LinkedIn" width={28} height={28} />
               </Link>
             </div>
           </div>
@@ -56,7 +57,8 @@ export default function Footer() {
 
         {/* ===================== DESKTOP ===================== */}
         <div className="hidden md:flex items-center justify-between gap-8">
-          {/* ESQUERDA: Mascote grande + texto (sem alterar layout aprovado) */}
+          
+          {/* Mascote + Texto */}
           <div className="flex items-center gap-5 min-w-0 flex-1">
             <div className="relative h-[130px] w-[190px] overflow-visible">
               <Image
@@ -78,9 +80,10 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* DIREITA: divisor + “Acompanhe-nos” (desktop igual ao aprovado) */}
+          {/* Divider + Redes */}
           <div className="flex items-start gap-16">
             <span className="block h-20 w-px bg-white/40" />
+
             <div className="min-w-[350px]">
               <span
                 className="block text-[#AFC7E3] text-sm"
@@ -88,24 +91,39 @@ export default function Footer() {
               >
                 Acompanhe-nos:
               </span>
+
               <div className="mt-2 flex items-center gap-4">
-                <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
-                  <Image src="/Facebook.svg" alt="" width={15} height={28} className="opacity-90 hover:opacity-100 transition" />
+                <Link
+                  href="https://www.youtube.com/user/GrupoCCROficial"
+                  target="_blank"
+                  aria-label="YouTube"
+                >
+                  <Image
+                    src="/youtube.png"
+                    alt="YouTube"
+                    width={45}
+                    height={45}
+                    className="opacity-90 hover:opacity-100 transition"
+                  />
                 </Link>
-                <Link href="https://instagram.com" target="_blank" aria-label="Instagram">
-                  <Image src="/Instagram.svg" alt="" width={24} height={28} className="opacity-90 hover:opacity-100 transition" />
-                </Link>
-                <Link href="https://twitter.com" target="_blank" aria-label="X (Twitter)">
-                  <Image src="/Twitter.svg" alt="" width={24} height={28} className="opacity-90 hover:opacity-100 transition" />
-                </Link>
-                <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-                  <Image src="/Linkedin.svg" alt="" width={24} height={28} className="opacity-90 hover:opacity-100 transition" />
+
+                <Link
+                  href="https://www.linkedin.com/company/motivamobilidade/"
+                  target="_blank"
+                  aria-label="LinkedIn"
+                >
+                  <Image
+                    src="/Linkedin.svg"
+                    alt="LinkedIn"
+                    width={28}
+                    height={28}
+                    className="opacity-90 hover:opacity-100 transition"
+                  />
                 </Link>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   )
