@@ -167,7 +167,7 @@ export default function Chatbot() {
         <main
           className="relative z-10 flex-1 flex flex-col justify-end
                      w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24
-                     pb-[88px]"
+                     pb-[128px] md:pb-0"
         >
           <div
             className="flex flex-col gap-4 overflow-y-auto
@@ -198,10 +198,11 @@ export default function Chatbot() {
             <div
               className="mx-auto max-w-3xl
                         flex items-center gap-3
-                        bg-white/20 backdrop-blur-md px-4 py-3
+                        bg-white/25 backdrop-blur-xl px-4 py-3
                         rounded-none md:rounded-full
-                        shadow-[0_-4px_20px_rgba(0,0,0,0.15)] md:shadow-lg
-                        border-t border-white/15 md:border-0"
+                        shadow-[0_-8px_28px_rgba(0,0,0,0.25)] md:shadow-lg
+                        ring-1 ring-white/30
+                        border-t border-white/10 md:border-0"
             >
               <input
                 type="text"
