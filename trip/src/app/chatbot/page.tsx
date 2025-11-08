@@ -165,11 +165,11 @@ export default function Chatbot() {
         <main
           className="relative z-10 flex-1 flex flex-col justify-end
                      w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24
-                     pb-[152px] md:pb-0"
+                     pb-[140px] md:pb-0"
         >
           <div
             className="flex flex-col gap-4 overflow-y-auto
-                       md:max-h-[70vh] max-h-[calc(100svh-96px-152px)]
+                       md:max-h-[70vh] max-h-[calc(100svh-96px-140px)]
                        mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full"
           >
             {mensagens.map((msg, i) => (
@@ -188,11 +188,12 @@ export default function Chatbot() {
             <div ref={fimDasMensagensRef} />
           </div>
 
-          {/* rodapé roxo OPACO para contraste no mobile (atrás do input) */}
+          {/* gradiente de base (continuação do fundo) atrás do input - mobile */}
           <div
-            className="fixed inset-x-0 bottom-0 h-[148px] md:hidden
-                       pointer-events-none z-10
-                       bg-[#5E22F3] safe-pad-bottom"
+            className="
+              fixed inset-x-0 bottom-0 h-[136px] md:hidden z-10 pointer-events-none safe-pad-bottom
+              bg-[linear-gradient(0deg,rgba(94,34,243,0.92)_0%,rgba(118,62,246,0.78)_35%,rgba(118,62,246,0.00)_100%)]
+            "
           />
 
           {/* input */}
@@ -203,10 +204,10 @@ export default function Chatbot() {
             <div
               className="mx-auto max-w-3xl
                          flex items-center gap-3
-                         bg-white/28 backdrop-blur-xl px-4 py-3
+                         bg-white/22 backdrop-blur-xl px-4 py-3
                          rounded-2xl md:rounded-full
-                         shadow-[0_-10px_30px_rgba(0,0,0,0.28)] md:shadow-lg
-                         ring-1 ring-white/35"
+                         shadow-[0_-10px_30px_rgba(0,0,0,0.22)] md:shadow-lg
+                         ring-1 ring-white/30"
             >
               <input
                 type="text"
