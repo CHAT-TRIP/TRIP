@@ -161,17 +161,15 @@ export default function Chatbot() {
           />
         </div>
 
-        {/* sem header aqui; usamos o Navbar fixo global */}
-
         {/* chat */}
         <main
           className="relative z-10 flex-1 flex flex-col justify-end
                      w-full max-w-3xl px-4 sm:px-6 py-10 mx-auto pt-24
-                     pb-[128px] md:pb-0"
+                     pb-[152px] md:pb-0"
         >
           <div
             className="flex flex-col gap-4 overflow-y-auto
-                       max-h-[calc(100svh-96px-88px)]
+                       md:max-h-[70vh] max-h-[calc(100svh-96px-152px)]
                        mb-6 scrollbar-thin scrollbar-thumb-[#9F86FF]/40 scrollbar-track-transparent w-full"
           >
             {mensagens.map((msg, i) => (
@@ -190,19 +188,25 @@ export default function Chatbot() {
             <div ref={fimDasMensagensRef} />
           </div>
 
+          {/* rodapé roxo OPACO para contraste no mobile (atrás do input) */}
+          <div
+            className="fixed inset-x-0 bottom-0 h-[148px] md:hidden
+                       pointer-events-none z-10
+                       bg-[#5E22F3] safe-pad-bottom"
+          />
+
           {/* input */}
           <div
             className="fixed inset-x-0 bottom-0 md:static md:inset-auto z-20
-                      px-4 safe-pad-bottom"
+                       px-4 safe-pad-bottom"
           >
             <div
               className="mx-auto max-w-3xl
-                        flex items-center gap-3
-                        bg-white/25 backdrop-blur-xl px-4 py-3
-                        rounded-none md:rounded-full
-                        shadow-[0_-8px_28px_rgba(0,0,0,0.25)] md:shadow-lg
-                        ring-1 ring-white/30
-                        border-t border-white/10 md:border-0"
+                         flex items-center gap-3
+                         bg-white/28 backdrop-blur-xl px-4 py-3
+                         rounded-2xl md:rounded-full
+                         shadow-[0_-10px_30px_rgba(0,0,0,0.28)] md:shadow-lg
+                         ring-1 ring-white/35"
             >
               <input
                 type="text"
@@ -210,14 +214,14 @@ export default function Chatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(ev) => { if (ev.key === 'Enter') enviarMensagem() }}
                 placeholder="Digite sua mensagem..."
-                className="flex-1 bg-transparent text-white placeholder:text-white/70
-                          outline-none text-base md:text-base leading-normal h-11"
+                className="flex-1 bg-transparent text-white placeholder:text-white/80
+                           outline-none text-base md:text-base leading-normal h-11"
               />
               <button
                 onClick={enviarMensagem}
                 disabled={enviando}
                 className="bg-white text-[#5E22F3] text-base font-bold
-                          px-6 py-2 rounded-full shadow-md hover:shadow-lg transition"
+                           px-6 py-2 rounded-full shadow-md hover:shadow-lg transition"
               >
                 Enviar
               </button>
